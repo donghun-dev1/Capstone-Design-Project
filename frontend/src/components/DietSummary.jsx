@@ -1,15 +1,8 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-
-// 가상의 데이터
-const mockData = {
-  calories: { current: 1800, target: 2000, percentage: 90 },
-  protein: { current: 80, target: 100, percentage: 80 },
-  fat: { current: 60, target: 65, percentage: 92 },
-  carbs: { current: 220, target: 250, percentage: 88 },
-  budget: { current: 15000, target: 20000, percentage: 75 },
-  allergies: ['땅콩', '새우']
-};
+import styled from '@emotion/styled';
+import { Container, Title, ChartContainer, WarningContainer, Button, ChartsGrid } from '../styles/common';
+import mockDietSummary from '../api/mockDietSummary';
 
 const COLORS = {
   normal: '#00C49F',
@@ -24,12 +17,7 @@ const DietSummary = () => {
 
   const downloadSummary = () => {
     const summaryText = `식단 요약 리포트\n
-칼로리: ${mockData.calories.current}/${mockData.calories.target} kcal (${mockData.calories.percentage}%)
-단백질: ${mockData.protein.current}/${mockData.protein.target}g (${mockData.protein.percentage}%)
-지방: ${mockData.fat.current}/${mockData.fat.target}g (${mockData.fat.percentage}%)
-탄수화물: ${mockData.carbs.current}/${mockData.carbs.target}g (${mockData.carbs.percentage}%)
-예산: ${mockData.budget.current}/${mockData.budget.target}원 (${mockData.budget.percentage}%)
-알레르기 주의: ${mockData.allergies.join(', ')}`;
+칼로리: ${mockDietSummary.calories.current}/${mockDietSummary.calories.target} kcal (${mockDietSummary.calories.percentage}%)\n단백질: ${mockDietSummary.protein.current}/${mockDietSummary.protein.target}g (${mockDietSummary.protein.percentage}%)\n지방: ${mockDietSummary.fat.current}/${mockDietSummary.fat.target}g (${mockDietSummary.fat.percentage}%)\n탄수화물: ${mockDietSummary.carbs.current}/${mockDietSummary.carbs.target}g (${mockDietSummary.carbs.percentage}%)\n예산: ${mockDietSummary.budget.current}/${mockDietSummary.budget.target}원 (${mockDietSummary.budget.percentage}%)\n알레르기 주의: ${mockDietSummary.allergies.join(', ')}`;
 
     const blob = new Blob([summaryText], { type: 'text/plain' });
     const url = window.URL.createObjectURL(blob);
@@ -40,13 +28,13 @@ const DietSummary = () => {
     window.URL.revokeObjectURL(url);
   };
 
-  const renderDonutChart = (data, title, hasAllergy = false) => (
-    <div className="chart-container">
+  const renderDonutChart = (value, title, hasAllergy = false) => (
+    <ChartContainer>
       <h3>{title}</h3>
       <ResponsiveContainer width={200} height={200}>
         <PieChart>
           <Pie
-            data={createChartData(data)}
+            data={createChartData(value)}
             innerRadius={60}
             outerRadius={80}
             paddingAngle={5}
@@ -58,32 +46,32 @@ const DietSummary = () => {
           <Tooltip />
         </PieChart>
       </ResponsiveContainer>
-      <p>{data}%</p>
-    </div>
+      <p>{value}%</p>
+    </ChartContainer>
   );
 
   return (
-    <div className="diet-summary">
-      <h2>오늘의 식단 요약</h2>
-      <div className="charts-grid">
-        {renderDonutChart(mockData.calories.percentage, '칼로리')}
-        {renderDonutChart(mockData.protein.percentage, '단백질')}
-        {renderDonutChart(mockData.fat.percentage, '지방')}
-        {renderDonutChart(mockData.carbs.percentage, '탄수화물')}
-        {renderDonutChart(mockData.budget.percentage, '예산')}
-        {renderDonutChart(100, '알레르기', mockData.allergies.length > 0)}
-      </div>
+    <Container>
+      <Title>오늘의 식단 요약</Title>
+      <ChartsGrid>
+        {renderDonutChart(mockDietSummary.calories.percentage, '칼로리')}
+        {renderDonutChart(mockDietSummary.protein.percentage, '단백질')}
+        {renderDonutChart(mockDietSummary.fat.percentage, '지방')}
+        {renderDonutChart(mockDietSummary.carbs.percentage, '탄수화물')}
+        {renderDonutChart(mockDietSummary.budget.percentage, '예산')}
+        {renderDonutChart(100, '알레르기', mockDietSummary.allergies.length > 0)}
+      </ChartsGrid>
       
-      <div className="allergies-warning">
-        {mockData.allergies.length > 0 && (
-          <p className="warning">⚠️ 알레르기 주의: {mockData.allergies.join(', ')}</p>
-        )}
-      </div>
+      {mockDietSummary.allergies.length > 0 && (
+        <WarningContainer>
+          알레르기 주의: {mockDietSummary.allergies.join(', ')}
+        </WarningContainer>
+      )}
       
-      <button onClick={downloadSummary} className="download-button">
+      <Button onClick={downloadSummary}>
         식단 요약 다운로드
-      </button>
-    </div>
+      </Button>
+    </Container>
   );
 };
 
