@@ -66,10 +66,10 @@ function BackgroundAnimation() {
 
       for (let i = 0; i < numItems; i++) {
         const foodType = foodTypes[Math.floor(Math.random() * foodTypes.length)];
-        const size = Math.floor(Math.random() * 20) + 20; // 20px~40px 크기
+        const size = Math.floor(Math.random() * 30) + 30; // 30px~60px 크기
         const left = `${Math.random() * 100}%`;
-        const delay = Math.random() * 30; // 지연 시간 (0~30초)
-        const duration = 15 + Math.random() * 30; // 애니메이션 기간 (15~45초)
+        const delay = Math.random() * 15; // 지연 시간 (0~15초)
+        const duration = 10 + Math.random() * 10; // 애니메이션 기간 (10~20초)
         const color = `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`;
         
         const style = {

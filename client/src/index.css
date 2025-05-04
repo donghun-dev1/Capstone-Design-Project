@@ -16,10 +16,11 @@
 
 .food-item {
   position: absolute;
-  opacity: 0.05;
+  opacity: 0.3;
   animation-name: float;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+  z-index: -1;
 }
 
 @keyframes float {
@@ -28,10 +29,19 @@
     opacity: 0;
   }
   10% {
-    opacity: 0.05;
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(75vh) rotate(90deg);
+  }
+  50% {
+    transform: translateY(50vh) rotate(180deg);
+  }
+  75% {
+    transform: translateY(25vh) rotate(270deg);
   }
   90% {
-    opacity: 0.05;
+    opacity: 0.3;
   }
   100% {
     transform: translateY(-100px) rotate(360deg);
