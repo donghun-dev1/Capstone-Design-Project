@@ -79,7 +79,7 @@ export const userInfoSchema = z.object({
   goal: z.enum(["lose", "maintain", "gain", "muscle"]),
   activityLevel: z.enum(["sedentary", "light", "moderate", "active", "very_active"]),
   mealsPerDay: z.number().min(2).max(3),
-  allergies: z.string(),
+  allergies: z.array(z.string()).default([]),
   budget: z.number().min(5000).max(100000),
   termsAgreed: z.boolean().refine(val => val === true, {
     message: "이용약관에 동의해야 합니다.",
