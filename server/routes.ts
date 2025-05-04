@@ -113,12 +113,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
 // Helper function to generate diet recommendations based on user info
 function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
+  // Calculate BMI
+  const heightInMeters = userInfo.height / 100;
+  const bmi = userInfo.weight / (heightInMeters * heightInMeters);
+  
+  // Calculate Body Fat Percentage using the formula: BF% = 1.20·BMI + 0.23·age - 10.8·gender - 5.4
+  // For gender: male = 1, female = 0
+  const genderMultiplier = userInfo.gender === "male" ? 1 : 0;
+  const assumedAge = 30; // Assuming age 30 for simplicity
+  const bodyFatPercentage = 1.20 * bmi + 0.23 * assumedAge - 10.8 * genderMultiplier - 5.4;
+  
+  // Calculate Lean Body Mass: LBM = weight × (1 - BF%/100)
+  const leanBodyMass = userInfo.weight * (1 - bodyFatPercentage/100);
+  
   // Basic BMR calculation (Mifflin-St Jeor Equation)
   let bmr;
   if (userInfo.gender === "male") {
-    bmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * 30 + 5; // Assuming age 30 for simplicity
+    bmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * assumedAge + 5;
   } else {
-    bmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * 30 - 161; // Assuming age 30 for simplicity
+    bmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * assumedAge - 161;
   }
 
   // Activity multiplier
@@ -186,11 +199,15 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
       totalCarbs: Math.round(targetCalories * 0.4 / 4),
       totalFat: Math.round(targetCalories * 0.3 / 9),
       totalBudget: userInfo.budget,
-      nutritionAnalysis: "이 식단은 귀하의 목표와 신체 조건에 맞게 맞춤화되었습니다.",
+      bodyFatPercentage: Math.round(bodyFatPercentage * 10) / 10, // 소수점 첫째 자리까지 표시
+      leanBodyMass: Math.round(leanBodyMass * 10) / 10, // 소수점 첫째 자리까지 표시
+      bmi: Math.round(bmi * 10) / 10, // 소수점 첫째 자리까지 표시
+      nutritionAnalysis: `체지방률 ${Math.round(bodyFatPercentage * 10) / 10}%, 제지방량 ${Math.round(leanBodyMass * 10) / 10}kg을 고려한 맞춤형 식단입니다. BMI ${Math.round(bmi * 10) / 10}에 기반하여 귀하의 신체 특성과 목표에 최적화되었습니다.`,
       recommendations: [
         "규칙적인 식사와 수분 섭취를 유지하세요.",
         "가능하면 신선한 재료를 선택하세요.",
         "영양소 균형을 위해 다양한 색상의 과일과 채소를 섭취하세요.",
+        "제지방량 유지를 위해 충분한 단백질 섭취가 중요합니다.",
         ...(allergyRecommendation ? [allergyRecommendation] : [])
       ]
     }
