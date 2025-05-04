@@ -39,9 +39,9 @@ const SelectInput: React.FC<SelectInputProps> = ({
         value={value || ''}
         onChange={handleChange}
       >
-        <option value="" disabled>{placeholder}</option>
+        <option value="" disabled title={placeholder} className="truncate">{placeholder}</option>
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option key={option.value} value={option.value} title={option.label} className="truncate">
             {option.label}
           </option>
         ))}
