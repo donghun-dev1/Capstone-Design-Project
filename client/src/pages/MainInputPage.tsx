@@ -151,7 +151,7 @@ const MainInputPage: React.FC = () => {
         setIsLoading(false);
         setShowErrorModal(true);
         setError("요청 시간이 너무 오래 걸립니다. 다시 시도해주세요.");
-      }, 8000);
+      }, 12000);
       
       setRequestTimeout(timeout);
       
@@ -207,7 +207,7 @@ const MainInputPage: React.FC = () => {
         setShowErrorModal(true);
         setError("요청 시간이 너무 오래 걸립니다. 다시 시도해주세요.");
         setRecommendLoading(false);
-      }, 8000);
+      }, 12000);
       
       setRequestTimeout(timeout);
       
