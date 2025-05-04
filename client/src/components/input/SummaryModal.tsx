@@ -111,6 +111,34 @@ const SummaryModal: React.FC<SummaryModalProps> = ({
             </div>
           )}
           
+          {/* 기초대사량 & 에너지 소모량 정보 */}
+          {summary.bmr !== undefined && summary.tdee !== undefined && (
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="p-4 rounded-xl bg-gradient-to-br from-violet-50/40 to-violet-100/20 dark:from-violet-950/20 dark:to-violet-900/10 border border-violet-200/30 dark:border-violet-800/30 backdrop-blur-sm flex flex-col items-center text-center relative overflow-hidden shadow-sm">
+                <div className="absolute inset-0 bg-violet-500/5 dark:bg-violet-500/10"></div>
+                <div className="relative z-10 w-full">
+                  <div className="w-8 h-8 mx-auto mb-1 rounded-full bg-violet-100 dark:bg-violet-900/60 flex items-center justify-center">
+                    <LineChart className="w-4 h-4 text-violet-500" />
+                  </div>
+                  <span className="text-xs font-medium text-violet-700 dark:text-violet-400 mb-1 block">기초대사량</span>
+                  <span className="text-2xl font-bold text-violet-800 dark:text-violet-300">{summary.bmr}</span>
+                  <span className="text-xs text-violet-600/70 dark:text-violet-500/70">kcal</span>
+                </div>
+              </div>
+              <div className="p-4 rounded-xl bg-gradient-to-br from-cyan-50/40 to-cyan-100/20 dark:from-cyan-950/20 dark:to-cyan-900/10 border border-cyan-200/30 dark:border-cyan-800/30 backdrop-blur-sm flex flex-col items-center text-center relative overflow-hidden shadow-sm">
+                <div className="absolute inset-0 bg-cyan-500/5 dark:bg-cyan-500/10"></div>
+                <div className="relative z-10 w-full">
+                  <div className="w-8 h-8 mx-auto mb-1 rounded-full bg-cyan-100 dark:bg-cyan-900/60 flex items-center justify-center">
+                    <Flame className="w-4 h-4 text-cyan-500" />
+                  </div>
+                  <span className="text-xs font-medium text-cyan-700 dark:text-cyan-400 mb-1 block">일일 에너지 소모량</span>
+                  <span className="text-2xl font-bold text-cyan-800 dark:text-cyan-300">{summary.tdee}</span>
+                  <span className="text-xs text-cyan-600/70 dark:text-cyan-500/70">kcal</span>
+                </div>
+              </div>
+            </div>
+          )}
+          
           {/* 영양소 분포 */}
           <div className="mb-6 space-y-3 p-4 rounded-xl bg-gradient-to-br from-purple-50/40 to-purple-100/20 dark:from-purple-950/20 dark:to-purple-900/10 border border-purple-200/30 dark:border-purple-800/30 backdrop-blur-sm relative overflow-hidden shadow-sm">
             <div className="absolute inset-0 bg-purple-500/5 dark:bg-purple-500/10"></div>

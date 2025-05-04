@@ -114,6 +114,8 @@ export const dietRecommendationSchema = z.object({
     bodyFatPercentage: z.number().optional(),
     leanBodyMass: z.number().optional(),
     bmi: z.number().optional(),
+    bmr: z.number().optional(),
+    tdee: z.number().optional(),
     nutritionAnalysis: z.string(),
     recommendations: z.array(z.string()),
   }),

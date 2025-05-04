@@ -202,7 +202,9 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
       bodyFatPercentage: Math.round(bodyFatPercentage * 10) / 10, // 소수점 첫째 자리까지 표시
       leanBodyMass: Math.round(leanBodyMass * 10) / 10, // 소수점 첫째 자리까지 표시
       bmi: Math.round(bmi * 10) / 10, // 소수점 첫째 자리까지 표시
-      nutritionAnalysis: `체지방률 ${Math.round(bodyFatPercentage * 10) / 10}%, 제지방량 ${Math.round(leanBodyMass * 10) / 10}kg을 고려한 맞춤형 식단입니다. BMI ${Math.round(bmi * 10) / 10}에 기반하여 귀하의 신체 특성과 목표에 최적화되었습니다.`,
+      bmr: Math.round(bmr), // 기초대사량
+      tdee: Math.round(tdee), // 일일 총 에너지 소모량
+      nutritionAnalysis: `기초대사량(BMR) ${Math.round(bmr)}kcal, 체지방률 ${Math.round(bodyFatPercentage * 10) / 10}%, 제지방량 ${Math.round(leanBodyMass * 10) / 10}kg을 고려한 맞춤형 식단입니다. BMI ${Math.round(bmi * 10) / 10}에 기반하여 귀하의 신체 특성과 목표에 최적화되었습니다.`,
       recommendations: [
         "규칙적인 식사와 수분 섭취를 유지하세요.",
         "가능하면 신선한 재료를 선택하세요.",
