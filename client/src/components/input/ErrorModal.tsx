@@ -55,7 +55,10 @@ const ErrorModal: React.FC<ErrorModalProps> = ({ isVisible, message, onRetry, on
       <div 
         className={`bg-white dark:bg-gray-800 p-6 rounded-xl shadow-2xl flex flex-col items-center max-w-sm transform transition-all duration-300 ${showModal ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} relative overflow-hidden`}
       >
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 to-rose-500"></div>
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -inset-1 bg-red-500/5"></div>
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 to-rose-500"></div>
+        </div>
         
         <div className="relative z-10">
           <div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-4 mx-auto shadow-sm">
