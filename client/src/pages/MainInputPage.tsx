@@ -18,6 +18,7 @@ import useRecommendStore from '@/stores/useRecommendStore';
 import usePreviewStore from '@/stores/usePreviewStore';
 import { getDietRecommendation, getNutritionSummary } from '@/api/recommend';
 import { useToast } from '@/hooks/use-toast';
+import { Separator } from "@/components/ui/separator";
 
 /**
  * Main input page for collecting user information for diet recommendations
@@ -44,6 +45,9 @@ const MainInputPage: React.FC = () => {
     setAllergies,
     setBudget,
     setTermsAgreed,
+    setNeckCircumference,
+    setWaistCircumference,
+    setHipCircumference,
   } = useUserInfoStore();
   
   const { setRecommendation, setLoading: setRecommendLoading } = useRecommendStore();
@@ -266,6 +270,62 @@ const MainInputPage: React.FC = () => {
                 step={1}
               />
             </InputCard>
+            
+            {/* U.S. Navy 둘레 공식 측정 입력 섹션 */}
+            {userInfo.gender && (
+              <div className="col-span-1 md:col-span-3 mt-2 mb-4">
+                <Separator className="my-4" />
+                <h3 className="text-md font-medium mb-3">U.S. Navy 둘레 공식 (정확한 체지방률 계산)</h3>
+                <p className="text-sm text-gray-500 mb-6">더 정확한 체지방률 계산을 위해 아래 둘레 측정치를 입력해주세요 (선택사항)</p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {/* 목 둘레 */}
+                  <InputCard>
+                    <NumberInput
+                      id="neckCircumference"
+                      label="목 둘레 (cm)"
+                      value={userInfo.neckCircumference}
+                      onChange={setNeckCircumference}
+                      min={20}
+                      max={60}
+                      placeholder="예: 36"
+                      errorMessage="20cm에서 60cm 사이의 값을 입력해주세요."
+                    />
+                  </InputCard>
+                  
+                  {/* 허리 둘레 */}
+                  <InputCard>
+                    <NumberInput
+                      id="waistCircumference"
+                      label="허리 둘레 (cm)"
+                      value={userInfo.waistCircumference}
+                      onChange={setWaistCircumference}
+                      min={50}
+                      max={150}
+                      placeholder="예: 80"
+                      errorMessage="50cm에서 150cm 사이의 값을 입력해주세요."
+                    />
+                  </InputCard>
+                  
+                  {/* 여성일 경우 엉덩이 둘레도 추가 */}
+                  {userInfo.gender === "female" && (
+                    <InputCard>
+                      <NumberInput
+                        id="hipCircumference"
+                        label="엉덩이 둘레 (cm)"
+                        value={userInfo.hipCircumference}
+                        onChange={setHipCircumference}
+                        min={50}
+                        max={150}
+                        placeholder="예: 95"
+                        errorMessage="50cm에서 150cm 사이의 값을 입력해주세요."
+                      />
+                    </InputCard>
+                  )}
+                </div>
+                <Separator className="my-6" />
+              </div>
+            )}
             
             {/* Goal Input */}
             <InputCard>
