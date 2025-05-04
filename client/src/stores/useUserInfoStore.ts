@@ -17,6 +17,11 @@ type UserInfoStore = {
   setBudget: (budget: number | undefined) => void;
   setTermsAgreed: (termsAgreed: boolean) => void;
   
+  // U.S. Navy 둘레 공식을 위한 추가 세터
+  setNeckCircumference: (value: number | undefined) => void;
+  setWaistCircumference: (value: number | undefined) => void;
+  setHipCircumference: (value: number | undefined) => void;
+  
   // Utility functions
   resetForm: () => void;
   validateForm: () => boolean;
@@ -150,12 +155,53 @@ const useUserInfoStore = create<UserInfoStore>((set, get) => ({
     });
   },
   
+  // U.S. Navy 둘레 공식을 위한 세터 메소드
+  setNeckCircumference: (value) => {
+    set((state) => {
+      const newState = {
+        userInfo: { ...state.userInfo, neckCircumference: value },
+      };
+      return {
+        ...newState,
+        isFormValid: validateUserInfo(newState.userInfo),
+      };
+    });
+  },
+  
+  setWaistCircumference: (value) => {
+    set((state) => {
+      const newState = {
+        userInfo: { ...state.userInfo, waistCircumference: value },
+      };
+      return {
+        ...newState,
+        isFormValid: validateUserInfo(newState.userInfo),
+      };
+    });
+  },
+  
+  setHipCircumference: (value) => {
+    set((state) => {
+      const newState = {
+        userInfo: { ...state.userInfo, hipCircumference: value },
+      };
+      return {
+        ...newState,
+        isFormValid: validateUserInfo(newState.userInfo),
+      };
+    });
+  },
+  
   resetForm: () => {
     set({
       userInfo: {
         bodyFat: 20,
         allergies: [],
         termsAgreed: false,
+        // Reset U.S. Navy 둘레 관련 필드
+        neckCircumference: undefined,
+        waistCircumference: undefined,
+        hipCircumference: undefined,
       },
       isFormValid: false,
     });

@@ -117,12 +117,39 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
   const heightInMeters = userInfo.height / 100;
   const bmi = userInfo.weight / (heightInMeters * heightInMeters);
   
-  // Calculate Body Fat Percentage using the formula: BF% = 1.20·BMI + 0.23·age - 10.8·gender - 5.4
-  // For gender: male = 1, female = 0
-  const genderMultiplier = userInfo.gender === "male" ? 1 : 0;
+  // 체지방률 계산
+  let bodyFatPercentage;
+  const heightInCm = userInfo.height;
   const assumedAge = 30; // Assuming age 30 for simplicity
-  const bodyFatPercentage = 1.20 * bmi + 0.23 * assumedAge - 10.8 * genderMultiplier - 5.4;
   
+  // Check if U.S. Navy 둘레 공식을 적용할 수 있는지 확인
+  const canUseNavyFormula = userInfo.gender === "male" 
+    ? (userInfo.neckCircumference && userInfo.waistCircumference)
+    : (userInfo.neckCircumference && userInfo.waistCircumference && userInfo.hipCircumference);
+    
+  if (canUseNavyFormula) {
+    // U.S. Navy 둘레 공식 적용
+    if (userInfo.gender === "male") {
+      // 남성 공식: BF% = 495 / (1.0324 − 0.19077·log10(허리−목) + 0.15456·log10(신장)) − 450
+      const waistMinusNeck = userInfo.waistCircumference! - userInfo.neckCircumference!;
+      bodyFatPercentage = 495 / (1.0324 - 0.19077 * Math.log10(waistMinusNeck) + 0.15456 * Math.log10(heightInCm)) - 450;
+    } else {
+      // 여성 공식: BF% = 495 / (1.29579 − 0.35004·log10(허리+엄덩이−목) + 0.22100·log10(신장)) − 450
+      const waistPlusHipMinusNeck = userInfo.waistCircumference! + userInfo.hipCircumference! - userInfo.neckCircumference!;
+      bodyFatPercentage = 495 / (1.29579 - 0.35004 * Math.log10(waistPlusHipMinusNeck) + 0.22100 * Math.log10(heightInCm)) - 450;
+    }
+    
+    // 비정상적인 결과값 제한
+    bodyFatPercentage = Math.max(3, Math.min(bodyFatPercentage, 50));
+  } else {
+    // 기본 체지방률 계산식 사용 (BMI 기반)
+    // BF% = 1.20·BMI + 0.23·age - 10.8·gender - 5.4
+    // For gender: male = 1, female = 0
+    const genderMultiplier = userInfo.gender === "male" ? 1 : 0;
+    bodyFatPercentage = 1.20 * bmi + 0.23 * assumedAge - 10.8 * genderMultiplier - 5.4;
+  }
+  
+  // 체지방률 기반으로 제지방량 계산
   // Calculate Lean Body Mass: LBM = weight × (1 - BF%/100)
   const leanBodyMass = userInfo.weight * (1 - bodyFatPercentage/100);
   
@@ -211,7 +238,7 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
       bmi: Math.round(bmi * 10) / 10, // 소수점 첫째 자리까지 표시
       bmr: Math.round(bmr), // 기초대사량
       tdee: Math.round(tdee), // 일일 총 에너지 소모량
-      nutritionAnalysis: `제지방량 ${Math.round(leanBodyMass * 10) / 10}kg을 기반으로 해 Katch-McArdle 공식으로 계산한 기초대사량(BMR)은 ${Math.round(bmr)}kcal입니다. 체지방률 ${Math.round(bodyFatPercentage * 10) / 10}%, BMI ${Math.round(bmi * 10) / 10}을 고려하여 귀하의 활동량과 목표에 맞게 일일 총 에너지 소모량(TDEE) ${Math.round(tdee)}kcal을 기준으로 맞춤형 식단을 제시합니다.`,
+      nutritionAnalysis: `${canUseNavyFormula ? `U.S. Navy 둘레 공식으로 계산한 ` : ``}체지방률은 ${Math.round(bodyFatPercentage * 10) / 10}%이며, 제지방량은 ${Math.round(leanBodyMass * 10) / 10}kg입니다. Katch-McArdle 공식으로 계산한 기초대사량(BMR)은 ${Math.round(bmr)}kcal이며, BMI ${Math.round(bmi * 10) / 10}을 고려하여 귀하의 활동량과 목표에 맞게 일일 총 에너지 소모량(TDEE) ${Math.round(tdee)}kcal을 기준으로 맞춤형 식단을 제시합니다.`,
       recommendations: [
         "규칙적인 식사와 수분 섭취를 유지하세요.",
         "가능하면 신선한 재료를 선택하세요.",

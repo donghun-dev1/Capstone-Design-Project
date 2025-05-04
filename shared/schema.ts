@@ -84,6 +84,10 @@ export const userInfoSchema = z.object({
   termsAgreed: z.boolean().refine(val => val === true, {
     message: "이용약관에 동의해야 합니다.",
   }),
+  // U.S. Navy 둘레 측정을 위한 추가 필드 (선택 사항)
+  neckCircumference: z.number().min(20).max(80).optional(),
+  waistCircumference: z.number().min(50).max(200).optional(),
+  hipCircumference: z.number().min(50).max(200).optional(),
 });
 
 export type UserInfo = z.infer<typeof userInfoSchema>;
