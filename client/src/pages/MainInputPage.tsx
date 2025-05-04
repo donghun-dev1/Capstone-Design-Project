@@ -11,10 +11,12 @@ import ButtonGroup from '@/components/input/ButtonGroup';
 import TermsAgreement from '@/components/input/TermsAgreement';
 import LoadingOverlay from '@/components/input/LoadingOverlay';
 import ErrorModal from '@/components/input/ErrorModal';
+import SummaryModal from '@/components/input/SummaryModal';
 import ImageGrid from '@/components/layout/ImageGrid';
 import useUserInfoStore from '@/stores/useUserInfoStore';
 import useRecommendStore from '@/stores/useRecommendStore';
-import { getDietRecommendation } from '@/api/recommend';
+import usePreviewStore from '@/stores/usePreviewStore';
+import { getDietRecommendation, getNutritionSummary } from '@/api/recommend';
 import { useToast } from '@/hooks/use-toast';
 
 /**
@@ -45,6 +47,7 @@ const MainInputPage: React.FC = () => {
   } = useUserInfoStore();
   
   const { setRecommendation, setLoading: setRecommendLoading } = useRecommendStore();
+  const { summary, isVisible, setSummary, setVisible, reset: resetPreview } = usePreviewStore();
 
   // Goal options
   const goalOptions = [
@@ -69,8 +72,8 @@ const MainInputPage: React.FC = () => {
     { value: 3, label: '3끼' },
   ];
 
-  // Handle form submission
-  const handleSubmit = async () => {
+  // Handle summary request
+  const handleRequestSummary = async () => {
     try {
       // Check form validity again
       if (!isFormValid) {
@@ -83,6 +86,60 @@ const MainInputPage: React.FC = () => {
       }
 
       // Show loading overlay
+      setIsLoading(true);
+      
+      // Set timeout for long-running requests
+      const timeout = setTimeout(() => {
+        setIsLoading(false);
+        setShowErrorModal(true);
+        setError("요청 시간이 너무 오래 걸립니다. 다시 시도해주세요.");
+      }, 8000);
+      
+      setRequestTimeout(timeout);
+      
+      // Get nutrition summary
+      const nutritionSummary = await getNutritionSummary(userInfo as UserInfo);
+      
+      // Clear timeout since request completed
+      if (requestTimeout) {
+        clearTimeout(requestTimeout);
+        setRequestTimeout(null);
+      }
+      
+      // Set summary in store and show modal
+      setSummary(nutritionSummary);
+      setVisible(true);
+      setIsLoading(false);
+      
+    } catch (err: any) {
+      console.error("Error getting nutrition summary:", err);
+      
+      // Clear timeout if it exists
+      if (requestTimeout) {
+        clearTimeout(requestTimeout);
+        setRequestTimeout(null);
+      }
+      
+      setIsLoading(false);
+      
+      if (err.message && err.message.includes('Validation error')) {
+        toast({
+          title: "유효성 검사 오류",
+          description: "입력 정보를 확인해주세요.",
+          variant: "destructive",
+        });
+      } else {
+        setError("서버 연결 중 문제가 발생했습니다. 다시 시도해 주세요.");
+        setShowErrorModal(true);
+      }
+    }
+  };
+  
+  // Handle proceeding to recommendation
+  const handleProceedToRecommendation = async () => {
+    try {
+      // Hide summary modal and show loading
+      setVisible(false);
       setIsLoading(true);
       setRecommendLoading(true);
       
@@ -97,7 +154,7 @@ const MainInputPage: React.FC = () => {
       setRequestTimeout(timeout);
       
       // Get diet recommendations
-      const recommendation = await getDietRecommendation(userInfo as any);
+      const recommendation = await getDietRecommendation(userInfo as UserInfo);
       
       // Clear timeout since request completed
       if (requestTimeout) {
@@ -112,7 +169,7 @@ const MainInputPage: React.FC = () => {
       navigate('/recommendations');
       
     } catch (err: any) {
-      console.error("Error submitting form:", err);
+      console.error("Error getting recommendations:", err);
       
       // Clear timeout if it exists
       if (requestTimeout) {
@@ -134,6 +191,12 @@ const MainInputPage: React.FC = () => {
         setShowErrorModal(true);
       }
     }
+  };
+  
+  // Handle form submission
+  const handleSubmit = () => {
+    // Request summary first
+    handleRequestSummary();
   };
   
   // Clean up timeout when component unmounts
@@ -305,6 +368,13 @@ const MainInputPage: React.FC = () => {
       
       {/* Inspiration Image Grid */}
       <ImageGrid />
+      
+      {/* Summary Modal */}
+      <SummaryModal 
+        isVisible={isVisible}
+        summary={summary}
+        onContinue={handleProceedToRecommendation}
+      />
     </main>
   );
 };

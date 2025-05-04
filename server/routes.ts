@@ -40,6 +40,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   };
 
+  // Nutrition summary endpoint
+  app.post("/api/summary", verifyToken, async (req, res) => {
+    try {
+      // 입력된 알레르기 정보가 문자열인 경우 배열로 변환
+      const rawData = req.body;
+      
+      if (typeof rawData.allergies === 'string' && rawData.allergies.trim() !== '') {
+        rawData.allergies = rawData.allergies.split(',').map((item: string) => item.trim());
+      } else if (!Array.isArray(rawData.allergies)) {
+        rawData.allergies = [];
+      }
+      
+      // Validate user info
+      const userInfo = userInfoSchema.parse(rawData);
+      
+      // Generate only summary info without full meal details
+      const recommendation = generateDietRecommendation(userInfo);
+      
+      return res.status(200).json({ summary: recommendation.summary });
+    } catch (error) {
+      console.error("Error generating nutrition summary:", error);
+      
+      if (error instanceof ZodError) {
+        return res.status(422).json({ 
+          message: "Invalid input data", 
+          errors: error.errors 
+        });
+      }
+      
+      return res.status(500).json({ message: "Failed to generate nutrition summary" });
+    }
+  });
+
   // Diet recommendation endpoint
   app.post("/api/recommend", verifyToken, async (req, res) => {
     try {
