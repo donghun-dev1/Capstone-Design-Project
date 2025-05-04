@@ -21,6 +21,29 @@ import { useToast } from '@/hooks/use-toast';
 import { Separator } from "@/components/ui/separator";
 
 /**
+ * 체지방률 계산 함수 (BMI 기반)
+ */
+const calculateBodyFat = (height?: number, weight?: number, gender?: UserInfo['gender']) => {
+  if (!height || !weight || !gender) return null;
+  
+  // BMI 계산
+  const heightInMeters = height / 100;
+  const bmi = weight / (heightInMeters * heightInMeters);
+  
+  // 체지방률 계산: BF% = 1.20·BMI + 0.23·age - 10.8·gender - 5.4
+  // gender: male = 1, female = 0
+  const genderMultiplier = gender === "male" ? 1 : 0;
+  const assumedAge = 30; // 평균 나이 가정
+  
+  let bodyFat = 1.20 * bmi + 0.23 * assumedAge - 10.8 * genderMultiplier - 5.4;
+  
+  // 계산 결과 제한 (5%~50%)
+  bodyFat = Math.max(5, Math.min(bodyFat, 50));
+  
+  return Math.round(bodyFat);
+};
+
+/**
  * Main input page for collecting user information for diet recommendations
  */
 const MainInputPage: React.FC = () => {
@@ -203,6 +226,23 @@ const MainInputPage: React.FC = () => {
     handleRequestSummary();
   };
   
+  // 키, 몪무게, 성별이 변경될 때 체지방률 자동 계산
+  useEffect(() => {
+    // 기존 둘레 측정값이 있는지 확인 (있으면 계산하지 않음)
+    const hasCircumferenceMeasurements = userInfo.gender === "male" 
+      ? (userInfo.neckCircumference && userInfo.waistCircumference)
+      : (userInfo.neckCircumference && userInfo.waistCircumference && userInfo.hipCircumference);
+      
+    if (hasCircumferenceMeasurements) return;
+    
+    // 기본 데이터 있을 때 자동 계산
+    const calculatedBodyFat = calculateBodyFat(userInfo.height, userInfo.weight, userInfo.gender);
+    
+    if (calculatedBodyFat !== null && calculatedBodyFat !== userInfo.bodyFat) {
+      setBodyFat(calculatedBodyFat);
+    }
+  }, [userInfo.height, userInfo.weight, userInfo.gender, userInfo.neckCircumference, userInfo.waistCircumference, userInfo.hipCircumference]);
+  
   // Clean up timeout when component unmounts
   useEffect(() => {
     return () => {
@@ -260,15 +300,38 @@ const MainInputPage: React.FC = () => {
             
             {/* Body Fat Input */}
             <InputCard>
-              <RangeInput
-                id="bodyFat"
-                label="체지방률 (%)"
-                value={userInfo.bodyFat || 20}
-                onChange={setBodyFat}
-                min={5}
-                max={50}
-                step={1}
-              />
+              <div className="flex flex-col">
+                <label htmlFor="bodyFat" className="main-input__label flex justify-between">
+                  <span>체지방률 (%)</span>
+                  <span className="font-medium text-primary">
+                    {userInfo.bodyFat || 20}%
+                    {userInfo.height && userInfo.weight && userInfo.gender && 
+                     !(
+                      (userInfo.gender === "male" && userInfo.neckCircumference && userInfo.waistCircumference) || 
+                      (userInfo.gender === "female" && userInfo.neckCircumference && userInfo.waistCircumference && userInfo.hipCircumference)
+                     ) && (
+                      <span className="text-xs text-gray-500 ml-1">(계산됨)</span>
+                    )}
+                  </span>
+                </label>
+                <div className="mb-2">
+                  <input
+                    type="range"
+                    id="bodyFat"
+                    name="bodyFat"
+                    className="main-input__range range-slider w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                    min={5}
+                    max={50}
+                    step={1}
+                    value={userInfo.bodyFat || 20}
+                    onChange={(e) => setBodyFat(Number(e.target.value))}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-gray-500">
+                  <span>5%</span>
+                  <span>50%</span>
+                </div>
+              </div>
             </InputCard>
             
             {/* U.S. Navy 둘레 공식 측정 입력 섹션 */}
