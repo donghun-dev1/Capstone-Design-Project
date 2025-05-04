@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
+import { UserInfo } from '@shared/schema';
 import InputCard from '@/components/input/InputCard';
 import GenderInput from '@/components/input/GenderInput';
 import NumberInput from '@/components/input/NumberInput';
@@ -63,9 +64,8 @@ const MainInputPage: React.FC = () => {
 
   // Meals per day options
   const mealsOptions = [
+    { value: 2, label: '2끼' },
     { value: 3, label: '3끼' },
-    { value: 4, label: '4끼' },
-    { value: 5, label: '5끼' },
   ];
 
   // Handle form submission
@@ -209,7 +209,7 @@ const MainInputPage: React.FC = () => {
                 id="goal"
                 label="목표"
                 value={userInfo.goal}
-                onChange={setGoal}
+                onChange={(value) => setGoal(value as UserInfo['goal'])}
                 options={goalOptions}
                 placeholder="목표를 선택하세요"
               />
@@ -221,7 +221,7 @@ const MainInputPage: React.FC = () => {
                 id="activityLevel"
                 label="활동 수준"
                 value={userInfo.activityLevel}
-                onChange={setActivityLevel}
+                onChange={(value) => setActivityLevel(value as UserInfo['activityLevel'])}
                 options={activityOptions}
                 placeholder="활동 수준을 선택하세요"
               />

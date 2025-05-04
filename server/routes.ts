@@ -108,7 +108,7 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
 
   // Generate meals based on calories and meals per day
   const meals = [];
-  const mealTypes = ["breakfast", "lunch", "dinner", "snack", "snack"];
+  const mealTypes = ["breakfast", "lunch", "dinner"];
   const caloriesPerMeal = targetCalories / userInfo.mealsPerDay;
 
   for (let i = 0; i < userInfo.mealsPerDay; i++) {
