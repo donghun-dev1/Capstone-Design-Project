@@ -125,7 +125,7 @@ const TagInput: React.FC<TagInputProps> = ({
       <label htmlFor={id} className="main-input__label">{label}</label>
       
       {/* 태그 입력 필드와 태그 목록이 있는 컨테이너 */}
-      <div className="flex flex-col">
+      <div className="flex flex-col relative">
         <div className="main-input__tag-container border border-gray-300 rounded-lg p-1 min-h-[42px] flex flex-wrap items-center gap-1">
           {/* 태그 목록 */}
           {tags.map((tag, index) => (
@@ -155,6 +155,10 @@ const TagInput: React.FC<TagInputProps> = ({
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             onFocus={() => inputValue && setShowSuggestions(true)}
+            onBlur={() => {
+              // 클릭 이벤트가 처리될 시간을 주기 위해 짧은 지연 후 자동완성 메뉴 숨김
+              setTimeout(() => setShowSuggestions(false), 200);
+            }}
             placeholder={tags.length === 0 ? placeholder : ''}
             className="flex-grow min-w-[120px] px-2 py-1 border-0 focus:outline-none focus:ring-0 bg-transparent"
           />
