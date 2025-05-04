@@ -13,7 +13,7 @@ type UserInfoStore = {
   setGoal: (goal: UserInfo['goal']) => void;
   setActivityLevel: (activityLevel: UserInfo['activityLevel']) => void;
   setMealsPerDay: (mealsPerDay: number) => void;
-  setAllergies: (allergies: string) => void;
+  setAllergies: (allergies: string[]) => void;
   setBudget: (budget: number | null) => void;
   setTermsAgreed: (termsAgreed: boolean) => void;
   
@@ -25,7 +25,7 @@ type UserInfoStore = {
 const useUserInfoStore = create<UserInfoStore>((set, get) => ({
   userInfo: {
     bodyFat: 20,
-    allergies: '',
+    allergies: [],
     termsAgreed: false,
   },
   isFormValid: false,
@@ -154,7 +154,7 @@ const useUserInfoStore = create<UserInfoStore>((set, get) => ({
     set({
       userInfo: {
         bodyFat: 20,
-        allergies: '',
+        allergies: [],
         termsAgreed: false,
       },
       isFormValid: false,

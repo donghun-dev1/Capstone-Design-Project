@@ -8,6 +8,11 @@ import { UserInfo, DietRecommendation } from "@shared/schema";
  * @returns {Promise<DietRecommendation>} Diet recommendations
  */
 export async function getDietRecommendation(userInfo: UserInfo): Promise<DietRecommendation> {
+  // 알레르기 배열을 문자열로 변환 (서버 측 처리를 위해)
+  const processedUserInfo = {
+    ...userInfo,
+    allergies: userInfo.allergies.join(',')
+  };
   try {
     // Check if we need to get a JWT first
     if (!hasToken()) {

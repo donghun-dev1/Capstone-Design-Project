@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { UserInfo } from '@shared/schema';
 import InputCard from '@/components/input/InputCard';
+import TagInput from '@/components/input/TagInput';
 import GenderInput from '@/components/input/GenderInput';
 import NumberInput from '@/components/input/NumberInput';
 import RangeInput from '@/components/input/RangeInput';
@@ -239,23 +240,14 @@ const MainInputPage: React.FC = () => {
             
             {/* Allergies Input */}
             <InputCard>
-              <div className="flex flex-col">
-                <label htmlFor="allergies" className="main-input__label">알레르기 정보</label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    id="allergies"
-                    name="allergies"
-                    className="main-input__field"
-                    placeholder="알레르기 음식 (쉼표로 구분)"
-                    value={userInfo.allergies || ''}
-                    onChange={(e) => setAllergies(e.target.value)}
-                  />
-                </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  예: 땅콩, 우유, 해산물
-                </p>
-              </div>
+              <TagInput
+                id="allergies"
+                label="알레르기 정보"
+                tags={userInfo.allergies || []}
+                onChange={setAllergies}
+                placeholder="알레르기 추가 후 Enter"
+                suggestions={["땅콩", "우유", "대두", "계란", "밀", "해산물", "조개류", "생선", "새우", "게", "견과류"]}
+              />
             </InputCard>
             
             {/* Budget Input */}
