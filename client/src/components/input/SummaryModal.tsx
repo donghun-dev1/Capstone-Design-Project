@@ -81,6 +81,36 @@ const SummaryModal: React.FC<SummaryModalProps> = ({
             </div>
           </div>
           
+          {/* 체지방률 & 제지방량 정보 */}
+          {summary.bodyFatPercentage !== undefined && summary.leanBodyMass !== undefined && (
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="p-4 rounded-xl bg-gradient-to-br from-amber-50/40 to-amber-100/20 dark:from-amber-950/20 dark:to-amber-900/10 border border-amber-200/30 dark:border-amber-800/30 backdrop-blur-sm flex flex-col items-center text-center relative overflow-hidden shadow-sm">
+                <div className="absolute inset-0 bg-amber-500/5 dark:bg-amber-500/10"></div>
+                <div className="relative z-10 w-full">
+                  <div className="w-8 h-8 mx-auto mb-1 rounded-full bg-amber-100 dark:bg-amber-900/60 flex items-center justify-center">
+                    <LineChart className="w-4 h-4 text-amber-500" />
+                  </div>
+                  <span className="text-xs font-medium text-amber-700 dark:text-amber-400 mb-1 block">체지방률</span>
+                  <span className="text-2xl font-bold text-amber-800 dark:text-amber-300">{summary.bodyFatPercentage}%</span>
+                  <span className="text-xs text-amber-600/70 dark:text-amber-500/70">
+                    {summary.bmi !== undefined && `BMI ${summary.bmi}`}
+                  </span>
+                </div>
+              </div>
+              <div className="p-4 rounded-xl bg-gradient-to-br from-rose-50/40 to-rose-100/20 dark:from-rose-950/20 dark:to-rose-900/10 border border-rose-200/30 dark:border-rose-800/30 backdrop-blur-sm flex flex-col items-center text-center relative overflow-hidden shadow-sm">
+                <div className="absolute inset-0 bg-rose-500/5 dark:bg-rose-500/10"></div>
+                <div className="relative z-10 w-full">
+                  <div className="w-8 h-8 mx-auto mb-1 rounded-full bg-rose-100 dark:bg-rose-900/60 flex items-center justify-center">
+                    <Dumbbell className="w-4 h-4 text-rose-500" />
+                  </div>
+                  <span className="text-xs font-medium text-rose-700 dark:text-rose-400 mb-1 block">제지방량</span>
+                  <span className="text-2xl font-bold text-rose-800 dark:text-rose-300">{summary.leanBodyMass}</span>
+                  <span className="text-xs text-rose-600/70 dark:text-rose-500/70">kg</span>
+                </div>
+              </div>
+            </div>
+          )}
+          
           {/* 영양소 분포 */}
           <div className="mb-6 space-y-3 p-4 rounded-xl bg-gradient-to-br from-purple-50/40 to-purple-100/20 dark:from-purple-950/20 dark:to-purple-900/10 border border-purple-200/30 dark:border-purple-800/30 backdrop-blur-sm relative overflow-hidden shadow-sm">
             <div className="absolute inset-0 bg-purple-500/5 dark:bg-purple-500/10"></div>
