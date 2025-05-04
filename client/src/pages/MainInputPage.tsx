@@ -44,6 +44,37 @@ const calculateBodyFat = (height?: number, weight?: number, gender?: UserInfo['g
 };
 
 /**
+ * U.S. Navy 둘레 공식을 사용한 체지방률 계산
+ * 남성: 체지방률 = 495 / (1.0324 - 0.19077 * log10(허리 - 목) + 0.15456 * log10(키)) - 450
+ * 여성: 체지방률 = 495 / (1.29579 - 0.35004 * log10(허리 + 엉덩이 - 목) + 0.22100 * log10(키)) - 450
+ */
+const calculateBodyFatNavy = (
+  height?: number,
+  gender?: UserInfo['gender'],
+  neck?: number,
+  waist?: number,
+  hip?: number
+) => {
+  if (!height || !gender || !neck || !waist) return null;
+  if (gender === "female" && !hip) return null;
+  
+  const log10 = (val: number) => Math.log(val) / Math.log(10);
+  
+  let bodyFat: number;
+  
+  if (gender === "male") {
+    bodyFat = 495 / (1.0324 - 0.19077 * log10(waist - neck) + 0.15456 * log10(height)) - 450;
+  } else {
+    bodyFat = 495 / (1.29579 - 0.35004 * log10(waist + hip! - neck) + 0.22100 * log10(height)) - 450;
+  }
+  
+  // 계산 결과 제한 (5%~50%)
+  bodyFat = Math.max(5, Math.min(bodyFat, 50));
+  
+  return Math.round(bodyFat);
+};
+
+/**
  * Main input page for collecting user information for diet recommendations
  */
 const MainInputPage: React.FC = () => {
@@ -226,7 +257,7 @@ const MainInputPage: React.FC = () => {
     handleRequestSummary();
   };
   
-  // 키, 몪무게, 성별이 변경될 때 체지방률 자동 계산
+  // 키, 몸무게, 성별이 변경될 때 체지방률 자동 계산 (BMI 기반)
   useEffect(() => {
     // 기존 둘레 측정값이 있는지 확인 (있으면 계산하지 않음)
     const hasCircumferenceMeasurements = userInfo.gender === "male" 
@@ -241,7 +272,30 @@ const MainInputPage: React.FC = () => {
     if (calculatedBodyFat !== null && calculatedBodyFat !== userInfo.bodyFat) {
       setBodyFat(calculatedBodyFat);
     }
-  }, [userInfo.height, userInfo.weight, userInfo.gender, userInfo.neckCircumference, userInfo.waistCircumference, userInfo.hipCircumference]);
+  }, [userInfo.height, userInfo.weight, userInfo.gender]);
+  
+  // 둘레 측정값이 변경될 때 체지방률 계산 (U.S. Navy 공식 기반)
+  useEffect(() => {
+    // 필요한 값이 모두 있는지 확인
+    const hasRequiredValues = userInfo.gender === "male"
+      ? (userInfo.height && userInfo.neckCircumference && userInfo.waistCircumference)
+      : (userInfo.height && userInfo.neckCircumference && userInfo.waistCircumference && userInfo.hipCircumference);
+      
+    if (!hasRequiredValues) return;
+    
+    // U.S. Navy 둘레 공식으로 체지방률 계산
+    const calculatedBodyFat = calculateBodyFatNavy(
+      userInfo.height,
+      userInfo.gender,
+      userInfo.neckCircumference,
+      userInfo.waistCircumference,
+      userInfo.hipCircumference
+    );
+    
+    if (calculatedBodyFat !== null && calculatedBodyFat !== userInfo.bodyFat) {
+      setBodyFat(calculatedBodyFat);
+    }
+  }, [userInfo.height, userInfo.gender, userInfo.neckCircumference, userInfo.waistCircumference, userInfo.hipCircumference]);
   
   // Clean up timeout when component unmounts
   useEffect(() => {
@@ -306,12 +360,15 @@ const MainInputPage: React.FC = () => {
                   <span className="font-medium text-primary">
                     {userInfo.bodyFat || 20}%
                     {userInfo.height && userInfo.weight && userInfo.gender && 
-                     !(
-                      (userInfo.gender === "male" && userInfo.neckCircumference && userInfo.waistCircumference) || 
-                      (userInfo.gender === "female" && userInfo.neckCircumference && userInfo.waistCircumference && userInfo.hipCircumference)
-                     ) && (
-                      <span className="text-xs text-gray-500 ml-1">(계산됨)</span>
-                    )}
+                      (
+                        (userInfo.gender === "male" && userInfo.neckCircumference && userInfo.waistCircumference) || 
+                        (userInfo.gender === "female" && userInfo.neckCircumference && userInfo.waistCircumference && userInfo.hipCircumference)
+                      ) ? (
+                        <span className="text-xs text-blue-500 ml-1">(U.S. Navy)</span>
+                      ) : userInfo.height && userInfo.weight && userInfo.gender && (
+                        <span className="text-xs text-gray-500 ml-1">(계산됨)</span>
+                      )
+                    }
                   </span>
                 </label>
                 <div className="mb-2">
