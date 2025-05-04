@@ -131,7 +131,7 @@ const TagInput: React.FC<TagInputProps> = ({
           {tags.map((tag, index) => (
             <div 
               key={`${tag}-${index}`} 
-              className="main-input__tag bg-primary/10 text-primary px-2 py-1 rounded-md text-sm flex items-center gap-1"
+              className="main-input__tag bg-primary/10 text-primary px-2 py-1 rounded-md text-sm flex items-center gap-1 border border-primary/20 shadow-sm"
             >
               {tag}
               <button 

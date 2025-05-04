@@ -30,6 +30,11 @@
   --chart-3: 130 90% 60%;
   --chart-4: 50 90% 60%;
   --chart-5: 200 90% 60%;
+
+  /* Background pattern */
+  --bg-pattern-light-1: 210 100% 98%;
+  --bg-pattern-light-2: 245 100% 98%;
+  --bg-pattern-light-3: 245 90% 95%;
 }
 
 .dark {
@@ -53,6 +58,11 @@
   --destructive-foreground: 0 0% 98%;
   --ring: 240 4.9% 83.9%;
   --radius: 0.5rem;
+  
+  /* Background pattern - dark mode */
+  --bg-pattern-dark-1: 240 20% 6%;
+  --bg-pattern-dark-2: 245 30% 10%;
+  --bg-pattern-dark-3: 245 30% 15%;
 }
 
 @layer base {
@@ -67,7 +77,7 @@
 
 /* BEM Styles for Main Input Page */
 .main-input__card {
-  @apply bg-card p-5 rounded-xl shadow-sm border border-border;
+  @apply bg-card/80 backdrop-blur-sm p-5 rounded-xl shadow-md border border-border/50;
 }
 
 .main-input__label {
@@ -75,7 +85,7 @@
 }
 
 .main-input__field {
-  @apply block w-full px-3 py-2 border border-input bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary;
+  @apply block w-full px-3 py-2 border border-input/80 bg-background/80 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary backdrop-blur-[2px];
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -83,7 +93,7 @@
 
 .main-input__gender-btn,
 .main-input__meal-btn {
-  @apply flex-1 py-2 px-4 border border-input bg-background rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors;
+  @apply flex-1 py-2 px-4 border border-input/80 bg-background/80 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors backdrop-blur-[2px];
 }
 
 .main-input__gender-btn--active,
@@ -100,7 +110,7 @@
 }
 
 .main-input__submit-btn {
-  @apply w-full sm:w-auto px-8 py-3 bg-primary text-primary-foreground font-medium rounded-lg shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all;
+  @apply w-full sm:w-auto px-8 py-3 bg-primary text-primary-foreground font-medium rounded-lg shadow-md hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300;
 }
 
 .main-input__submit-btn--disabled {
@@ -141,4 +151,22 @@
 @keyframes spinner {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Background grid pattern */
+.bg-grid-pattern {
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(to right, hsla(var(--primary), 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, hsla(var(--primary), 0.05) 1px, transparent 1px);
+}
+
+/* Add light blink effect */
+@keyframes light-blink {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.blink-light {
+  animation: light-blink 8s ease-in-out infinite;
 }
