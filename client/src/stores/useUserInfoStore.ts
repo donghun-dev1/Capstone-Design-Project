@@ -7,14 +7,14 @@ type UserInfoStore = {
   
   // Setters for each field
   setGender: (gender: UserInfo['gender']) => void;
-  setHeight: (height: number | null) => void;
-  setWeight: (weight: number | null) => void;
+  setHeight: (height: number | undefined) => void;
+  setWeight: (weight: number | undefined) => void;
   setBodyFat: (bodyFat: number) => void;
   setGoal: (goal: UserInfo['goal']) => void;
   setActivityLevel: (activityLevel: UserInfo['activityLevel']) => void;
   setMealsPerDay: (mealsPerDay: number) => void;
   setAllergies: (allergies: string[]) => void;
-  setBudget: (budget: number | null) => void;
+  setBudget: (budget: number | undefined) => void;
   setTermsAgreed: (termsAgreed: boolean) => void;
   
   // Utility functions

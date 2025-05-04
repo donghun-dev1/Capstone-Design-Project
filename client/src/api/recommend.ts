@@ -29,7 +29,7 @@ export async function getDietRecommendation(userInfo: UserInfo): Promise<DietRec
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
       },
-      body: JSON.stringify(userInfo),
+      body: JSON.stringify(processedUserInfo),
     });
 
     if (!res.ok) {

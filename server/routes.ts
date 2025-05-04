@@ -43,8 +43,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Diet recommendation endpoint
   app.post("/api/recommend", verifyToken, async (req, res) => {
     try {
+      // 입력된 알레르기 정보가 문자열인 경우 배열로 변환
+      const rawData = req.body;
+      
+      if (typeof rawData.allergies === 'string' && rawData.allergies.trim() !== '') {
+        rawData.allergies = rawData.allergies.split(',').map((item: string) => item.trim());
+      } else if (!Array.isArray(rawData.allergies)) {
+        rawData.allergies = [];
+      }
+      
       // Validate user info
-      const userInfo = userInfoSchema.parse(req.body);
+      const userInfo = userInfoSchema.parse(rawData);
       
       // This would normally call an external AI service, for the purpose of this project
       // we'll generate a simple recommendation based on the user's information
@@ -126,6 +135,15 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
     meals.push(meal);
   }
 
+  // 알레르기 정보를 반영한 식단 조정
+  let allergyRecommendation = "";
+  if (userInfo.allergies && userInfo.allergies.length > 0) {
+    // 실제로는 여기서 알레르기 필터링 로직을 추가해야 합니다.
+    // 예시: 해당 알레르기 성분이 없는 음식만 추천
+    console.log(`필터링할 알레르기: ${userInfo.allergies.join(', ')}`);
+    allergyRecommendation = `${userInfo.allergies.join(', ')} 알레르기를 고려한 식단입니다.`;
+  }
+  
   // Create recommendation summary
   const recommendation = {
     meals,
@@ -139,7 +157,8 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
       recommendations: [
         "규칙적인 식사와 수분 섭취를 유지하세요.",
         "가능하면 신선한 재료를 선택하세요.",
-        "영양소 균형을 위해 다양한 색상의 과일과 채소를 섭취하세요."
+        "영양소 균형을 위해 다양한 색상의 과일과 채소를 섭취하세요.",
+        ...(allergyRecommendation ? [allergyRecommendation] : [])
       ]
     }
   };

@@ -4,7 +4,7 @@ interface NumberInputProps {
   id: string;
   label: string;
   value: number | null | undefined;
-  onChange: (value: number | null) => void;
+  onChange: (value: number | undefined) => void;
   min: number;
   max: number;
   placeholder: string;
@@ -39,7 +39,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   }, [value, min, max]);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value === '' ? null : Number(e.target.value);
+    const newValue = e.target.value === '' ? undefined : Number(e.target.value);
     onChange(newValue);
   };
   
