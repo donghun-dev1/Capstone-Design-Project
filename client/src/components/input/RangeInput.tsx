@@ -28,7 +28,10 @@ const RangeInput: React.FC<RangeInputProps> = ({
   
   return (
     <div className="flex flex-col">
-      <label htmlFor={id} className="main-input__label">{label}</label>
+      <label htmlFor={id} className="main-input__label flex justify-between">
+        <span>{label}</span>
+        <span className="font-medium text-primary">{value}%</span>
+      </label>
       <div className="mb-2">
         <input
           type="range"
@@ -44,7 +47,6 @@ const RangeInput: React.FC<RangeInputProps> = ({
       </div>
       <div className="flex justify-between text-xs text-gray-500">
         <span>{min}%</span>
-        <span className="font-medium text-primary-600">{value}%</span>
         <span>{max}%</span>
       </div>
     </div>
