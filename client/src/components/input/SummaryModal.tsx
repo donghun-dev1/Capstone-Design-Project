@@ -120,7 +120,7 @@ const SummaryModal: React.FC<SummaryModalProps> = ({
                   <div className="w-8 h-8 mx-auto mb-1 rounded-full bg-violet-100 dark:bg-violet-900/60 flex items-center justify-center">
                     <LineChart className="w-4 h-4 text-violet-500" />
                   </div>
-                  <span className="text-xs font-medium text-violet-700 dark:text-violet-400 mb-1 block">기초대사량</span>
+                  <span className="text-xs font-medium text-violet-700 dark:text-violet-400 mb-1 block">기초대사량 <span className="inline-block text-[9px] px-1.5 py-0.5 bg-violet-100 dark:bg-violet-800/40 text-violet-600 dark:text-violet-300 rounded-full">Katch-McArdle</span></span>
                   <span className="text-2xl font-bold text-violet-800 dark:text-violet-300">{summary.bmr}</span>
                   <span className="text-xs text-violet-600/70 dark:text-violet-500/70">kcal</span>
                 </div>

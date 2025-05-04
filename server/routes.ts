@@ -127,12 +127,19 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
   const leanBodyMass = userInfo.weight * (1 - bodyFatPercentage/100);
   
   // Basic BMR calculation (Mifflin-St Jeor Equation)
-  let bmr;
+  let mifflinStJeorBmr;
   if (userInfo.gender === "male") {
-    bmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * assumedAge + 5;
+    mifflinStJeorBmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * assumedAge + 5;
   } else {
-    bmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * assumedAge - 161;
+    mifflinStJeorBmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * assumedAge - 161;
   }
+  
+  // Katch-McArdle BMR calculation (using lean body mass)
+  // BMR = 370 + 21.6 · LBM(kg)
+  const katchMcArdleBmr = 370 + 21.6 * leanBodyMass;
+  
+  // Use Katch-McArdle equation when we have lean body mass, otherwise use Mifflin-St Jeor
+  const bmr = katchMcArdleBmr;
 
   // Activity multiplier
   const activityMultipliers: Record<string, number> = {
@@ -204,7 +211,7 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
       bmi: Math.round(bmi * 10) / 10, // 소수점 첫째 자리까지 표시
       bmr: Math.round(bmr), // 기초대사량
       tdee: Math.round(tdee), // 일일 총 에너지 소모량
-      nutritionAnalysis: `기초대사량(BMR) ${Math.round(bmr)}kcal, 체지방률 ${Math.round(bodyFatPercentage * 10) / 10}%, 제지방량 ${Math.round(leanBodyMass * 10) / 10}kg을 고려한 맞춤형 식단입니다. BMI ${Math.round(bmi * 10) / 10}에 기반하여 귀하의 신체 특성과 목표에 최적화되었습니다.`,
+      nutritionAnalysis: `제지방량 ${Math.round(leanBodyMass * 10) / 10}kg을 기반으로 해 Katch-McArdle 공식으로 계산한 기초대사량(BMR)은 ${Math.round(bmr)}kcal입니다. 체지방률 ${Math.round(bodyFatPercentage * 10) / 10}%, BMI ${Math.round(bmi * 10) / 10}을 고려하여 귀하의 활동량과 목표에 맞게 일일 총 에너지 소모량(TDEE) ${Math.round(tdee)}kcal을 기준으로 맞춤형 식단을 제시합니다.`,
       recommendations: [
         "규칙적인 식사와 수분 섭취를 유지하세요.",
         "가능하면 신선한 재료를 선택하세요.",
