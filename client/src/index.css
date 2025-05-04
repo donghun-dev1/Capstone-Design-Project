@@ -61,21 +61,21 @@
   }
 
   body {
-    @apply font-sans antialiased bg-gray-50 text-foreground;
+    @apply font-sans antialiased bg-background text-foreground;
   }
 }
 
 /* BEM Styles for Main Input Page */
 .main-input__card {
-  @apply bg-white p-5 rounded-xl shadow-sm border border-gray-100;
+  @apply bg-card p-5 rounded-xl shadow-sm border border-border;
 }
 
 .main-input__label {
-  @apply text-sm font-medium text-gray-700 mb-2;
+  @apply text-sm font-medium text-foreground mb-2;
 }
 
 .main-input__field {
-  @apply block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary;
+  @apply block w-full px-3 py-2 border border-input bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
