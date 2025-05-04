@@ -126,7 +126,7 @@ const TagInput: React.FC<TagInputProps> = ({
       
       {/* 태그 입력 필드와 태그 목록이 있는 컨테이너 */}
       <div className="flex flex-col relative">
-        <div className="main-input__tag-container border border-gray-300 rounded-lg p-1 min-h-[42px] flex flex-wrap items-center gap-1">
+        <div className="main-input__tag-container border border-input rounded-lg p-1 min-h-[42px] flex flex-wrap items-center gap-1">
           {/* 태그 목록 */}
           {tags.map((tag, index) => (
             <div 
@@ -166,12 +166,12 @@ const TagInput: React.FC<TagInputProps> = ({
         
         {/* 자동완성 제안 */}
         {showSuggestions && (
-          <ul className="main-input__suggestions absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg border border-gray-200">
+          <ul className="main-input__suggestions absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-popover py-1 shadow-lg border border-border">
             {filteredSuggestions.map((suggestion, index) => (
               <li
                 key={suggestion}
                 onClick={() => handleSuggestionClick(suggestion)}
-                className={`cursor-pointer px-3 py-2 text-sm hover:bg-gray-100 ${index === activeSuggestion ? 'bg-gray-100' : ''}`}
+                className={`cursor-pointer px-3 py-2 text-sm text-popover-foreground hover:bg-muted ${index === activeSuggestion ? 'bg-muted' : ''}`}
               >
                 {suggestion}
               </li>
@@ -180,7 +180,7 @@ const TagInput: React.FC<TagInputProps> = ({
         )}
       </div>
       
-      <p className="text-xs text-gray-500 mt-1">
+      <p className="text-xs text-muted-foreground mt-1">
         예: 땅콩, 우유, 해산물 (Enter키로 구분)
       </p>
     </div>
