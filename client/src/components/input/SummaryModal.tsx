@@ -26,12 +26,12 @@ const SummaryModal: React.FC<SummaryModalProps> = ({
   const fatPercentage = Math.round((summary.totalFat * 9) / summary.totalCalories * 100);
   
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto py-8">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto py-12">
       {/* Modal backdrop */}
       <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => {}} />
       
       {/* Modal content */}
-      <div className="relative bg-gradient-to-br from-card/95 to-card/90 rounded-2xl shadow-xl max-w-3xl w-full mx-4 max-h-[85vh] overflow-hidden border border-white/10 backdrop-blur-md flex flex-col my-8">
+      <div className="relative bg-gradient-to-br from-card/95 to-card/90 rounded-2xl shadow-xl max-w-3xl w-full mx-4 max-h-[80vh] overflow-hidden border border-white/10 backdrop-blur-md flex flex-col my-6">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-t-lg"></div>
         
         {/* Modal header */}
@@ -54,7 +54,7 @@ const SummaryModal: React.FC<SummaryModalProps> = ({
         </div>
         
         {/* Modal body */}
-        <div className="p-6 overflow-y-auto max-h-[60vh] scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
+        <div className="p-6 overflow-y-auto max-h-[55vh] scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
           {/* 칼로리 & 예산 정보 */}
           <div className="grid grid-cols-2 gap-4 mb-6">
             <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50/40 to-blue-100/20 dark:from-blue-950/20 dark:to-blue-900/10 border border-blue-200/30 dark:border-blue-800/30 backdrop-blur-sm flex flex-col items-center text-center relative overflow-hidden shadow-sm">
