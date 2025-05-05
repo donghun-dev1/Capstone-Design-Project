@@ -22,14 +22,14 @@ const ErrorModal: React.FC<ErrorModalProps> = ({ isVisible, message, onRetry, on
     let renderTimer: ReturnType<typeof setTimeout>;
     
     if (isVisible) {
-      // 에러가 감지되었을 때 최소 10초 후에 모달 렌더링 시작
+      // 에러가 감지되었을 때 최소 1초 후에 모달 렌더링 시작
       renderTimer = setTimeout(() => {
         setRenderModal(true);
         // 렌더링 후 애니메이션을 위해 살짝 지연
         showTimer = setTimeout(() => {
           setShowModal(true);
         }, 50);
-      }, 10000); // 에러 모달이 표시되기 전 10초 지연
+      }, 1000); // 에러 모달이 표시되기 전 1초 지연
     } else {
       // 모달 숨기기
       setShowModal(false);

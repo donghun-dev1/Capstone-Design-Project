@@ -1,5 +1,5 @@
 import { apiRequest } from "@/lib/queryClient";
-import { getToken, getAnonymousToken, saveToken, hasToken } from "./auth";
+import { getToken, getAnonymousToken, saveToken, hasToken, removeToken } from "./auth";
 import { UserInfo, DietRecommendation } from "@shared/schema";
 
 // 알레르기 배열을 문자열로 변환하는 helper 함수
@@ -12,11 +12,22 @@ function processUserInfo(userInfo: UserInfo) {
 
 // JWT를 체크하고 필요하면 새로 발급받는 helper 함수
 async function ensureToken() {
-  if (!hasToken()) {
+  // 토큰이 있는지 확인하지 않고 항상 새로 발급받음
+  try {
+    // 기존 토큰 삭제
+    removeToken();
     const token = await getAnonymousToken();
     saveToken(token);
+    return token;
+  } catch (error) {
+    console.error("Failed to get new token:", error);
+    // 에러 발생 시 기존 토큰 사용 시도
+    const existingToken = getToken();
+    if (existingToken) {
+      return existingToken;
+    }
+    throw error;
   }
-  return getToken();
 }
 
 /**
