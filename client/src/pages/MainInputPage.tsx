@@ -333,7 +333,7 @@ const MainInputPage: React.FC = () => {
                 onChange={setHeight}
                 min={100}
                 max={220}
-                placeholder="예: 170"
+                placeholder="예: 173"
                 errorMessage="100cm에서 220cm 사이의 값을 입력해주세요."
               />
             </InputCard>
@@ -347,7 +347,7 @@ const MainInputPage: React.FC = () => {
                 onChange={setWeight}
                 min={30}
                 max={200}
-                placeholder="예: 65"
+                placeholder="예: 73"
                 errorMessage="30kg에서 200kg 사이의 값을 입력해주세요."
               />
             </InputCard>
@@ -408,7 +408,7 @@ const MainInputPage: React.FC = () => {
                       onChange={setNeckCircumference}
                       min={20}
                       max={60}
-                      placeholder="예: 36"
+                      placeholder="예: 38"
                       errorMessage="20cm에서 60cm 사이의 값을 입력해주세요."
                     />
                   </InputCard>
@@ -422,7 +422,7 @@ const MainInputPage: React.FC = () => {
                       onChange={setWaistCircumference}
                       min={50}
                       max={150}
-                      placeholder="예: 80"
+                      placeholder="예: 84"
                       errorMessage="50cm에서 150cm 사이의 값을 입력해주세요."
                     />
                   </InputCard>
