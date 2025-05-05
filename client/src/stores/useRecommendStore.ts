@@ -1,24 +1,56 @@
 import { create } from 'zustand';
-import { type DietRecommendation, type Meal } from '@shared/schema';
+import { type DietRecommendation, type Meal, type UserInfo } from '@shared/schema';
+import { getDietRecommendation } from '@/api/recommend';
+import useUserInfoStore from './useUserInfoStore';
 
 type RecommendStore = {
   recommendation: DietRecommendation | null;
+  meals: Meal[];
   isLoading: boolean;
   error: string | null;
   
   setRecommendation: (recommendation: DietRecommendation) => void;
+  setMeals: (meals: Meal[]) => void;
+  refreshMeals: () => Promise<void>; // API 호출하여 새로운 추천 가져오기
   setLoading: (isLoading: boolean) => void;
   setError: (error: string | null) => void;
   reset: () => void;
 };
 
-const useRecommendStore = create<RecommendStore>((set) => ({
+const useRecommendStore = create<RecommendStore>((set, get) => ({
   recommendation: null,
+  meals: [],
   isLoading: false,
   error: null,
   
   setRecommendation: (recommendation) => {
-    set({ recommendation, isLoading: false, error: null });
+    set({ 
+      recommendation, 
+      meals: recommendation?.meals || [],
+      isLoading: false, 
+      error: null 
+    });
+  },
+  
+  setMeals: (meals) => set({ meals }),
+  
+  refreshMeals: async () => {
+    try {
+      set({ isLoading: true, error: null });
+      const userInfo = useUserInfoStore.getState().userInfo as UserInfo;
+      const recommendation = await getDietRecommendation(userInfo);
+      set({ 
+        recommendation,
+        meals: recommendation.meals,
+        isLoading: false 
+      });
+    } catch (err) {
+      console.error('Error refreshing meals:', err);
+      set({ 
+        error: "식단 추천을 가져오는 데 실패했습니다.",
+        isLoading: false 
+      });
+    }
   },
   
   setLoading: (isLoading) => {
@@ -32,6 +64,7 @@ const useRecommendStore = create<RecommendStore>((set) => ({
   reset: () => {
     set({
       recommendation: null,
+      meals: [],
       isLoading: false,
       error: null,
     });
