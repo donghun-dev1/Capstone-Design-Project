@@ -195,25 +195,247 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
       targetCalories = tdee; // maintain
   }
 
-  // Generate meals based on calories and meals per day
-  const meals = [];
+  // 실제 음식 데이터 목록
+  const realFoods = [
+    {
+      id: 'food-1',
+      name: '그릴드 치킨 샐러드',
+      type: 'lunch',
+      calories: 320,
+      protein: 28,
+      carbs: 12,
+      fat: 18,
+      ingredients: ['닭가슴살 100g', '양상추', '방울토마토', '올리브 오일', '레몬즙', '아보카도'],
+      recipe: '닭가슴살을 양념하여 그릴에 굽고, 샐러드 채소와 함께 올리브 오일과 레몬즙으로 드레싱합니다.',
+      imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c',
+      tags: ['고단백', '저탄수화물', '다이어트'],
+      score: 92,
+      price: 8500,
+      nutrition: {
+        calories: 320,
+        protein: 28,
+        carbs: 12,
+        fat: 18
+      }
+    },
+    {
+      id: 'food-2',
+      name: '연어 포케 보울',
+      type: 'dinner',
+      calories: 420,
+      protein: 24,
+      carbs: 45,
+      fat: 15,
+      ingredients: ['연어 100g', '현미밥', '아보카도', '오이', '당근', '간장', '참기름'],
+      recipe: '현미밥을 깔고 연어와 채소를 올린 후 간장과 참기름으로 간을 합니다.',
+      imageUrl: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8',
+      tags: ['오메가3', '건강식', '고단백'],
+      score: 95,
+      price: 12000,
+      nutrition: {
+        calories: 420,
+        protein: 24,
+        carbs: 45,
+        fat: 15
+      }
+    },
+    {
+      id: 'food-3',
+      name: '프로틴 그릭 요거트',
+      type: 'breakfast',
+      calories: 240,
+      protein: 22,
+      carbs: 16,
+      fat: 8,
+      ingredients: ['그릭 요거트 200g', '프로틴 파우더', '블루베리', '아몬드', '꿀'],
+      recipe: '그릭 요거트에 프로틴 파우더를 섞고 블루베리와 아몬드를 토핑합니다.',
+      imageUrl: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40',
+      tags: ['아침식사', '고단백', '간편식'],
+      score: 88,
+      price: 5500,
+      nutrition: {
+        calories: 240,
+        protein: 22,
+        carbs: 16,
+        fat: 8
+      }
+    },
+    {
+      id: 'food-4',
+      name: '클래식 치즈버거',
+      type: 'lunch',
+      calories: 650,
+      protein: 35,
+      carbs: 40,
+      fat: 38,
+      ingredients: ['쇠고기 패티 150g', '통밀 번', '체다치즈', '양상추', '토마토', '양파', '피클'],
+      recipe: '쇠고기 패티를 그릴에 구워 통밀 번과 함께 모든 재료를 쌓아올립니다.',
+      imageUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd',
+      tags: ['햄버거', '고단백', '간편식'],
+      score: 85,
+      price: 9800,
+      nutrition: {
+        calories: 650,
+        protein: 35,
+        carbs: 40,
+        fat: 38
+      }
+    },
+    {
+      id: 'food-5',
+      name: '참치 아보카도 토스트',
+      type: 'lunch',
+      calories: 380,
+      protein: 22,
+      carbs: 28,
+      fat: 20,
+      ingredients: ['통밀 식빵', '참치캔', '아보카도', '레몬즙', '적양파', '통밀 식빵'],
+      recipe: '통밀 식빵을 구워 참치와 아보카도를 섞은 혼합물을 올립니다.',
+      imageUrl: 'https://images.unsplash.com/photo-1603046891745-6239338bd6a6',
+      tags: ['오메가3', '건강식', '간편식'],
+      score: 89,
+      price: 7500,
+      nutrition: {
+        calories: 380,
+        protein: 22,
+        carbs: 28,
+        fat: 20
+      }
+    },
+    {
+      id: 'food-6',
+      name: '비프 타코 보울',
+      type: 'dinner',
+      calories: 550,
+      protein: 30,
+      carbs: 45,
+      fat: 25,
+      ingredients: ['쇠고기 다진 고기', '검은콩', '현미밥', '아보카도', '살사 소스', '양상추', '라임즙'],
+      recipe: '다진 쇠고기를 양념해 볶고, 현미밥과 함께 모든 재료를 그릇에 담습니다.',
+      imageUrl: 'https://images.unsplash.com/photo-1551326844-4df70f78d0e9',
+      tags: ['멕시칸', '고단백', '건강식'],
+      score: 91,
+      price: 11000,
+      nutrition: {
+        calories: 550,
+        protein: 30,
+        carbs: 45,
+        fat: 25
+      }
+    },
+    {
+      id: 'food-7',
+      name: '채소 곤약 파스타',
+      type: 'dinner',
+      calories: 280,
+      protein: 15,
+      carbs: 18,
+      fat: 16,
+      ingredients: ['곤약 파스타', '방울토마토', '버섯', '올리브 오일', '파르메산 치즈', '바질'],
+      recipe: '곤약 파스타를 데친 후 소금물에 씻고, 올리브 오일에 토마토와 버섯을 볶아 소스를 만들어 버무립니다.',
+      imageUrl: 'https://images.unsplash.com/photo-1473093226795-af9932fe5856',
+      tags: ['파스타', '저칼로리', '다이어트'],
+      score: 87,
+      price: 8800,
+      nutrition: {
+        calories: 280,
+        protein: 15,
+        carbs: 18,
+        fat: 16
+      }
+    },
+    {
+      id: 'food-8',
+      name: '블루베리 오트밀',
+      type: 'breakfast',
+      calories: 310,
+      protein: 12,
+      carbs: 45,
+      fat: 8,
+      ingredients: ['오트밀', '우유', '블루베리', '아몬드', '꿀', '시나몬 가루'],
+      recipe: '오트밀을 우유와 함께 끓여 블루베리와 아몬드, 꿀을 넣고 시나몬 가루로 마무리합니다.',
+      imageUrl: 'https://images.unsplash.com/photo-1517673132405-a56a62b18caf',
+      tags: ['아침식사', '식이섬유', '건강식'],
+      score: 90,
+      price: 6000,
+      nutrition: {
+        calories: 310,
+        protein: 12,
+        carbs: 45,
+        fat: 8
+      }
+    },
+    {
+      id: 'food-9',
+      name: '닭가슴살 브리또 보울',
+      type: 'lunch',
+      calories: 480,
+      protein: 35,
+      carbs: 50,
+      fat: 12,
+      ingredients: ['닭가슴살', '현미밥', '검은콩', '옥수수', '사워크림', '살사 소스', '아보카도'],
+      recipe: '닭가슴살을 구워 썰고, 현미밥과 채소, 소스를 그릇에 담습니다.',
+      imageUrl: 'https://images.unsplash.com/photo-1543352634-a1c51d9f1fa7',
+      tags: ['멕시칸', '고단백', '건강식'],
+      score: 93,
+      price: 10500,
+      nutrition: {
+        calories: 480,
+        protein: 35,
+        carbs: 50,
+        fat: 12
+      }
+    },
+    {
+      id: 'food-10',
+      name: '연어 아보카도 롤',
+      type: 'dinner',
+      calories: 390,
+      protein: 20,
+      carbs: 40,
+      fat: 18,
+      ingredients: ['연어', '김', '현미밥', '아보카도', '오이', '간장', '와사비'],
+      recipe: '김 위에 현미밥을 펴고 연어와 아보카도, 오이를 올려 돌돌 말아 자릅니다.',
+      imageUrl: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c',
+      tags: ['일식', '오메가3', '건강식'],
+      score: 94,
+      price: 13000,
+      nutrition: {
+        calories: 390,
+        protein: 20,
+        carbs: 40,
+        fat: 18
+      }
+    }
+  ];
+
+  // 식단 조합에 적합한 음식 추천
   const mealTypes = ["breakfast", "lunch", "dinner"];
   const caloriesPerMeal = targetCalories / userInfo.mealsPerDay;
-
-  for (let i = 0; i < userInfo.mealsPerDay; i++) {
-    const meal = {
-      id: `meal-${i + 1}`,
-      name: `Sample ${mealTypes[i] || "meal"} ${i + 1}`,
-      type: mealTypes[i] || "meal",
-      calories: Math.round(caloriesPerMeal),
-      protein: Math.round(caloriesPerMeal * 0.3 / 4), // 30% protein, 4 calories per gram
-      carbs: Math.round(caloriesPerMeal * 0.4 / 4),   // 40% carbs, 4 calories per gram
-      fat: Math.round(caloriesPerMeal * 0.3 / 9),     // 30% fat, 9 calories per gram
-      ingredients: ["샘플 재료 1", "샘플 재료 2", "샘플 재료 3"],
-      recipe: "이 음식을 준비하는 방법에 대한 샘플 지침입니다."
-    };
-    meals.push(meal);
+  
+  // 사용자 목표에 맞게 필터링
+  let filteredFoods = [...realFoods];
+  
+  if (userInfo.goal === "lose") {
+    // 다이어트면 저칼로리 음식 우선
+    filteredFoods.sort((a, b) => a.calories - b.calories);
+  } else if (userInfo.goal === "muscle") {
+    // 근육 증가면 고단백 음식 우선
+    filteredFoods.sort((a, b) => b.protein - a.protein);
+  } else if (userInfo.goal === "gain") {
+    // 체중 증가면 고칼로리 음식 우선
+    filteredFoods.sort((a, b) => b.calories - a.calories);
   }
+  
+  // 7개 음식을 랜덤으로 추천 (실제 앱에서는 더 정교한 알고리즘 필요)
+  const recommendedFoods = [];
+  for (let i = 0; i < 7; i++) {
+    const randomIndex = Math.floor(Math.random() * filteredFoods.length);
+    recommendedFoods.push(filteredFoods[randomIndex]);
+  }
+  
+  // 최종 음식 리스트
+  const meals = recommendedFoods;
 
   // 알레르기 정보를 반영한 식단 조정
   let allergyRecommendation = "";

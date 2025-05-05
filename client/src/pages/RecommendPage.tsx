@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'wouter';
 import useRecommendStore from '@/stores/useRecommendStore';
 import useSelectedMealsStore from '@/stores/useSelectedMealsStore';
+import { Meal } from '@shared/schema';
 import FoodCard from '@/components/recommend/FoodCard';
 import LeftBox from '@/components/recommend/LeftBox';
 import RightInfoBox from '@/components/recommend/RightInfoBox';
@@ -54,12 +55,12 @@ const RecommendPage: React.FC = () => {
   };
   
   // 식단 클릭 시 선택 처리
-  const handleSelectMeal = (meal) => {
+  const handleSelectMeal = (meal: Meal) => {
     selectMeal(meal);
   };
   
   // 선택된 식단 제거
-  const handleRemoveMeal = (index) => {
+  const handleRemoveMeal = (index: number) => {
     removeMeal(index);
   };
   
