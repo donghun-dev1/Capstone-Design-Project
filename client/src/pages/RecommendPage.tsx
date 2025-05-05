@@ -96,9 +96,9 @@ const RecommendPage: React.FC = () => {
           </p>
         </header>
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* 좌측 패널 */}
-          <div className="lg:col-span-3 order-2 lg:order-1">
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* 좌측 패널 - 선택한 식단 */}
+          <div className="w-full md:w-1/4">
             <LeftBox
               selectedMeals={selectedMeals}
               onRemove={handleRemoveMeal}
@@ -106,8 +106,8 @@ const RecommendPage: React.FC = () => {
           </div>
           
           {/* 중앙 식단 카드 그리드 */}
-          <div className="lg:col-span-6 order-1 lg:order-2">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="w-full md:w-1/2">
+            <div className="flex flex-col space-y-4">
               {recommendation.meals.map((meal) => (
                 <FoodCard
                   key={meal.id}
@@ -119,7 +119,7 @@ const RecommendPage: React.FC = () => {
           </div>
           
           {/* 우측 영양 정보 */}
-          <div className="lg:col-span-3 order-3">
+          <div className="w-full md:w-1/4">
             <RightInfoBox
               summary={recommendation?.summary}
               selectedMeals={selectedMeals}

@@ -97,24 +97,44 @@ const FoodCard: React.FC<FoodCardProps> = ({ meal, onSelect }) => {
   return (
     <>
       <div 
-        className="food-card p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer bg-white dark:bg-gray-800"
+        className="food-card p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer bg-white dark:bg-gray-800 flex flex-col md:flex-row md:h-40"
         onClick={handleCardClick}
       >
-        <div className="mb-3 relative rounded-lg overflow-hidden">
+        <div className="relative rounded-lg overflow-hidden mb-3 md:mb-0 md:w-40 md:min-w-40 md:mr-4 flex-shrink-0">
           <img 
             src={meal.imageUrl || '/placeholder-food.jpg'} 
             alt={meal.name}
-            className="w-full h-36 object-cover"
+            className="w-full h-36 md:h-full object-cover"
           />
           <div className="absolute top-2 right-2 bg-primary/90 text-white px-2 py-1 rounded-full text-xs font-medium">
             {meal.score || 85}점
           </div>
         </div>
         
-        <h3 className="text-lg font-bold mb-1 text-gray-900 dark:text-gray-100">{meal.name}</h3>
-        
-        <div className="text-xs text-gray-500 dark:text-gray-400">
-          {meal.tags?.join(' · ') || '일반식 · 건강식'}
+        <div className="flex flex-col justify-between flex-grow">
+          <div>
+            <h3 className="text-lg font-bold mb-1 text-gray-900 dark:text-gray-100">{meal.name}</h3>
+            
+            <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+              {meal.tags?.join(' · ') || '일반식 · 건강식'}
+            </div>
+            
+            <p className="text-sm text-gray-600 dark:text-gray-300 hidden md:block md:line-clamp-2">
+              {meal.ingredients?.join(', ')}
+            </p>
+          </div>
+          
+          <div className="hidden md:flex justify-between mt-2">
+            <div className="text-xs font-semibold">
+              <span className="text-blue-500">칼로리:</span> {meal.calories}kcal
+            </div>
+            <div className="text-xs font-semibold">
+              <span className="text-red-500">단백질:</span> {meal.protein}g
+            </div>
+            <div className="text-xs font-semibold">
+              <span className="text-amber-500">탄수화물:</span> {meal.carbs}g
+            </div>
+          </div>
         </div>
       </div>
       
