@@ -429,9 +429,13 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
   
   // 7개 음식을 랜덤으로 추천 (실제 앱에서는 더 정교한 알고리즘 필요)
   const recommendedFoods = [];
+  
+  // 모든 음식을 추천에 포함 (중복 허용)
   for (let i = 0; i < 7; i++) {
-    const randomIndex = Math.floor(Math.random() * filteredFoods.length);
-    recommendedFoods.push(filteredFoods[randomIndex]);
+    const index = i % filteredFoods.length;
+    const food = { ...filteredFoods[index] };
+    food.id = `food-${i+1}`; // 고유 ID 부여
+    recommendedFoods.push(food);
   }
   
   // 최종 음식 리스트
