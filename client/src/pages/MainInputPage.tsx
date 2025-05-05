@@ -307,14 +307,14 @@ const MainInputPage: React.FC = () => {
   }, [requestTimeout]);
   
   return (
-    <main className="min-h-screen pb-16 pt-10">
+    <main className="min-h-screen pb-24 pt-10">
       <div className="main-input container mx-auto max-w-[640px] px-4">
         <header className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">맞춤형 식단 생성기</h1>
           <p className="text-gray-600">개인화된 식단 추천을 받기 위해 정보를 입력해주세요</p>
         </header>
         
-        <form className="main-input__form" onSubmit={(e) => e.preventDefault()}>
+        <form className="main-input__form mb-12" onSubmit={(e) => e.preventDefault()}>
           <div className="main-input__grid grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Gender Input */}
             <InputCard>
