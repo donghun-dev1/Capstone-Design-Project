@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Meal } from '@shared/schema';
-import { X, ShoppingBag } from 'lucide-react';
+import { X, ShoppingBag, Info, Plus } from 'lucide-react';
 
 interface FoodDetailProps {
   meal: Meal;
@@ -30,7 +30,11 @@ const FoodDetail: React.FC<FoodDetailProps> = ({ meal, onClose, onSelect }) => {
         <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100">{meal.name}</h2>
         
         <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-          {meal.tags?.join(' · ') || '일반식 · 건강식'}
+          {meal.tags?.map(tag => (
+            <span key={tag} className="inline-block mr-2 text-primary">
+              #{tag}
+            </span>
+          )) || <span className="text-primary">#일반식 #건강식</span>}
         </div>
         
         <div className="mb-6">
@@ -81,7 +85,8 @@ interface FoodCardProps {
 const FoodCard: React.FC<FoodCardProps> = ({ meal, onSelect }) => {
   const [showPopup, setShowPopup] = useState(false);
   
-  const handleCardClick = () => {
+  const handleDetailClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 이벤트 버블링 방지
     setShowPopup(true);
   };
   
@@ -89,16 +94,16 @@ const FoodCard: React.FC<FoodCardProps> = ({ meal, onSelect }) => {
     setShowPopup(false);
   };
   
-  const handleSelectMeal = () => {
+  const handleSelectMeal = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation(); // 이벤트 버블링 방지
     onSelect(meal);
-    setShowPopup(false);
+    if (showPopup) setShowPopup(false);
   };
   
   return (
     <>
       <div 
-        className="food-card p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer bg-white dark:bg-gray-800 flex flex-col md:flex-row md:h-40"
-        onClick={handleCardClick}
+        className="food-card p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-gray-800 flex flex-col md:flex-row md:h-40"
       >
         <div className="relative rounded-lg overflow-hidden mb-3 md:mb-0 md:w-40 md:min-w-40 md:mr-4 flex-shrink-0">
           <img 
@@ -116,7 +121,11 @@ const FoodCard: React.FC<FoodCardProps> = ({ meal, onSelect }) => {
             <h3 className="text-lg font-bold mb-1 text-gray-900 dark:text-gray-100">{meal.name}</h3>
             
             <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-              {meal.tags?.join(' · ') || '일반식 · 건강식'}
+              {meal.tags?.map(tag => (
+                <span key={tag} className="inline-block mr-1 text-primary">
+                  #{tag}
+                </span>
+              )) || <span className="text-primary">#일반식 #건강식</span>}
             </div>
             
             <p className="text-sm text-gray-600 dark:text-gray-300 hidden md:block md:line-clamp-2">
@@ -124,15 +133,35 @@ const FoodCard: React.FC<FoodCardProps> = ({ meal, onSelect }) => {
             </p>
           </div>
           
-          <div className="hidden md:flex justify-between mt-2">
-            <div className="text-xs font-semibold">
-              <span className="text-blue-500">칼로리:</span> {meal.calories}kcal
+          <div className="flex flex-col md:flex-row justify-between mt-auto">
+            <div className="hidden md:flex justify-between mb-2 md:mb-0 md:mr-4">
+              <div className="text-xs font-semibold mr-2">
+                <span className="text-blue-500">칼로리:</span> {meal.calories}kcal
+              </div>
+              <div className="text-xs font-semibold mr-2">
+                <span className="text-red-500">단백질:</span> {meal.protein}g
+              </div>
+              <div className="text-xs font-semibold">
+                <span className="text-amber-500">탄수화물:</span> {meal.carbs}g
+              </div>
             </div>
-            <div className="text-xs font-semibold">
-              <span className="text-red-500">단백질:</span> {meal.protein}g
-            </div>
-            <div className="text-xs font-semibold">
-              <span className="text-amber-500">탄수화물:</span> {meal.carbs}g
+            
+            <div className="flex space-x-2 mt-2 md:mt-0">
+              <button 
+                className="px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-300 bg-white hover:bg-gray-50 flex items-center space-x-1"
+                onClick={handleDetailClick}
+              >
+                <Info size={14} />
+                <span>상세 보기</span>
+              </button>
+              
+              <button 
+                className="px-3 py-1.5 text-xs font-medium rounded-lg bg-primary text-white hover:bg-primary/90 flex items-center space-x-1"
+                onClick={handleSelectMeal}
+              >
+                <Plus size={14} />
+                <span>바로 담기</span>
+              </button>
             </div>
           </div>
         </div>
