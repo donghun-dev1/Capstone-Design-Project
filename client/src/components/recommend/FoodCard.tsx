@@ -116,13 +116,13 @@ const FoodCard: React.FC<FoodCardProps> = ({ meal, onSelect }) => {
           </div>
         </div>
         
-        <div className="flex flex-col justify-between flex-grow">
+        <div className="flex flex-col justify-between flex-grow overflow-hidden">
           <div>
-            <h3 className="text-lg font-bold mb-1 text-gray-900 dark:text-gray-100">{meal.name}</h3>
+            <h3 className="text-lg font-bold mb-1 text-gray-900 dark:text-gray-100 overflow-hidden text-ellipsis whitespace-nowrap">{meal.name}</h3>
             
-            <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+            <div className="text-xs text-gray-500 dark:text-gray-400 mb-2 flex flex-wrap">
               {meal.tags?.map(tag => (
-                <span key={tag} className="inline-block mr-1 text-primary">
+                <span key={tag} className="inline-block mr-1 mb-1 text-primary">
                   #{tag}
                 </span>
               )) || <span className="text-primary">#일반식 #건강식</span>}
