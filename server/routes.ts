@@ -197,6 +197,127 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
 
   // 실제 음식 데이터 목록
   const realFoods = [
+    // 롯데리아 햄버거 데이터 추가
+    {
+      id: 'burger-1',
+      name: '데리버거',
+      type: 'lunch',
+      calories: 348,
+      protein: 12,
+      carbs: 35, // 추정값
+      fat: 15, // 추정값
+      ingredients: ['쏼고기 패티', '양상추', '토마토', '소스', '변', '쏼고기 - 호주산'],
+      recipe: '쏼고기 패티와 갈아 넣은 양파와 토마토, 소스를 꿀에 넣어 건네주세요.',
+      imageUrl: 'https://images.unsplash.com/photo-1550317138-10000687a72b',
+      tags: ['패스트푸드', '햄버거', '비개'],
+      score: 80,
+      price: 4500,
+      nutrition: {
+        calories: 348,
+        protein: 12,
+        carbs: 35,
+        fat: 15,
+        sodium: 590,
+        sugar: 10,
+        saturatedFat: 4.9
+      }
+    },
+    {
+      id: 'burger-2',
+      name: '치킨버거',
+      type: 'lunch',
+      calories: 355,
+      protein: 15,
+      carbs: 36, // 추정값
+      fat: 16, // 추정값
+      ingredients: ['닭고기 패티', '양상추', '소스', '변', '닭고기 - 브라질산'],
+      recipe: '닭고기 패티와 양파, 소스를 꿀에 넣어 건네주세요.',
+      imageUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd',
+      tags: ['패스트푸드', '햄버거', '닭고기'],
+      score: 81,
+      price: 4000,
+      nutrition: {
+        calories: 355,
+        protein: 15,
+        carbs: 36,
+        fat: 16,
+        sodium: 620,
+        sugar: 8,
+        saturatedFat: 3.8
+      }
+    },
+    {
+      id: 'burger-3',
+      name: '티렉스버거',
+      type: 'lunch',
+      calories: 463,
+      protein: 26,
+      carbs: 40, // 추정값
+      fat: 22, // 추정값
+      ingredients: ['특대 닭고기 패티', '양상추', '토마토', '소스', '변', '닭고기 - 브라질산'],
+      recipe: '특대 닭고기 패티와 양파, 토마토, 소스를 꿀에 넣어 건네주세요.',
+      imageUrl: 'https://images.unsplash.com/photo-1561758033-d89a9ad46330',
+      tags: ['패스트푸드', '햄버거', '닭고기', '고단백'],
+      score: 85,
+      price: 5400,
+      nutrition: {
+        calories: 463,
+        protein: 26,
+        carbs: 40,
+        fat: 22,
+        sodium: 830,
+        sugar: 7,
+        saturatedFat: 5.0
+      }
+    },
+    {
+      id: 'burger-4',
+      name: '한우불고기버거',
+      type: 'lunch',
+      calories: 572,
+      protein: 23,
+      carbs: 45, // 추정값
+      fat: 30, // 추정값
+      ingredients: ['한우 불고기 패티', '양상추', '토마토', '소스', '변', '쏼고기 - 국내산 한우'],
+      recipe: '한우 불고기 패티와 양파, 토마토, 소스를 꿀에 넣어 건네주세요.',
+      imageUrl: 'https://images.unsplash.com/photo-1572802419224-296b0aeee0d9',
+      tags: ['패스트푸드', '햄버거', '한우', '고급'],
+      score: 93,
+      price: 8500,
+      nutrition: {
+        calories: 572,
+        protein: 23,
+        carbs: 45,
+        fat: 30,
+        sodium: 800,
+        sugar: 15,
+        saturatedFat: 12.0
+      }
+    },
+    {
+      id: 'burger-5',
+      name: '더불한우불고기버거',
+      type: 'lunch',
+      calories: 802,
+      protein: 39,
+      carbs: 52, // 추정값
+      fat: 45, // 추정값
+      ingredients: ['한우 불고기 패티 2장', '양상추', '토마토', '치즈', '소스', '변', '쏼고기 - 국내산 한우'],
+      recipe: '한우 불고기 패티 2장과 치즈, 양파, 토마토, 소스를 꿀에 넣어 건네주세요.',
+      imageUrl: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90',
+      tags: ['패스트푸드', '햄버거', '한우', '고급', '고단백'],
+      score: 90,
+      price: 12000,
+      nutrition: {
+        calories: 802,
+        protein: 39,
+        carbs: 52,
+        fat: 45,
+        sodium: 1150,
+        sugar: 18,
+        saturatedFat: 20.0
+      }
+    },
     {
       id: 'food-1',
       name: '그릴드 치킨 샐러드',
