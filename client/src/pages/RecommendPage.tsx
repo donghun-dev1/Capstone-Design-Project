@@ -106,7 +106,7 @@ const RecommendPage: React.FC = () => {
           </div>
           
           {/* 중앙 식단 카드 그리드 */}
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-2/3">
             <div className="flex flex-col space-y-4">
               {recommendation.meals.map((meal) => (
                 <FoodCard
@@ -119,7 +119,7 @@ const RecommendPage: React.FC = () => {
           </div>
           
           {/* 우측 영양 정보 */}
-          <div className="w-full md:w-1/4">
+          <div className="w-full md:w-1/6">
             <RightInfoBox
               summary={recommendation?.summary}
               selectedMeals={selectedMeals}

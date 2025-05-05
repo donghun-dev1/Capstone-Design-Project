@@ -103,9 +103,9 @@ const FoodCard: React.FC<FoodCardProps> = ({ meal, onSelect }) => {
   return (
     <>
       <div 
-        className="food-card p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-gray-800 flex flex-col md:flex-row md:h-40"
+        className="food-card p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-gray-800 flex flex-col md:flex-row md:h-44 w-full"
       >
-        <div className="relative rounded-lg overflow-hidden mb-3 md:mb-0 md:w-40 md:min-w-40 md:mr-4 flex-shrink-0">
+        <div className="relative rounded-lg overflow-hidden mb-3 md:mb-0 md:w-44 md:min-w-44 md:mr-5 flex-shrink-0">
           <img 
             src={meal.imageUrl || '/placeholder-food.jpg'} 
             alt={meal.name}
@@ -133,20 +133,23 @@ const FoodCard: React.FC<FoodCardProps> = ({ meal, onSelect }) => {
             </p>
           </div>
           
-          <div className="flex flex-col md:flex-row justify-between mt-auto">
-            <div className="hidden md:flex justify-between mb-2 md:mb-0 md:mr-4">
-              <div className="text-xs font-semibold mr-2">
+          <div className="flex flex-col md:flex-row justify-between items-end mt-auto">
+            <div className="hidden md:flex mb-2 md:mb-0 md:mr-auto flex-wrap w-full max-w-md">
+              <div className="text-xs font-semibold mr-4 mb-1">
                 <span className="text-blue-500">칼로리:</span> {meal.calories}kcal
               </div>
-              <div className="text-xs font-semibold mr-2">
+              <div className="text-xs font-semibold mr-4 mb-1">
                 <span className="text-red-500">단백질:</span> {meal.protein}g
               </div>
-              <div className="text-xs font-semibold">
+              <div className="text-xs font-semibold mr-4 mb-1">
                 <span className="text-amber-500">탄수화물:</span> {meal.carbs}g
+              </div>
+              <div className="text-xs font-semibold mr-4">
+                <span className="text-green-500">지방:</span> {meal.fat || 0}g
               </div>
             </div>
             
-            <div className="flex space-x-2 mt-2 md:mt-0">
+            <div className="flex space-x-2 mt-2 md:mt-0 md:flex-shrink-0">
               <button 
                 className="px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-300 bg-white hover:bg-gray-50 flex items-center space-x-1"
                 onClick={handleDetailClick}
