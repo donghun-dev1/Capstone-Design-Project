@@ -103,6 +103,15 @@ export const mealSchema = z.object({
   ingredients: z.array(z.string()),
   recipe: z.string().optional(),
   imageUrl: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  score: z.number().optional(),
+  price: z.number().optional(),
+  nutrition: z.object({
+    calories: z.number(),
+    protein: z.number(),
+    carbs: z.number(),
+    fat: z.number(),
+  }).optional(),
 });
 
 export type Meal = z.infer<typeof mealSchema>;
