@@ -10,6 +10,7 @@ import { useMealPlanStore } from '@/stores/useMealPlanStore';
 import NutritionVisualization from '@/components/recommend/NutritionVisualization';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AnimatedProgressBar from '@/components/ui/AnimatedProgressBar';
+import StepNavigationBar from '@/components/ui/StepNavigationBar';
 
 type MealSlot = 'breakfast' | 'lunch' | 'dinner';
 
@@ -288,35 +289,11 @@ const MealConfigPage: React.FC = () => {
       </div>
       
       {/* 하단 내비게이션 바 */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 p-4">
-        <div className="container mx-auto max-w-7xl px-4 flex justify-between items-center">
-          <div className="flex items-center space-x-6">
-            <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">1</div>
-              <div className="ml-2 text-sm text-gray-500">입력</div>
-            </div>
-            <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">2</div>
-              <div className="ml-2 text-sm text-gray-500">추천</div>
-            </div>
-            <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">3</div>
-              <div className="ml-2 text-sm font-medium">구성</div>
-            </div>
-            <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">4</div>
-              <div className="ml-2 text-sm text-gray-500">요약</div>
-            </div>
-          </div>
-          
-          <button 
-            className="px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors"
-            onClick={handleViewResults}
-          >
-            결과 확인
-          </button>
-        </div>
-      </div>
+      <StepNavigationBar 
+        currentStep={3} 
+        onNext={handleViewResults}
+        nextButtonText="결과 확인"
+      />
     </main>
   );
 };

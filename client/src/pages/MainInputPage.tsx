@@ -18,6 +18,7 @@ import useRecommendStore from '@/stores/useRecommendStore';
 import usePreviewStore from '@/stores/usePreviewStore';
 import { getDietRecommendation, getNutritionSummary } from '@/api/recommend';
 import { useToast } from '@/hooks/use-toast';
+import StepNavigationBar from '@/components/ui/StepNavigationBar';
 import { Separator } from "@/components/ui/separator";
 
 /**

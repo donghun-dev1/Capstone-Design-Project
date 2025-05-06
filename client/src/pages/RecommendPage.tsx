@@ -10,6 +10,7 @@ import BottomBar from '@/components/recommend/BottomBar';
 import LoadingOverlay from '@/components/input/LoadingOverlay';
 import NutritionVisualization from '@/components/recommend/NutritionVisualization';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import StepNavigationBar from '@/components/ui/StepNavigationBar';
 
 /**
  * Page to display diet recommendations based on user input
@@ -163,14 +164,11 @@ const RecommendPage: React.FC = () => {
         </div>
       </div>
       
-      {/* 하단 고정 바 */}
-      <BottomBar
-        currentStep={2}
-        totalSteps={4}
-        onRefresh={handleRefresh}
+      {/* 하단 내비게이션 바 */}
+      <StepNavigationBar 
+        currentStep={2} 
         onNext={handleNext}
-        refreshDisabled={isLoading}
-        nextDisabled={isLoading || !selectedMeals.some(meal => meal !== null)}
+        nextButtonText="다음"
       />
       
       {/* 로딩 오버레이 */}
