@@ -3,39 +3,43 @@
 @tailwind utilities;
 
 :root {
-  /* Notion-inspired color palette - light mode */
-  --background: 220 20% 97%; /* 부드러운 회색 배경 */
-  --foreground: 215 14% 20%; /* 더 부드러운 텍스트 색상 */
-  --muted: 220 14% 94%; /* 매우 은은한 회색 */
-  --muted-foreground: 220 8% 46%; /* 덜 강조되는 텍스트 */
-  --popover: 0 0% 100%;
-  --popover-foreground: 215 14% 20%;
+  /* 웰니스 테마 - 파스텔 민트, 베이지, 블러시 컬러 */
+  --background: 160 30% 98%; /* 은은한 민트 배경 */
+  --foreground: 160 20% 20%; /* 부드러운 텍스트 색상 */
+  --muted: 160 15% 94%; /* 매우 은은한 민트 회색 */
+  --muted-foreground: 160 10% 46%; /* 덜 강조되는 텍스트 */
+  --popover: 160 30% 98%;
+  --popover-foreground: 160 20% 20%;
   --card: 0 0% 100%; /* 순수 흰색 카드 */
-  --card-foreground: 215 14% 20%;
-  --border: 220 13% 90%; /* 부드러운 구분선 */
-  --input: 220 13% 90%;
-  --primary: 220 85% 57%; /* 노션 블루에 가까운 색상 */
-  --primary-foreground: 210 40% 98%;
-  --secondary: 215 16% 90%;
-  --secondary-foreground: 215 14% 20%;
-  --accent: 210 40% 96%;
-  --accent-foreground: 215 14% 20%;
+  --card-foreground: 160 20% 20%;
+  --border: 160 15% 90%; /* 부드러운 구분선 */
+  --input: 160 15% 94%;
+  --primary: 160 70% 45%; /* 민트 계열 주 색상 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 30 60% 92%; /* 베이지 색상 */
+  --secondary-foreground: 30 30% 30%;
+  --tertiary: 350 80% 92%; /* 블러시 핑크 색상 */
+  --tertiary-foreground: 350 30% 30%;
+  --accent: 160 50% 92%;
+  --accent-foreground: 160 30% 30%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
-  --ring: 220 85% 57%; /* 포커스 링 색상 */
-  --radius: 0.25rem; /* 4px - 노션 스타일의 작은 라운딩 */
+  --ring: 160 70% 45%; /* 포커스 링 색상 */
+  --radius: 1rem; /* 16px - 부드러운 웰니스 스타일의 라운딩 */
   
-  /* Custom chart colors */
-  --chart-1: 220 85% 57%; /* 노션 블루에 맞춤 */
-  --chart-2: 10 90% 60%;
-  --chart-3: 130 60% 52%;
-  --chart-4: 50 90% 60%;
-  --chart-5: 200 90% 60%;
+  /* Custom chart colors - 웰니스 테마 */
+  --chart-1: 160 70% 50%; /* 민트 */
+  --chart-2: 30 60% 65%; /* 베이지 */
+  --chart-3: 350 80% 70%; /* 블러시 핑크 */
+  --chart-4: 200 70% 60%; /* 소프트 블루 */
+  --chart-5: 270 60% 70%; /* 라벤더 */
 
-  /* Background pattern */
-  --bg-pattern-light-1: 220 30% 97%;
-  --bg-pattern-light-2: 220 20% 98%;
-  --bg-pattern-light-3: 220 15% 96%;
+  /* 그라데이션 배경 */
+  --gradient-start: 160 40% 96%;
+  --gradient-end: 30 40% 94%;
+  
+  /* 내부 그림자용 */
+  --shadow-inset: 0 -2px 6px -2px rgba(255, 255, 255, 0.8);
 }
 
 .dark {
@@ -201,7 +205,46 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Background grid pattern */
+/* 웰니스 앱 스타일 */
+
+/* 배경 그라데이션 */
+.wellness-gradient-bg {
+  background: linear-gradient(135deg, 
+    hsl(var(--gradient-start)), 
+    hsl(var(--gradient-end)));
+}
+
+/* 배경 그리드 패턴 */
+.wellness-grid-bg {
+  background-color: hsl(var(--background));
+  background-image: 
+    linear-gradient(rgba(126, 211, 171, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(126, 211, 171, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* 16px radius 네오모피즘 카드 */
+.wellness-card {
+  @apply bg-card rounded-2xl p-5 border border-border/20 transition-all duration-150 ease-out;
+  box-shadow: 
+    0px 8px 16px -8px rgba(0, 0, 0, 0.1),
+    0px -2px 6px -2px rgba(255, 255, 255, 0.7) inset;
+}
+
+/* 호버 효과: 밝기 +8%, 스케일 +2% */
+.wellness-card:hover {
+  @apply brightness-105 scale-[1.02];
+}
+
+/* 선택된 카드 스타일 */
+.wellness-card-selected {
+  @apply border-primary/40;
+  box-shadow: 
+    0px 10px 20px -8px rgba(30, 180, 160, 0.2),
+    0px -2px 6px -2px rgba(255, 255, 255, 0.8) inset;
+}
+
+/* 기존 그리드 패턴도 유지 */
 .bg-grid-pattern {
   background-size: 20px 20px;
   background-image: 
@@ -274,19 +317,19 @@
 }
 
 .nutrition-progress__fill--calories {
-  background: linear-gradient(90deg, hsl(210, 100%, 70%), hsl(210, 100%, 50%));
+  background: linear-gradient(90deg, hsl(var(--chart-1)), hsl(var(--primary)));
 }
 
 .nutrition-progress__fill--protein {
-  background: linear-gradient(90deg, hsl(0, 100%, 70%), hsl(0, 100%, 50%));
+  background: linear-gradient(90deg, hsl(var(--tertiary)), hsl(350, 70%, 60%));
 }
 
 .nutrition-progress__fill--carbs {
-  background: linear-gradient(90deg, hsl(40, 100%, 70%), hsl(40, 100%, 50%));
+  background: linear-gradient(90deg, hsl(var(--chart-2)), hsl(30, 70%, 55%));
 }
 
 .nutrition-progress__fill--fat {
-  background: linear-gradient(90deg, hsl(120, 70%, 70%), hsl(120, 70%, 50%));
+  background: linear-gradient(90deg, hsl(var(--chart-4)), hsl(200, 70%, 50%));
 }
 
 .nutrition-progress__mascot {

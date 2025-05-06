@@ -11,7 +11,7 @@ interface FoodDetailProps {
 const FoodDetail: React.FC<FoodDetailProps> = ({ meal, onClose, onSelect }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full mx-4 p-6 max-h-[90vh] overflow-y-auto">
+      <div className="relative wellness-card max-w-2xl w-full mx-4 p-6 max-h-[90vh] overflow-y-auto">
         <button 
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
           onClick={onClose}
@@ -49,36 +49,36 @@ const FoodDetail: React.FC<FoodDetailProps> = ({ meal, onClose, onSelect }) => {
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">영양소</h3>
           <div className="grid grid-cols-4 gap-4 mb-4">
-            <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-center">
-              <div className="text-xs text-blue-500 dark:text-blue-400">칼로리</div>
+            <div className="p-3 rounded-xl shadow-[0_4px_8px_-4px_rgba(0,0,0,0.05),0_-1px_3px_-1px_rgba(255,255,255,0.6)_inset] bg-accent/30 text-center">
+              <div className="text-xs text-primary/90 font-medium">칼로리</div>
               <div className="font-semibold">{meal.calories || meal.nutrition?.calories || 0}kcal</div>
             </div>
-            <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 text-center">
-              <div className="text-xs text-red-500 dark:text-red-400">단백질</div>
+            <div className="p-3 rounded-xl shadow-[0_4px_8px_-4px_rgba(0,0,0,0.05),0_-1px_3px_-1px_rgba(255,255,255,0.6)_inset] bg-tertiary/30 text-center">
+              <div className="text-xs text-tertiary-foreground font-medium">단백질</div>
               <div className="font-semibold">{meal.protein || meal.nutrition?.protein || 0}g</div>
             </div>
-            <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-center">
-              <div className="text-xs text-amber-500 dark:text-amber-400">탄수화물</div>
+            <div className="p-3 rounded-xl shadow-[0_4px_8px_-4px_rgba(0,0,0,0.05),0_-1px_3px_-1px_rgba(255,255,255,0.6)_inset] bg-secondary/40 text-center">
+              <div className="text-xs text-secondary-foreground font-medium">탄수화물</div>
               <div className="font-semibold">{meal.carbs || meal.nutrition?.carbs || 0}g</div>
             </div>
-            <div className="p-3 rounded-lg bg-green-50 dark:bg-green-900/20 text-center">
-              <div className="text-xs text-green-500 dark:text-green-400">지방</div>
+            <div className="p-3 rounded-xl shadow-[0_4px_8px_-4px_rgba(0,0,0,0.05),0_-1px_3px_-1px_rgba(255,255,255,0.6)_inset] bg-sky-100 text-center">
+              <div className="text-xs text-sky-700 font-medium">지방</div>
               <div className="font-semibold">{meal.fat || meal.nutrition?.fat || 0}g</div>
             </div>
           </div>
           
           {/* 추가 영양소 */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <div className="p-2 rounded-lg bg-gray-50 dark:bg-gray-700/30">
-              <div className="text-xs text-gray-500 dark:text-gray-400">나트륨</div>
+            <div className="p-2 rounded-xl shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_-1px_2px_-1px_rgba(255,255,255,0.4)_inset] bg-muted">
+              <div className="text-xs text-primary/80 font-medium">나트륨</div>
               <div className="text-sm font-medium">{meal.sodium || meal.nutrition?.sodium || 120}mg</div>
             </div>
-            <div className="p-2 rounded-lg bg-gray-50 dark:bg-gray-700/30">
-              <div className="text-xs text-gray-500 dark:text-gray-400">당류</div>
+            <div className="p-2 rounded-xl shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_-1px_2px_-1px_rgba(255,255,255,0.4)_inset] bg-muted">
+              <div className="text-xs text-primary/80 font-medium">당류</div>
               <div className="text-sm font-medium">{meal.sugar || meal.nutrition?.sugar || 5}g</div>
             </div>
-            <div className="p-2 rounded-lg bg-gray-50 dark:bg-gray-700/30">
-              <div className="text-xs text-gray-500 dark:text-gray-400">섬유</div>
+            <div className="p-2 rounded-xl shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_-1px_2px_-1px_rgba(255,255,255,0.4)_inset] bg-muted">
+              <div className="text-xs text-primary/80 font-medium">섬유</div>
               <div className="text-sm font-medium">{meal.fiber || meal.nutrition?.fiber || 3}g</div>
             </div>
           </div>
@@ -176,7 +176,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ meal, onSelect }) => {
   return (
     <>
       <div 
-        className="food-card p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-gray-800 flex flex-col md:flex-row md:h-44 w-full"
+        className="food-card wellness-card flex flex-col md:flex-row md:h-44 w-full"
       >
         <div className="relative rounded-lg overflow-hidden mb-3 md:mb-0 md:w-44 md:min-w-44 md:mr-5 flex-shrink-0">
           <img 
