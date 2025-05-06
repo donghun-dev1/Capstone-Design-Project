@@ -1,16 +1,12 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
 import { Meal } from '@shared/schema';
 import { useMealPlanStore } from './useMealPlanStore';
 
 type SelectedMealsStore = {
   selectedMeals: (Meal | null)[];
-  
-  selectMeal: (meal: Meal, index?: number) => void; // 인덱스 지정 없으면 빈 슬롯에 자동 추가
+  selectMeal: (meal: Meal, index?: number) => void;
   removeMeal: (index: number) => void;
   clearSelectedMeals: () => void;
-  
-  // 식단 구성 페이지로 선택한 식단을 전달하는 메서드
   transferToMealPlan: () => void;
 };
 
@@ -41,7 +37,6 @@ const useSelectedMealsStore = create<SelectedMealsStore>((set, get) => ({
   
   clearSelectedMeals: () => set({ selectedMeals: [null, null, null] }),
   
-  // 식단 구성 페이지로 선택한 식단 전달 기능
   transferToMealPlan: () => {
     const { selectedMeals } = get();
     const mealPlanStore = useMealPlanStore.getState();
