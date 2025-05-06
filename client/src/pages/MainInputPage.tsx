@@ -308,19 +308,11 @@ const MainInputPage: React.FC = () => {
   }, [requestTimeout]);
   
   return (
-    <main className="min-h-screen pb-16 pt-10 bg-gradient-to-b from-background to-background/80 bg-grid-pattern">
+    <main className="min-h-screen pb-16 pt-10">
       <div className="main-input container mx-auto max-w-[640px] px-4">
-        {/* 세련된 헤더 디자인 */}
-        <header className="mb-12 text-center relative">
-          <div className="absolute -top-10 -left-20 w-40 h-40 bg-primary/10 rounded-full filter blur-3xl opacity-70 animate-pulse"></div>
-          <div className="absolute -top-6 -right-16 w-32 h-32 bg-secondary/10 rounded-full filter blur-3xl opacity-70 animate-pulse" style={{animationDelay: '1s'}}></div>
-          
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-            맞춤형 식단 생성기
-          </h1>
-          <p className="text-lg text-foreground/70 max-w-xl mx-auto">
-            당신의 건강 목표를 달성하기 위한 완벽한 영양 계획을 설계해 드립니다
-          </p>
+        <header className="mb-8 text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">맞춤형 식단 생성기</h1>
+          <p className="text-gray-600">개인화된 식단 추천을 받기 위해 정보를 입력해주세요</p>
         </header>
         
         <form className="main-input__form" onSubmit={(e) => e.preventDefault()}>
@@ -518,15 +510,12 @@ const MainInputPage: React.FC = () => {
             </InputCard>
           </div>
           
-          {/* Terms Agreement - 세련된 디자인 */}
-          <div className="mt-10 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-md border border-gray-100 dark:border-gray-700/30">
-            <div className="relative">
-              <div className="absolute -top-6 -left-6 w-24 h-24 bg-secondary/10 rounded-full filter blur-3xl opacity-50"></div>
-              <TermsAgreement
-                checked={userInfo.termsAgreed || false}
-                onChange={setTermsAgreed}
-              />
-            </div>
+          {/* Terms Agreement */}
+          <div className="main-input__terms mt-8 bg-white p-5 rounded-xl shadow-sm">
+            <TermsAgreement
+              checked={userInfo.termsAgreed || false}
+              onChange={setTermsAgreed}
+            />
           </div>
           
           {/* 폼 끝 공간 */}
