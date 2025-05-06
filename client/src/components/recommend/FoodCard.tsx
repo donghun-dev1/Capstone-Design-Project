@@ -29,21 +29,12 @@ const FoodDetail: React.FC<FoodDetailProps> = ({ meal, onClose, onSelect }) => {
         
         <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100">{meal.name}</h2>
         
-        <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+        <div className="text-sm text-gray-500 dark:text-gray-400 mb-6 flex flex-wrap">
           {meal.tags?.map(tag => (
-            <span key={tag} className="inline-block mr-2 text-primary">
+            <span key={tag} className="inline-block mr-2 mb-1 text-primary">
               #{tag}
             </span>
           )) || <span className="text-primary">#일반식 #건강식</span>}
-        </div>
-        
-        <div className="mb-6">
-          <h3 className="text-md font-semibold mb-2 text-gray-800 dark:text-gray-200">재료</h3>
-          <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-            {meal.ingredients?.map((ingredient, idx) => (
-              <li key={idx}>{ingredient}</li>
-            ))}
-          </ul>
         </div>
         
         <div className="grid grid-cols-4 gap-4 mb-6">
@@ -120,17 +111,13 @@ const FoodCard: React.FC<FoodCardProps> = ({ meal, onSelect }) => {
           <div>
             <h3 className="text-lg font-bold mb-1 text-gray-900 dark:text-gray-100 overflow-hidden text-ellipsis whitespace-nowrap">{meal.name}</h3>
             
-            <div className="text-xs text-gray-500 dark:text-gray-400 mb-2 flex flex-wrap">
+            <div className="text-xs text-gray-500 dark:text-gray-400 mb-3 flex flex-wrap">
               {meal.tags?.map(tag => (
                 <span key={tag} className="inline-block mr-1 mb-1 text-primary">
                   #{tag}
                 </span>
               )) || <span className="text-primary">#일반식 #건강식</span>}
             </div>
-            
-            <p className="text-sm text-gray-600 dark:text-gray-300 hidden md:block md:line-clamp-2">
-              {meal.ingredients?.join(', ')}
-            </p>
           </div>
           
           <div className="flex flex-col md:flex-row justify-between items-end mt-auto">
