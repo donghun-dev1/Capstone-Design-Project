@@ -11,6 +11,7 @@ function Router() {
     <Switch>
       <Route path="/" component={MainInputPage}/>
       <Route path="/recommend" component={RecommendPage}/>
+      <Route path="/recommendations" component={RecommendPage}/> {/* 추가 경로 지원 */}
       <Route path="/configure" component={MealConfigPage}/>
       <Route path="/summary" component={MealPlanPage}/>
       <Route path="/:rest*" component={NotFound} /> {/* fallback route */}
