@@ -2,6 +2,7 @@ import { Switch, Route } from "wouter";
 import MainInputPage from "@/pages/MainInputPage";
 import RecommendPage from "@/pages/RecommendPage";
 import MealPlanPage from "@/pages/MealPlanPage";
+import MealConfigPage from "@/pages/MealConfigPage";
 import NotFound from "@/pages/not-found";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
@@ -9,8 +10,9 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={MainInputPage}/>
-      <Route path="/recommendations" component={RecommendPage}/>
-      <Route path="/meal-plan" component={MealPlanPage}/>
+      <Route path="/recommend" component={RecommendPage}/>
+      <Route path="/configure" component={MealConfigPage}/>
+      <Route path="/summary" component={MealPlanPage}/>
       <Route component={NotFound} />
     </Switch>
   );
