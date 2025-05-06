@@ -49,6 +49,10 @@ const RecommendPage: React.FC = () => {
       return;
     }
     
+    // 선택한 식단을 MealConfigPage로 전달
+    useSelectedMealsStore.getState().transferToMealPlan();
+    
+    // 페이지 이동
     navigate('/configure');
   };
   

@@ -6,6 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import FoodCard from '@/components/recommend/FoodCard';
 import useRecommendStore from '@/stores/useRecommendStore';
 import useUserInfoStore from '@/stores/useUserInfoStore';
+import { useMealPlanStore } from '@/stores/useMealPlanStore';
 import NutritionVisualization from '@/components/recommend/NutritionVisualization';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
