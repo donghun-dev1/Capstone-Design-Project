@@ -3,66 +3,76 @@
 @tailwind utilities;
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 20 14.3% 4.1%;
-  --muted: 60 4.8% 95.9%;
-  --muted-foreground: 25 5.3% 44.7%;
+  /* 세련된 컬러 팔레트로 업그레이드 */
+  --background: 210 50% 98%;
+  --foreground: 220 25% 10%;
+  --muted: 210 20% 96%;
+  --muted-foreground: 220 15% 45%;
   --popover: 0 0% 100%;
-  --popover-foreground: 20 14.3% 4.1%;
+  --popover-foreground: 220 25% 10%;
   --card: 0 0% 100%;
-  --card-foreground: 20 14.3% 4.1%;
-  --border: 20 5.9% 90%;
-  --input: 20 5.9% 90%;
-  --primary: 245 90% 60%;
+  --card-foreground: 220 25% 10%;
+  --border: 220 15% 90%;
+  --input: 220 15% 90%;
+  --primary: 220 80% 50%;
   --primary-foreground: 210 100% 98%;
-  --secondary: 60 4.8% 95.9%;
-  --secondary-foreground: 24 9.8% 10%;
-  --accent: 60 4.8% 95.9%;
-  --accent-foreground: 24 9.8% 10%;
+  --secondary: 250 40% 50%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 275 80% 50%;
+  --accent-foreground: 210 40% 98%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 60 9.1% 97.8%;
-  --ring: 20 14.3% 4.1%;
-  --radius: 0.5rem;
+  --ring: 220 80% 50%;
+  --radius: 0.75rem;
   
-  /* Custom chart colors */
-  --chart-1: 245 90% 60%;
-  --chart-2: 10 90% 60%;
-  --chart-3: 130 90% 60%;
-  --chart-4: 50 90% 60%;
-  --chart-5: 200 90% 60%;
+  /* 개선된 차트 색상 */
+  --chart-1: 220 80% 50%;
+  --chart-2: 0 80% 55%;
+  --chart-3: 130 70% 45%;
+  --chart-4: 40 80% 55%;
+  --chart-5: 200 80% 50%;
 
-  /* Background pattern */
+  /* 세련된 배경 패턴 색상 */
   --bg-pattern-light-1: 210 100% 98%;
-  --bg-pattern-light-2: 245 100% 98%;
-  --bg-pattern-light-3: 245 90% 95%;
+  --bg-pattern-light-2: 220 100% 97%;
+  --bg-pattern-light-3: 250 90% 97%;
+  
+  /* 그라디언트 색상 */
+  --gradient-1: linear-gradient(135deg, hsl(220, 80%, 50%), hsl(250, 70%, 50%));
+  --gradient-2: linear-gradient(135deg, hsl(275, 80%, 50%), hsl(220, 80%, 50%));
 }
 
 .dark {
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --primary: 245 90% 60%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
+  /* 세련된 다크 모드 컬러 팔레트 */
+  --background: 220 20% 4%;
+  --foreground: 210 40% 98%;
+  --muted: 220 15% 12%;
+  --muted-foreground: 220 15% 65%;
+  --popover: 220 20% 6%;
+  --popover-foreground: 210 40% 98%;
+  --card: 220 20% 8%;
+  --card-foreground: 210 40% 98%;
+  --border: 220 15% 15%;
+  --input: 220 15% 15%;
+  --primary: 220 70% 50%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 250 50% 60%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 275 70% 60%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 40.6%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 240 4.9% 83.9%;
-  --radius: 0.5rem;
+  --ring: 220 70% 60%;
+  --radius: 0.75rem;
   
-  /* Background pattern - dark mode */
-  --bg-pattern-dark-1: 240 20% 6%;
-  --bg-pattern-dark-2: 245 30% 10%;
-  --bg-pattern-dark-3: 245 30% 15%;
+  /* 세련된 다크 모드 배경 패턴 */
+  --bg-pattern-dark-1: 220 30% 5%;
+  --bg-pattern-dark-2: 220 30% 7%;
+  --bg-pattern-dark-3: 250 30% 10%;
+  
+  /* 다크 모드 그라디언트 */
+  --gradient-1: linear-gradient(135deg, hsl(220, 70%, 30%), hsl(250, 60%, 30%));
+  --gradient-2: linear-gradient(135deg, hsl(275, 70%, 30%), hsl(220, 70%, 30%));
 }
 
 @layer base {
