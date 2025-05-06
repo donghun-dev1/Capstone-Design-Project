@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLocation } from 'wouter';
+import { useToast } from '@/hooks/use-toast';
+import useUserInfoStore from '@/stores/useUserInfoStore';
 
 interface StepNavigationBarProps {
   currentStep: 1 | 2 | 3 | 4;
@@ -13,13 +15,34 @@ const StepNavigationBar: React.FC<StepNavigationBarProps> = ({
   nextButtonText = '다음',
 }) => {
   const [, navigate] = useLocation();
+  const { toast } = useToast();
+  const { userInfo, isFormValid } = useUserInfoStore();
+  
+  // 페이지 이동 핸들러 함수
+  const handleNavigate = (path: string) => {
+    // '추천' 페이지로 이동하려고 할 때
+    if (path === '/recommendations' && currentStep === 1) {
+      // 사용자 정보가 유효하지 않으면 경고 표시
+      if (!isFormValid) {
+        toast({
+          title: "사용자 정보가 불완전합니다",
+          description: "필수 정보를 모두 입력해주세요",
+          variant: "destructive"
+        });
+        return;
+      }
+    }
+    
+    // 경고가 없거나 다른 페이지 이동은 정상 처리
+    navigate(path);
+  };
   
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 p-4 z-10">
       <div className="container mx-auto max-w-7xl px-4 flex justify-between items-center">
         <div className="flex items-center space-x-6">
           <button 
-            onClick={() => navigate('/')} 
+            onClick={() => handleNavigate('/')} 
             className="flex items-center transition-colors hover:text-primary focus:outline-none group"
           >
             <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
@@ -35,7 +58,7 @@ const StepNavigationBar: React.FC<StepNavigationBarProps> = ({
           </button>
           
           <button 
-            onClick={() => navigate('/recommendations')} 
+            onClick={() => handleNavigate('/recommendations')} 
             className="flex items-center transition-colors hover:text-primary focus:outline-none group"
           >
             <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
@@ -51,7 +74,7 @@ const StepNavigationBar: React.FC<StepNavigationBarProps> = ({
           </button>
           
           <button 
-            onClick={() => navigate('/configure')} 
+            onClick={() => handleNavigate('/configure')} 
             className="flex items-center transition-colors hover:text-primary focus:outline-none group"
           >
             <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
@@ -67,7 +90,7 @@ const StepNavigationBar: React.FC<StepNavigationBarProps> = ({
           </button>
           
           <button 
-            onClick={() => navigate('/summary')} 
+            onClick={() => handleNavigate('/summary')} 
             className="flex items-center transition-colors hover:text-primary focus:outline-none group"
           >
             <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
