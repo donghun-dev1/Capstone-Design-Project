@@ -308,15 +308,18 @@ const MainInputPage: React.FC = () => {
   }, [requestTimeout]);
   
   return (
-    <main className="min-h-screen pb-16 pt-10">
-      <div className="main-input container mx-auto max-w-[640px] px-4">
+    <main className="min-h-screen pb-24 bg-background">
+      <div className="container mx-auto max-w-2xl px-4 pt-6">
         <header className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">맞춤형 식단 생성기</h1>
-          <p className="text-gray-600">개인화된 식단 추천을 받기 위해 정보를 입력해주세요</p>
+          <h1 className="text-2xl font-light mb-2">다이어트 계획 생성</h1>
+          <p className="text-muted-foreground">개인화된 식단 추천을 받기 위해 정보를 입력해주세요</p>
         </header>
-        
-        <form className="main-input__form" onSubmit={(e) => e.preventDefault()}>
-          <div className="main-input__grid grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+          {/* 기본 정보 섹션 */}
+          <div className="mb-6">
+            <h2 className="main-input__section-header text-lg font-medium mb-4">기본 정보</h2>
+            
             {/* Gender Input */}
             <InputCard>
               <GenderInput 
@@ -377,7 +380,7 @@ const MainInputPage: React.FC = () => {
                     type="range"
                     id="bodyFat"
                     name="bodyFat"
-                    className="main-input__range range-slider w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                    className="main-input__range w-full"
                     min={5}
                     max={50}
                     step={1}
@@ -391,62 +394,67 @@ const MainInputPage: React.FC = () => {
                 </div>
               </div>
             </InputCard>
+          </div>
             
-            {/* U.S. Navy 둘레 공식 측정 입력 섹션 */}
-            {userInfo.gender && (
-              <div className="col-span-1 md:col-span-3 mt-2 mb-4">
-                <Separator className="my-4" />
-                <h3 className="text-md font-medium mb-3">U.S. Navy 둘레 공식 (정확한 체지방률 계산)</h3>
-                <p className="text-sm text-gray-500 mb-6">더 정확한 체지방률 계산을 위해 아래 둘레 측정치를 입력해주세요 (선택사항)</p>
+          {/* U.S. Navy 둘레 공식 측정 입력 섹션 */}
+          {userInfo.gender && (
+            <div className="mb-6">
+              <Separator className="my-4" />
+              <h3 className="text-md font-medium mb-3">U.S. Navy 둘레 공식 (정확한 체지방률 계산)</h3>
+              <p className="text-sm text-gray-500 mb-6">더 정확한 체지방률 계산을 위해 아래 둘레 측정치를 입력해주세요 (선택사항)</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* 목 둘레 */}
+                <InputCard>
+                  <NumberInput
+                    id="neckCircumference"
+                    label="목 둘레 (cm)"
+                    value={userInfo.neckCircumference}
+                    onChange={setNeckCircumference}
+                    min={20}
+                    max={60}
+                    placeholder="예: 38"
+                    errorMessage="20cm에서 60cm 사이의 값을 입력해주세요."
+                  />
+                </InputCard>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {/* 목 둘레 */}
+                {/* 허리 둘레 */}
+                <InputCard>
+                  <NumberInput
+                    id="waistCircumference"
+                    label="허리 둘레 (cm)"
+                    value={userInfo.waistCircumference}
+                    onChange={setWaistCircumference}
+                    min={50}
+                    max={150}
+                    placeholder="예: 84"
+                    errorMessage="50cm에서 150cm 사이의 값을 입력해주세요."
+                  />
+                </InputCard>
+                
+                {/* 여성일 경우 엉덩이 둘레도 추가 */}
+                {userInfo.gender === "female" && (
                   <InputCard>
                     <NumberInput
-                      id="neckCircumference"
-                      label="목 둘레 (cm)"
-                      value={userInfo.neckCircumference}
-                      onChange={setNeckCircumference}
-                      min={20}
-                      max={60}
-                      placeholder="예: 38"
-                      errorMessage="20cm에서 60cm 사이의 값을 입력해주세요."
-                    />
-                  </InputCard>
-                  
-                  {/* 허리 둘레 */}
-                  <InputCard>
-                    <NumberInput
-                      id="waistCircumference"
-                      label="허리 둘레 (cm)"
-                      value={userInfo.waistCircumference}
-                      onChange={setWaistCircumference}
+                      id="hipCircumference"
+                      label="엉덩이 둘레 (cm)"
+                      value={userInfo.hipCircumference}
+                      onChange={setHipCircumference}
                       min={50}
                       max={150}
-                      placeholder="예: 84"
+                      placeholder="예: 95"
                       errorMessage="50cm에서 150cm 사이의 값을 입력해주세요."
                     />
                   </InputCard>
-                  
-                  {/* 여성일 경우 엉덩이 둘레도 추가 */}
-                  {userInfo.gender === "female" && (
-                    <InputCard>
-                      <NumberInput
-                        id="hipCircumference"
-                        label="엉덩이 둘레 (cm)"
-                        value={userInfo.hipCircumference}
-                        onChange={setHipCircumference}
-                        min={50}
-                        max={150}
-                        placeholder="예: 95"
-                        errorMessage="50cm에서 150cm 사이의 값을 입력해주세요."
-                      />
-                    </InputCard>
-                  )}
-                </div>
-                <Separator className="my-6" />
+                )}
               </div>
-            )}
+              <Separator className="my-6" />
+            </div>
+          )}
+            
+          {/* 식단 설정 섹션 */}
+          <div className="mb-6">
+            <h2 className="main-input__section-header text-lg font-medium mb-4">식단 설정</h2>
             
             {/* Goal Input */}
             <InputCard>
@@ -475,10 +483,11 @@ const MainInputPage: React.FC = () => {
             {/* Meals Per Day Input */}
             <InputCard>
               <ButtonGroup
-                label="하루 끼니 수"
-                options={mealsOptions}
-                value={userInfo.mealsPerDay}
+                id="mealsPerDay"
+                label="하루 식사 횟수"
+                value={userInfo.mealsPerDay || 3}
                 onChange={setMealsPerDay}
+                options={mealsOptions}
               />
             </InputCard>
             
@@ -511,7 +520,7 @@ const MainInputPage: React.FC = () => {
           </div>
           
           {/* Terms Agreement */}
-          <div className="main-input__terms mt-8 bg-white p-5 rounded-xl shadow-sm">
+          <div className="main-input__terms mt-8 bg-card p-5 rounded-md border border-border/70 shadow-sm">
             <TermsAgreement
               checked={userInfo.termsAgreed || false}
               onChange={setTermsAgreed}

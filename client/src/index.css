@@ -3,38 +3,39 @@
 @tailwind utilities;
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 20 14.3% 4.1%;
-  --muted: 60 4.8% 95.9%;
-  --muted-foreground: 25 5.3% 44.7%;
+  /* Notion-inspired color palette - light mode */
+  --background: 220 20% 97%; /* 부드러운 회색 배경 */
+  --foreground: 215 14% 20%; /* 더 부드러운 텍스트 색상 */
+  --muted: 220 14% 94%; /* 매우 은은한 회색 */
+  --muted-foreground: 220 8% 46%; /* 덜 강조되는 텍스트 */
   --popover: 0 0% 100%;
-  --popover-foreground: 20 14.3% 4.1%;
-  --card: 0 0% 100%;
-  --card-foreground: 20 14.3% 4.1%;
-  --border: 20 5.9% 90%;
-  --input: 20 5.9% 90%;
-  --primary: 245 90% 60%;
-  --primary-foreground: 210 100% 98%;
-  --secondary: 60 4.8% 95.9%;
-  --secondary-foreground: 24 9.8% 10%;
-  --accent: 60 4.8% 95.9%;
-  --accent-foreground: 24 9.8% 10%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 60 9.1% 97.8%;
-  --ring: 20 14.3% 4.1%;
-  --radius: 0.5rem;
+  --popover-foreground: 215 14% 20%;
+  --card: 0 0% 100%; /* 순수 흰색 카드 */
+  --card-foreground: 215 14% 20%;
+  --border: 220 13% 90%; /* 부드러운 구분선 */
+  --input: 220 13% 90%;
+  --primary: 220 85% 57%; /* 노션 블루에 가까운 색상 */
+  --primary-foreground: 210 40% 98%;
+  --secondary: 215 16% 90%;
+  --secondary-foreground: 215 14% 20%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 215 14% 20%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+  --ring: 220 85% 57%; /* 포커스 링 색상 */
+  --radius: 0.25rem; /* 4px - 노션 스타일의 작은 라운딩 */
   
   /* Custom chart colors */
-  --chart-1: 245 90% 60%;
+  --chart-1: 220 85% 57%; /* 노션 블루에 맞춤 */
   --chart-2: 10 90% 60%;
-  --chart-3: 130 90% 60%;
+  --chart-3: 130 60% 52%;
   --chart-4: 50 90% 60%;
   --chart-5: 200 90% 60%;
 
   /* Background pattern */
-  --bg-pattern-light-1: 210 100% 98%;
-  --bg-pattern-light-2: 245 100% 98%;
-  --bg-pattern-light-3: 245 90% 95%;
+  --bg-pattern-light-1: 220 30% 97%;
+  --bg-pattern-light-2: 220 20% 98%;
+  --bg-pattern-light-3: 220 15% 96%;
 }
 
 .dark {
@@ -75,30 +76,35 @@
   }
 }
 
-/* BEM Styles for Main Input Page */
+/* BEM Styles for Main Input Page - Notion inspired */
 .main-input__card {
-  @apply bg-card/80 backdrop-blur-sm p-5 rounded-xl shadow-md border border-border/50;
+  @apply bg-card p-5 rounded-md shadow-sm border border-border/70;
 }
 
 .main-input__label {
-  @apply text-sm font-medium text-foreground mb-2;
+  @apply text-sm font-normal text-foreground mb-2 flex items-center;
 }
 
 .main-input__field {
-  @apply block w-full px-3 py-2 border border-input/80 bg-background/80 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary backdrop-blur-[2px];
+  @apply block w-full px-3 py-2 border border-border bg-background rounded-md 
+         focus:outline-none focus:ring-1 focus:ring-primary/30 focus:border-primary/60 transition-colors;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  min-height: 36px; /* Notion-like 높이 */
 }
 
 .main-input__gender-btn,
 .main-input__meal-btn {
-  @apply flex-1 py-2 px-4 border border-input/80 bg-background/80 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors backdrop-blur-[2px];
+  @apply flex-1 py-2 px-4 border border-border bg-background rounded-md text-center 
+         focus:outline-none focus:ring-1 focus:ring-primary/30 focus:border-primary/60 
+         hover:bg-secondary/50 transition-colors;
+  min-height: 36px; /* 노션 스타일 높이 */
 }
 
 .main-input__gender-btn--active,
 .main-input__meal-btn--active {
-  @apply bg-primary text-primary-foreground;
+  @apply bg-primary/10 text-primary border-primary/30;
 }
 
 .main-input__error-msg {
@@ -106,33 +112,49 @@
 }
 
 .main-input__range {
-  @apply w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer;
+  @apply w-full h-1.5 bg-muted rounded-full appearance-none cursor-pointer;
 }
 
 .main-input__submit-btn {
-  @apply w-full sm:w-auto px-8 py-3 bg-primary text-primary-foreground font-medium rounded-lg shadow-md hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300;
+  @apply w-full sm:w-auto px-4 py-2 bg-primary text-primary-foreground font-normal rounded-md
+         shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-1 
+         focus:ring-primary/50 transition-all duration-200;
 }
 
 .main-input__submit-btn--disabled {
   @apply opacity-50 cursor-not-allowed;
 }
 
-/* Custom slider thumb styling */
+/* Notion style separators */
+.main-input__separator {
+  @apply my-6 border-t border-border/60;
+}
+
+/* Notion style section headers */
+.main-input__section-header {
+  @apply text-base font-normal text-foreground mb-4 pb-1 border-b border-border/60;
+}
+
+/* Custom slider thumb styling - Notion-inspired */
 .main-input__range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: hsl(var(--primary));
+  background: white;
+  border: 1.5px solid hsl(var(--primary));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
 .main-input__range::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: hsl(var(--primary));
+  background: white;
+  border: 1.5px solid hsl(var(--primary));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
