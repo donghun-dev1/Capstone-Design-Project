@@ -139,7 +139,7 @@ const FoodDetail: React.FC<FoodDetailProps> = ({ meal, onClose, onSelect }) => {
         </div>
         
         <button
-          className="w-full py-3 bg-primary text-white font-medium rounded-lg flex items-center justify-center space-x-2 hover:bg-primary/90"
+          className="w-full py-3 bg-primary text-white font-medium rounded-xl shadow-[0_4px_8px_-3px_rgba(0,0,0,0.15),0_-1px_3px_-1px_rgba(255,255,255,0.3)_inset] flex items-center justify-center space-x-2 hover:brightness-105 hover:scale-[1.01] transition-all duration-150 ease-out"
           onClick={onSelect}
         >
           <ShoppingBag size={18} />
@@ -220,15 +220,15 @@ const FoodCard: React.FC<FoodCardProps> = ({ meal, onSelect }) => {
             
             <div className="flex space-x-2 mt-2 md:mt-0 md:flex-shrink-0">
               <button 
-                className="px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-300 bg-white hover:bg-gray-50 flex items-center space-x-1"
+                className="px-3 py-1.5 text-xs font-medium rounded-xl border border-border/30 bg-white shadow-[0_3px_6px_-3px_rgba(0,0,0,0.07),0_-1px_2px_-1px_rgba(255,255,255,0.6)_inset] hover:brightness-105 hover:scale-[1.02] transition-all duration-150 ease-out flex items-center space-x-1"
                 onClick={handleDetailClick}
               >
-                <Info size={14} />
+                <Info size={14} className="text-primary/80" />
                 <span>상세 보기</span>
               </button>
               
               <button 
-                className="px-3 py-1.5 text-xs font-medium rounded-lg bg-primary text-white hover:bg-primary/90 flex items-center space-x-1"
+                className="px-3 py-1.5 text-xs font-medium rounded-xl bg-primary text-white shadow-[0_3px_6px_-3px_rgba(0,0,0,0.15),0_-1px_2px_-1px_rgba(255,255,255,0.3)_inset] hover:brightness-105 hover:scale-[1.02] transition-all duration-150 ease-out flex items-center space-x-1"
                 onClick={handleSelectMeal}
               >
                 <Plus size={14} />

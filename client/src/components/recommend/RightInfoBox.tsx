@@ -39,27 +39,27 @@ const RightInfoBox: React.FC<RightInfoBoxProps> = ({ summary, selectedMeals }) =
   }, [summary, selectedNutrition]);
   
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sticky top-4">
-      <h3 className="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">영양 정보</h3>
+    <div className="wellness-card sticky top-4">
+      <h3 className="text-lg font-semibold mb-4 text-foreground">영양 정보</h3>
       
       <div className="space-y-4">
         {/* 총 칼로리 */}
-        <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+        <div className="p-3 rounded-xl shadow-[0_3px_8px_-4px_rgba(0,0,0,0.05),0_-1px_2px_-1px_rgba(255,255,255,0.4)_inset] bg-accent/30">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="mr-2 p-1.5 bg-blue-100 dark:bg-blue-800 rounded-full">
-                <Flame className="w-4 h-4 text-blue-500 dark:text-blue-400" />
+              <div className="mr-2 p-1.5 bg-white/60 rounded-full shadow-inner">
+                <Flame className="w-4 h-4 text-primary" />
               </div>
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">총 칼로리</span>
+              <span className="text-sm font-medium text-foreground">총 칼로리</span>
             </div>
-            <div className="font-semibold">
+            <div className="font-semibold text-foreground">
               {selectedNutrition.calories} 
-              <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">kcal</span>
+              <span className="text-xs text-muted-foreground ml-1">kcal</span>
             </div>
           </div>
           {remaining && (
             <div className="mt-1 text-xs text-right">
-              <span className={remaining.calories >= 0 ? 'text-green-500' : 'text-red-500'}>
+              <span className={remaining.calories >= 0 ? 'text-accent-foreground font-medium' : 'text-red-500 font-medium'}>
                 {remaining.calories >= 0 ? `남은 칼로리: ${remaining.calories}kcal` : `초과: ${Math.abs(remaining.calories)}kcal`}
               </span>
             </div>
@@ -67,22 +67,22 @@ const RightInfoBox: React.FC<RightInfoBoxProps> = ({ summary, selectedMeals }) =
         </div>
         
         {/* 단백질 */}
-        <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20">
+        <div className="p-3 rounded-xl shadow-[0_3px_8px_-4px_rgba(0,0,0,0.05),0_-1px_2px_-1px_rgba(255,255,255,0.4)_inset] bg-tertiary/30">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="mr-2 p-1.5 bg-red-100 dark:bg-red-800 rounded-full">
-                <Beef className="w-4 h-4 text-red-500 dark:text-red-400" />
+              <div className="mr-2 p-1.5 bg-white/60 rounded-full shadow-inner">
+                <Beef className="w-4 h-4 text-tertiary-foreground" />
               </div>
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">단백질</span>
+              <span className="text-sm font-medium text-foreground">단백질</span>
             </div>
-            <div className="font-semibold">
+            <div className="font-semibold text-foreground">
               {selectedNutrition.protein}
-              <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">g</span>
+              <span className="text-xs text-muted-foreground ml-1">g</span>
             </div>
           </div>
           {remaining && (
             <div className="mt-1 text-xs text-right">
-              <span className={remaining.protein >= 0 ? 'text-green-500' : 'text-red-500'}>
+              <span className={remaining.protein >= 0 ? 'text-accent-foreground font-medium' : 'text-red-500 font-medium'}>
                 {remaining.protein >= 0 ? `남음: ${remaining.protein}g` : `초과: ${Math.abs(remaining.protein)}g`}
               </span>
             </div>
@@ -90,22 +90,22 @@ const RightInfoBox: React.FC<RightInfoBoxProps> = ({ summary, selectedMeals }) =
         </div>
         
         {/* 탄수화물 */}
-        <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20">
+        <div className="p-3 rounded-xl shadow-[0_3px_8px_-4px_rgba(0,0,0,0.05),0_-1px_2px_-1px_rgba(255,255,255,0.4)_inset] bg-secondary/30">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="mr-2 p-1.5 bg-amber-100 dark:bg-amber-800 rounded-full">
-                <Cookie className="w-4 h-4 text-amber-500 dark:text-amber-400" />
+              <div className="mr-2 p-1.5 bg-white/60 rounded-full shadow-inner">
+                <Cookie className="w-4 h-4 text-secondary-foreground" />
               </div>
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">탄수화물</span>
+              <span className="text-sm font-medium text-foreground">탄수화물</span>
             </div>
-            <div className="font-semibold">
+            <div className="font-semibold text-foreground">
               {selectedNutrition.carbs}
-              <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">g</span>
+              <span className="text-xs text-muted-foreground ml-1">g</span>
             </div>
           </div>
           {remaining && (
             <div className="mt-1 text-xs text-right">
-              <span className={remaining.carbs >= 0 ? 'text-green-500' : 'text-red-500'}>
+              <span className={remaining.carbs >= 0 ? 'text-accent-foreground font-medium' : 'text-red-500 font-medium'}>
                 {remaining.carbs >= 0 ? `남음: ${remaining.carbs}g` : `초과: ${Math.abs(remaining.carbs)}g`}
               </span>
             </div>
@@ -113,22 +113,22 @@ const RightInfoBox: React.FC<RightInfoBoxProps> = ({ summary, selectedMeals }) =
         </div>
         
         {/* 지방 */}
-        <div className="p-3 rounded-lg bg-green-50 dark:bg-green-900/20">
+        <div className="p-3 rounded-xl shadow-[0_3px_8px_-4px_rgba(0,0,0,0.05),0_-1px_2px_-1px_rgba(255,255,255,0.4)_inset] bg-sky-100">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="mr-2 p-1.5 bg-green-100 dark:bg-green-800 rounded-full">
-                <Droplet className="w-4 h-4 text-green-500 dark:text-green-400" />
+              <div className="mr-2 p-1.5 bg-white/60 rounded-full shadow-inner">
+                <Droplet className="w-4 h-4 text-sky-600" />
               </div>
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">지방</span>
+              <span className="text-sm font-medium text-foreground">지방</span>
             </div>
-            <div className="font-semibold">
+            <div className="font-semibold text-foreground">
               {selectedNutrition.fat}
-              <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">g</span>
+              <span className="text-xs text-muted-foreground ml-1">g</span>
             </div>
           </div>
           {remaining && (
             <div className="mt-1 text-xs text-right">
-              <span className={remaining.fat >= 0 ? 'text-green-500' : 'text-red-500'}>
+              <span className={remaining.fat >= 0 ? 'text-accent-foreground font-medium' : 'text-red-500 font-medium'}>
                 {remaining.fat >= 0 ? `남음: ${remaining.fat}g` : `초과: ${Math.abs(remaining.fat)}g`}
               </span>
             </div>
@@ -137,22 +137,22 @@ const RightInfoBox: React.FC<RightInfoBoxProps> = ({ summary, selectedMeals }) =
         
         {/* 예산 */}
         {summary && (
-          <div className="p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20">
+          <div className="p-3 rounded-xl shadow-[0_3px_8px_-4px_rgba(0,0,0,0.05),0_-1px_2px_-1px_rgba(255,255,255,0.4)_inset] bg-primary/10">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <div className="mr-2 p-1.5 bg-purple-100 dark:bg-purple-800 rounded-full">
-                  <CreditCard className="w-4 h-4 text-purple-500 dark:text-purple-400" />
+                <div className="mr-2 p-1.5 bg-white/60 rounded-full shadow-inner">
+                  <CreditCard className="w-4 h-4 text-primary" />
                 </div>
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">예산</span>
+                <span className="text-sm font-medium text-foreground">예산</span>
               </div>
-              <div className="font-semibold">
+              <div className="font-semibold text-foreground">
                 {selectedNutrition.cost.toLocaleString()}
-                <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">원</span>
+                <span className="text-xs text-muted-foreground ml-1">원</span>
               </div>
             </div>
             {remaining && (
               <div className="mt-1 text-xs text-right">
-                <span className={remaining.budget >= 0 ? 'text-green-500' : 'text-red-500'}>
+                <span className={remaining.budget >= 0 ? 'text-accent-foreground font-medium' : 'text-red-500 font-medium'}>
                   {remaining.budget >= 0 ? `남은 예산: ${remaining.budget.toLocaleString()}원` : `초과: ${Math.abs(remaining.budget).toLocaleString()}원`}
                 </span>
               </div>

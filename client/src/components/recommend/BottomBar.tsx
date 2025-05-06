@@ -19,11 +19,11 @@ const BottomBar: React.FC<BottomBarProps> = ({
   nextDisabled = false
 }) => {
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shadow-md px-4 py-4">
+    <div className="fixed bottom-0 left-0 right-0 bg-background backdrop-blur-sm border-t border-border/30 shadow-[0_-2px_10px_rgba(0,0,0,0.03)] px-4 py-4">
       <div className="container mx-auto flex items-center justify-between">
         {/* 왼쪽 버튼 */}
         <button
-          className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg flex items-center space-x-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-muted border border-border/30 text-muted-foreground rounded-xl shadow-[0_3px_6px_-3px_rgba(0,0,0,0.07),0_-1px_2px_-1px_rgba(255,255,255,0.6)_inset] hover:brightness-105 hover:scale-[1.02] transition-all duration-150 ease-out flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           onClick={onRefresh}
           disabled={refreshDisabled}
         >
@@ -32,24 +32,24 @@ const BottomBar: React.FC<BottomBarProps> = ({
         </button>
         
         {/* 중앙 진행 상태 */}
-        <div className="flex items-center space-x-1">
+        <div className="flex items-center space-x-2">
           {Array.from({ length: totalSteps }).map((_, index) => (
             <div
               key={index}
-              className={`w-2 h-2 rounded-full ${
+              className={`w-2.5 h-2.5 rounded-full ${
                 index + 1 === currentStep
-                  ? 'bg-primary'
+                  ? 'bg-primary shadow-[0_0_5px_rgba(var(--primary-rgb),0.3)]'
                   : index + 1 < currentStep
-                  ? 'bg-gray-400 dark:bg-gray-600'
-                  : 'bg-gray-200 dark:bg-gray-700'
-              }`}
+                  ? 'bg-accent-foreground/50'
+                  : 'bg-muted'
+              } transition-all duration-300`}
             />
           ))}
         </div>
         
         {/* 오른쪽 버튼 */}
         <button
-          className="px-4 py-2 bg-primary text-white rounded-lg flex items-center space-x-2 hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-primary text-white rounded-xl shadow-[0_3px_6px_-3px_rgba(0,0,0,0.15),0_-1px_2px_-1px_rgba(255,255,255,0.3)_inset] hover:brightness-105 hover:scale-[1.02] transition-all duration-150 ease-out flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           onClick={onNext}
           disabled={nextDisabled}
         >
