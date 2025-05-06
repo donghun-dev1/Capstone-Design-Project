@@ -34,10 +34,17 @@ const RecommendPage: React.FC = () => {
     removeMeal 
   } = useSelectedMealsStore();
   
-  // 초기 로딩 시 데이터 없으면 메인 페이지로 이동
+  // 초기 로딩 시 처리
   useEffect(() => {
+    // 추천 데이터가 없으면 메인 페이지로 이동
     if (!recommendation && !isLoading) {
       navigate('/');
+    }
+    
+    // 컴포넌트 마운트시 선택된 식단 초기화가 필요한지 확인
+    const selectedMealsStore = useSelectedMealsStore.getState();
+    if (!selectedMealsStore.isInitialized) {
+      selectedMealsStore.initialize();
     }
   }, [recommendation, isLoading, navigate]);
   

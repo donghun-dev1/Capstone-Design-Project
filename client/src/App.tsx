@@ -5,6 +5,10 @@ import MealPlanPage from "@/pages/MealPlanPage";
 import MealConfigPage from "@/pages/MealConfigPage";
 import NotFound from "@/pages/not-found";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { useEffect } from "react";
+import useSelectedMealsStore from "@/stores/useSelectedMealsStore";
+import { useMealPlanStore } from "@/stores/useMealPlanStore";
+import useRecommendStore from "@/stores/useRecommendStore";
 
 function Router() {
   return (
@@ -20,6 +24,20 @@ function Router() {
 }
 
 function App() {
+  // 앱이 처음 로드될 때 스토어들을 초기화
+  useEffect(() => {
+    // 선택한 식단 초기화
+    useSelectedMealsStore.getState().initialize();
+    
+    // 식단 계획 초기화
+    useMealPlanStore.getState().resetMeals();
+    
+    // 추천 목록 초기화
+    useRecommendStore.getState().reset();
+    
+    console.log('앱 초기화 완료: 식단과 추천 데이터를 초기화했습니다.');
+  }, []);
+  
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden relative">
       {/* Background patterns - using pseudo-elements and absolute positioning */}
