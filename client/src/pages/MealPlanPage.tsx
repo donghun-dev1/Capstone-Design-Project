@@ -129,6 +129,13 @@ const MealPlanPage: React.FC = () => {
           </button>
         </div>
       </div>
+      
+      {/* 하단 내비게이션 바 */}
+      <StepNavigationBar 
+        currentStep={4} 
+        onNext={() => navigate('/')}
+        nextButtonText="완료하기"
+      />
     </main>
   );
 };

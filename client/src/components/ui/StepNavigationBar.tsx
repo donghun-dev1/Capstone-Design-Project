@@ -35,7 +35,7 @@ const StepNavigationBar: React.FC<StepNavigationBarProps> = ({
           </button>
           
           <button 
-            onClick={() => navigate('/recommend')} 
+            onClick={() => navigate('/recommendations')} 
             className="flex items-center transition-colors hover:text-primary focus:outline-none group"
           >
             <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
