@@ -1,19 +1,27 @@
 import React from 'react';
 import { Meal } from '@shared/schema';
 import { X, Coffee, Sun, Moon } from 'lucide-react';
+import useUserInfoStore from '@/stores/useUserInfoStore';
 
 interface LeftBoxProps {
   selectedMeals: (Meal | null)[];
   onRemove: (index: number) => void;
 }
 
+// 식사별 레이블 정의
 const mealLabels = ['아침', '점심', '저녁'];
+
+// 식사별 아이콘 정의
 const mealIcons = [Coffee, Sun, Moon];
+
+// 식사별 배경색 정의
 const mealColors = [
   'bg-orange-50 border-orange-200',  // 아침 - 따뜻한 오렌지
   'bg-yellow-50 border-yellow-200',  // 점심 - 밝은 노란색
   'bg-blue-50 border-blue-200',      // 저녁 - 시원한 파란색
 ];
+
+// 식사별 아이콘 색상 정의
 const iconColors = [
   'text-orange-500',  // 아침
   'text-yellow-500',  // 점심
@@ -21,12 +29,19 @@ const iconColors = [
 ];
 
 const LeftBox: React.FC<LeftBoxProps> = ({ selectedMeals, onRemove }) => {
+  // 현재 사용자가 선택한 끼니 수 (userInfo 기반)
+  const { userInfo } = useUserInfoStore();
+  const mealsPerDay = userInfo.mealsPerDay || 3;
+  
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sticky top-4">
       <h3 className="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">선택한 식단</h3>
       
       <div className="space-y-4">
         {selectedMeals.map((meal, index) => {
+          // 선택한 끼니 수를 초과하는 슬롯은 표시하지 않음
+          if (index >= mealsPerDay) return null;
+          
           const MealIcon = mealIcons[index];
           
           return (
