@@ -518,12 +518,15 @@ const MainInputPage: React.FC = () => {
             </InputCard>
           </div>
           
-          {/* Terms Agreement */}
-          <div className="main-input__terms mt-8 bg-white p-5 rounded-xl shadow-sm">
-            <TermsAgreement
-              checked={userInfo.termsAgreed || false}
-              onChange={setTermsAgreed}
-            />
+          {/* Terms Agreement - 세련된 디자인 */}
+          <div className="mt-10 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-xl shadow-md border border-gray-100 dark:border-gray-700/30">
+            <div className="relative">
+              <div className="absolute -top-6 -left-6 w-24 h-24 bg-secondary/10 rounded-full filter blur-3xl opacity-50"></div>
+              <TermsAgreement
+                checked={userInfo.termsAgreed || false}
+                onChange={setTermsAgreed}
+              />
+            </div>
           </div>
           
           {/* 폼 끝 공간 */}

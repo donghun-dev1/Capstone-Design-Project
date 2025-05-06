@@ -106,12 +106,18 @@ const RecommendPage: React.FC = () => {
   }
   
   return (
-    <main className="min-h-screen pb-20 pt-6">
+    <main className="min-h-screen pb-20 pt-6 bg-gradient-to-b from-background to-background/80 bg-grid-pattern">
       <div className="container mx-auto px-4">
-        <header className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">추천 식단</h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            당신의 목표에 맞는 식단을 선택해 보세요
+        {/* 세련된 헤더 디자인 */}
+        <header className="mb-12 text-center relative">
+          <div className="absolute -top-8 -left-16 w-36 h-36 bg-primary/10 rounded-full filter blur-3xl opacity-70 animate-pulse"></div>
+          <div className="absolute -top-4 -right-10 w-28 h-28 bg-secondary/10 rounded-full filter blur-3xl opacity-70 animate-pulse" style={{animationDelay: '1.5s'}}></div>
+          
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+            맞춤형 추천 식단
+          </h1>
+          <p className="text-lg text-foreground/70 max-w-xl mx-auto">
+            당신의 건강 목표와 선호에 맞게 큐레이션된 식단을 선택해 보세요
           </p>
         </header>
         

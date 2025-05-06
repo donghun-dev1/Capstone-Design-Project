@@ -86,9 +86,6 @@
 }
 
 /* BEM Styles for Main Input Page */
-.main-input__card {
-  @apply bg-card/80 backdrop-blur-sm p-5 rounded-xl shadow-md border border-border/50;
-}
 
 .main-input__label {
   @apply text-sm font-medium text-foreground mb-2;
