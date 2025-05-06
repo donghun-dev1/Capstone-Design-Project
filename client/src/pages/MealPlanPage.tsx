@@ -67,21 +67,7 @@ const MealPlanPage: React.FC = () => {
                       지방 {meal.fat || meal.nutrition?.fat || 0}g
                     </p>
                     
-                    <div className="mb-4">
-                      <h4 className="font-medium text-sm mb-1">재료</h4>
-                      <ul className="text-sm text-gray-600 list-disc list-inside">
-                        {meal.ingredients?.map((ingredient, idx) => (
-                          <li key={idx}>{ingredient}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    {meal.recipe && (
-                      <div>
-                        <h4 className="font-medium text-sm mb-1">조리 방법</h4>
-                        <p className="text-sm text-gray-600">{meal.recipe}</p>
-                      </div>
-                    )}
+
                   </div>
                 </div>
               </div>

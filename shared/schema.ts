@@ -106,11 +106,19 @@ export const mealSchema = z.object({
   tags: z.array(z.string()).optional(),
   score: z.number().optional(),
   price: z.number().optional(),
+  description: z.string().optional(),
+  sodium: z.number().optional(),
+  sugar: z.number().optional(),
+  fiber: z.number().optional(),
   nutrition: z.object({
     calories: z.number(),
     protein: z.number(),
     carbs: z.number(),
     fat: z.number(),
+    sodium: z.number().optional(),
+    sugar: z.number().optional(),
+    fiber: z.number().optional(),
+    saturatedFat: z.number().optional()
   }).optional(),
 });
 

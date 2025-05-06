@@ -41,7 +41,7 @@ const FoodDetail: React.FC<FoodDetailProps> = ({ meal, onClose, onSelect }) => {
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">음식 설명</h3>
           <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-            {meal.description || `${meal.name}은(는) 건강하고 맛있는 음식입니다. 영양소가 고루 배합되어 있어서 식사 대체나 건강 식단으로 적합합니다. 단백질, 탄수화물, 지방의 배합이 적절하여 식후 만족감을 주며 다양한 비타민과 미네랄을 포함하고 있습니다.`}
+            {meal.description || meal.recipe || `${meal.name}은(는) 건강하고 맛있는 음식입니다. 영양소가 고루 배합되어 있어서 식사 대체나 건강 식단으로 적합합니다. 단백질, 탄수화물, 지방의 배합이 적절하여 식후 만족감을 주며 다양한 비타민과 미네랄을 포함하고 있습니다.`}
           </p>
         </div>
         
@@ -71,15 +71,15 @@ const FoodDetail: React.FC<FoodDetailProps> = ({ meal, onClose, onSelect }) => {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             <div className="p-2 rounded-lg bg-gray-50 dark:bg-gray-700/30">
               <div className="text-xs text-gray-500 dark:text-gray-400">나트륨</div>
-              <div className="text-sm font-medium">{meal.sodium || 120}mg</div>
+              <div className="text-sm font-medium">{meal.sodium || meal.nutrition?.sodium || 120}mg</div>
             </div>
             <div className="p-2 rounded-lg bg-gray-50 dark:bg-gray-700/30">
               <div className="text-xs text-gray-500 dark:text-gray-400">당류</div>
-              <div className="text-sm font-medium">{meal.sugar || 5}g</div>
+              <div className="text-sm font-medium">{meal.sugar || meal.nutrition?.sugar || 5}g</div>
             </div>
             <div className="p-2 rounded-lg bg-gray-50 dark:bg-gray-700/30">
               <div className="text-xs text-gray-500 dark:text-gray-400">섬유</div>
-              <div className="text-sm font-medium">{meal.fiber || 3}g</div>
+              <div className="text-sm font-medium">{meal.fiber || meal.nutrition?.fiber || 3}g</div>
             </div>
           </div>
         </div>
