@@ -19,40 +19,8 @@ const MealConfigPage: React.FC = () => {
   const { recommendation } = useRecommendStore();
   const { userInfo } = useUserInfoStore();
   
-  // 임시로 하드코딩된 식단 및 영양소 데이터
-  const meals = {
-    breakfast: [],
-    lunch: [],
-    dinner: []
-  };
-  
-  const totals = {
-    calories: 0,
-    protein: 0,
-    carbs: 0,
-    fat: 0,
-    budget: 0
-  };
-  
-  const addMeal = (slot: MealSlot, meal: Meal) => {
-    console.log('Add meal', slot, meal);
-    // 실제 구현에서는 useMealPlanStore에서 가져온 함수를 사용
-  };
-  
-  const removeMeal = (slot: MealSlot, index: number) => {
-    console.log('Remove meal', slot, index);
-    // 실제 구현에서는 useMealPlanStore에서 가져온 함수를 사용
-  };
-  
-  const moveMeal = (fromSlot: MealSlot, fromIndex: number, toSlot: MealSlot, toIndex: number) => {
-    console.log('Move meal', fromSlot, fromIndex, toSlot, toIndex);
-    // 실제 구현에서는 useMealPlanStore에서 가져온 함수를 사용
-  };
-  
-  const resetMeals = () => {
-    console.log('Reset meals');
-    // 실제 구현에서는 useMealPlanStore에서 가져온 함수를 사용
-  };
+  // useMealPlanStore에서 식단 데이터와 함수 가져오기
+  const { meals, totals, addMeal, removeMeal, moveMeal, resetMeals } = useMealPlanStore();
   
   // Meal slots 표시를 위한 정의
   const mealSlots: MealSlot[] = ['breakfast', 'lunch', 'dinner'];
