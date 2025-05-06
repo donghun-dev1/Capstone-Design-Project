@@ -27,11 +27,14 @@ const MealConfigPage: React.FC = () => {
   // Meal slots 표시를 위한 정의
   const mealSlots: MealSlot[] = ['breakfast', 'lunch', 'dinner'];
   
-  // 초기 설정 - 먹는 끼니 수에 따라 빈 슬롯 생성
+  // 식단 상태 변경 감지
   useEffect(() => {
-    // 컴포넌트 마운트 시 기존 식단 초기화
-    resetMeals();
-  }, [resetMeals]);
+    // 디버깅 정보 출력
+    console.log('MealConfigPage 마운트됨 또는 식단 상태 변경:', meals);
+    console.log('breakfast:', meals.breakfast.length, '개 항목');
+    console.log('lunch:', meals.lunch.length, '개 항목');
+    console.log('dinner:', meals.dinner.length, '개 항목');
+  }, [meals]);
   
   // 현재 선택된 끼니 수 (userInfo 기반)
   const activeMeals = userInfo.mealsPerDay || 3;

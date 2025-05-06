@@ -65,13 +65,20 @@ const useSelectedMealsStore = create(
         // 선택한 식단들을 슬롯 순서대로 아침, 점심, 저녁에 배정
         const mealSlots = ['breakfast', 'lunch', 'dinner'] as const;
         
-        selectedMeals.forEach((meal, index) => {
-          if (meal && index < mealSlots.length) {
+        console.log('transferToMealPlan 호출됨, 전달할 식단:', selectedMeals);
+        
+        // 비어있지 않은 식단만 필터링
+        const validMeals = selectedMeals.filter(meal => meal !== null);
+        
+        // 각 슬롯에 식단을 고르게 분배
+        validMeals.forEach((meal, index) => {
+          if (meal) {
             // 인덱스에 따라 아침/점심/저녁 슬롯에 배정
-            const targetSlot = mealSlots[index];
+            const targetSlot = mealSlots[index % mealSlots.length];
             
             // 식단 추가
             mealPlanStore.addMeal(targetSlot, meal);
+            console.log(`${targetSlot} 슬롯에 식단 추가:`, meal.name);
           }
         });
       },
