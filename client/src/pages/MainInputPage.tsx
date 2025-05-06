@@ -518,18 +518,8 @@ const MainInputPage: React.FC = () => {
             />
           </div>
           
-          {/* Submit Button */}
-          <div className="main-input__submit-container mt-8 flex justify-center">
-            <button
-              id="next-btn"
-              type="button"
-              className={`main-input__submit-btn ${!isFormValid ? 'main-input__submit-btn--disabled' : ''}`}
-              onClick={handleSubmit}
-              disabled={!isFormValid}
-            >
-              다음 단계로
-            </button>
-          </div>
+          {/* 폼 끝 공간 */}
+          <div className="mt-8"></div>
         </form>
         
         {/* Loading Overlay */}
