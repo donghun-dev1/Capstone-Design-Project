@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import { Info, Plus, X, BarChart } from 'lucide-react';
+import { Info, Plus, X, BarChart, Coffee, Sun, Moon } from 'lucide-react';
 import { Meal } from '@shared/schema';
 import { useToast } from '@/hooks/use-toast';
 import FoodCard from '@/components/recommend/FoodCard';
@@ -137,9 +137,20 @@ const MealConfigPage: React.FC = () => {
   };
   
   return (
-    <main className="min-h-screen pb-24">
+    <main className="min-h-screen pb-24 bg-gradient-to-b from-background to-background/80 bg-grid-pattern">
       <div className="container mx-auto max-w-7xl px-4 pt-6">
-        <h1 className="text-3xl font-bold mb-8">식단 구성하기</h1>
+        {/* 세련된 헤더 디자인 */}
+        <header className="mb-12 relative">
+          <div className="absolute -top-8 -left-16 w-36 h-36 bg-primary/10 rounded-full filter blur-3xl opacity-70 animate-pulse"></div>
+          <div className="absolute -top-4 -right-10 w-28 h-28 bg-secondary/10 rounded-full filter blur-3xl opacity-70 animate-pulse" style={{animationDelay: '1.2s'}}></div>
+          
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+            식단 구성하기
+          </h1>
+          <p className="text-lg text-foreground/70 max-w-xl">
+            선택한 식단을 끼니별로 구성하고 영양 균형을 확인해 보세요
+          </p>
+        </header>
         
         <div className="flex flex-col lg:flex-row gap-6">
           {/* 왼쪽 패널 - 탭으로 식단 구성과 영양소 분석을 전환할 수 있는 영역 */}
@@ -160,9 +171,24 @@ const MealConfigPage: React.FC = () => {
               <TabsContent value="meals">
                 <div className="space-y-8">
                   {mealSlots.slice(0, activeMeals).map((slot) => (
-                    <div key={slot} className={`meal-slot p-6 rounded-xl bg-white shadow-md`}>
-                      <h2 className="text-xl font-semibold mb-4 capitalize">
-                        {slot === 'breakfast' ? '아침' : slot === 'lunch' ? '점심' : '저녁'}
+                    <div key={slot} className={`meal-slot p-6 rounded-xl bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm shadow-md border border-gray-100 dark:border-gray-700/30 transition-all hover:shadow-lg`}>
+                      <h2 className="text-xl font-semibold mb-4 capitalize flex items-center">
+                        {slot === 'breakfast' ? (
+                          <>
+                            <Coffee size={20} className="text-orange-500 mr-2" />
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-orange-400">아침</span>
+                          </>
+                        ) : slot === 'lunch' ? (
+                          <>
+                            <Sun size={20} className="text-yellow-500 mr-2" />
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-yellow-400">점심</span>
+                          </>
+                        ) : (
+                          <>
+                            <Moon size={20} className="text-blue-500 mr-2" />
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-400">저녁</span>
+                          </>
+                        )}
                       </h2>
                       
                       {meals[slot].length === 0 ? (
@@ -239,12 +265,15 @@ const MealConfigPage: React.FC = () => {
             </Tabs>
           </div>
           
-          {/* 오른쪽 요약 패널 */}
+          {/* 오른쪽 요약 패널 - 세련된 디자인 */}
           <div className="lg:w-80 flex-shrink-0">
-            <div className="sticky top-6 bg-white rounded-xl shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-6">영양 요약</h2>
+            <div className="sticky top-6 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-md border border-gray-100 dark:border-gray-700/30 p-6 hover:shadow-lg transition-shadow">
+              <div className="relative">
+                <div className="absolute -top-4 -right-4 w-20 h-20 bg-primary/10 rounded-full filter blur-2xl opacity-60"></div>
+                <h2 className="text-xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary inline-block">영양 요약</h2>
+              </div>
               
-              <div className="mb-8">
+              <div className="mb-8 relative z-10">
                 <AnimatedProgressBar 
                   value={totals.budget} 
                   max={targets.budget}
@@ -253,7 +282,7 @@ const MealConfigPage: React.FC = () => {
                 />
               </div>
               
-              <div className="space-y-6">
+              <div className="space-y-6 relative z-10">
                 {/* 칼로리 - 애니메이션 진행 바 */}
                 <AnimatedProgressBar 
                   value={totals.calories} 
