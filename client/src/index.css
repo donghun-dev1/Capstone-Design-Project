@@ -215,3 +215,79 @@
   background-color: rgba(0, 0, 0, 0.5);
   border-color: rgba(255, 255, 255, 0.1);
 }
+
+/* 영양소 진행 바 애니메이션 효과 */
+@keyframes progressFill {
+  0% { width: 0%; }
+  100% { width: var(--progress-width); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-5px) rotate(-5deg); }
+  75% { transform: translateX(5px) rotate(5deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* 애니메이션 영양소 프로그레스 바 */
+.nutrition-progress {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  background: hsl(var(--muted));
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.nutrition-progress__fill {
+  height: 100%;
+  border-radius: 12px;
+  --progress-width: 0%;
+  animation: progressFill 1.5s ease-out forwards;
+}
+
+.nutrition-progress__fill--calories {
+  background: linear-gradient(90deg, hsl(210, 100%, 70%), hsl(210, 100%, 50%));
+}
+
+.nutrition-progress__fill--protein {
+  background: linear-gradient(90deg, hsl(0, 100%, 70%), hsl(0, 100%, 50%));
+}
+
+.nutrition-progress__fill--carbs {
+  background: linear-gradient(90deg, hsl(40, 100%, 70%), hsl(40, 100%, 50%));
+}
+
+.nutrition-progress__fill--fat {
+  background: linear-gradient(90deg, hsl(120, 70%, 70%), hsl(120, 70%, 50%));
+}
+
+.nutrition-progress__mascot {
+  position: absolute;
+  top: -28px;
+  right: 10px;
+  height: 32px;
+  width: 32px;
+  z-index: 1;
+  transform-origin: bottom center;
+  animation: wiggle 2s ease-in-out infinite;
+}
+
+.nutrition-progress__text {
+  position: absolute;
+  left: 12px;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}

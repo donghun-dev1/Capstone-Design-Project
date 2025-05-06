@@ -9,6 +9,7 @@ import useUserInfoStore from '@/stores/useUserInfoStore';
 import { useMealPlanStore } from '@/stores/useMealPlanStore';
 import NutritionVisualization from '@/components/recommend/NutritionVisualization';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import AnimatedProgressBar from '@/components/ui/AnimatedProgressBar';
 
 type MealSlot = 'breakfast' | 'lunch' | 'dinner';
 
@@ -240,84 +241,46 @@ const MealConfigPage: React.FC = () => {
               <h2 className="text-xl font-semibold mb-6">영양 요약</h2>
               
               <div className="mb-8">
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium">예산</span>
-                  <span className="text-sm text-gray-600">
-                    {totals.budget.toLocaleString()}원 / {targets.budget.toLocaleString()}원
-                  </span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                  <div 
-                    className={`h-2.5 rounded-full ${progress.budget > 100 ? 'bg-red-500' : 'bg-primary'}`}
-                    style={{ width: `${progress.budget}%` }}
-                  ></div>
-                </div>
+                <AnimatedProgressBar 
+                  value={totals.budget} 
+                  max={targets.budget}
+                  type="calories" 
+                  label="예산 (원)" 
+                />
               </div>
               
               <div className="space-y-6">
-                {/* 칼로리 */}
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-sm font-medium">칼로리</span>
-                    <span className="text-sm text-gray-600">
-                      {totals.calories.toLocaleString()} / {targets.calories.toLocaleString()} kcal
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div 
-                      className={`h-2.5 rounded-full ${progress.calories > 100 ? 'bg-red-500' : 'bg-blue-500'}`}
-                      style={{ width: `${progress.calories}%` }}
-                    ></div>
-                  </div>
-                </div>
+                {/* 칼로리 - 애니메이션 진행 바 */}
+                <AnimatedProgressBar 
+                  value={totals.calories} 
+                  max={targets.calories} 
+                  type="calories" 
+                  label="칼로리" 
+                />
                 
-                {/* 단백질 */}
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-sm font-medium">단백질</span>
-                    <span className="text-sm text-gray-600">
-                      {totals.protein.toLocaleString()} / {targets.protein.toLocaleString()} g
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div 
-                      className={`h-2.5 rounded-full ${progress.protein > 100 ? 'bg-red-500' : 'bg-red-500'}`}
-                      style={{ width: `${progress.protein}%` }}
-                    ></div>
-                  </div>
-                </div>
+                {/* 단백질 - 애니메이션 진행 바 */}
+                <AnimatedProgressBar 
+                  value={totals.protein} 
+                  max={targets.protein} 
+                  type="protein" 
+                  label="단백질" 
+                />
                 
-                {/* 탄수화물 */}
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-sm font-medium">탄수화물</span>
-                    <span className="text-sm text-gray-600">
-                      {totals.carbs.toLocaleString()} / {targets.carbs.toLocaleString()} g
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div 
-                      className={`h-2.5 rounded-full ${progress.carbs > 100 ? 'bg-red-500' : 'bg-amber-500'}`}
-                      style={{ width: `${progress.carbs}%` }}
-                    ></div>
-                  </div>
-                </div>
+                {/* 탄수화물 - 애니메이션 진행 바 */}
+                <AnimatedProgressBar 
+                  value={totals.carbs} 
+                  max={targets.carbs} 
+                  type="carbs" 
+                  label="탄수화물" 
+                />
                 
-                {/* 지방 */}
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-sm font-medium">지방</span>
-                    <span className="text-sm text-gray-600">
-                      {totals.fat.toLocaleString()} / {targets.fat.toLocaleString()} g
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div 
-                      className={`h-2.5 rounded-full ${progress.fat > 100 ? 'bg-red-500' : 'bg-green-500'}`}
-                      style={{ width: `${progress.fat}%` }}
-                    ></div>
-                  </div>
-                </div>
+                {/* 지방 - 애니메이션 진행 바 */}
+                <AnimatedProgressBar 
+                  value={totals.fat} 
+                  max={targets.fat} 
+                  type="fat" 
+                  label="지방" 
+                />
               </div>
             </div>
           </div>
