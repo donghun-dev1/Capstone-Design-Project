@@ -46,7 +46,7 @@ const RecommendPage: React.FC = () => {
       return;
     }
     
-    navigate('/meal-plan');
+    navigate('/configure');
   };
   
   // 식단 새로 추천 요청
