@@ -106,11 +106,11 @@ const RecommendPage: React.FC = () => {
   }
   
   return (
-    <main className="min-h-screen pb-20 pt-6">
+    <main className="min-h-screen pb-20 pt-6 wellness-gradient-bg">
       <div className="container mx-auto px-4">
         <header className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">추천 식단</h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <h1 className="text-3xl font-bold text-foreground mb-2">추천 식단</h1>
+          <p className="text-muted-foreground">
             당신의 목표에 맞는 식단을 선택해 보세요
           </p>
         </header>
@@ -125,11 +125,11 @@ const RecommendPage: React.FC = () => {
           </div>
           
           {/* 중앙 영역 - 탭으로 식단 목록과 영양소 시각화 전환 */}
-          <div className="w-full md:w-3/4">
-            <Tabs defaultValue="foods" value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="foods">추천 식단</TabsTrigger>
-                <TabsTrigger value="nutrition">영양소 분석</TabsTrigger>
+          <div className="w-full md:w-2/4">
+            <Tabs defaultValue="foods" value={activeTab} onValueChange={setActiveTab} className="wellness-card">
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted rounded-xl p-1">
+                <TabsTrigger value="foods" className="rounded-lg text-sm">추천 식단</TabsTrigger>
+                <TabsTrigger value="nutrition" className="rounded-lg text-sm">영양소 분석</TabsTrigger>
               </TabsList>
               <TabsContent value="foods">
                 <div className="flex flex-col space-y-4">
@@ -149,11 +149,11 @@ const RecommendPage: React.FC = () => {
                     selectedMeals={selectedMeals}
                   />
                 ) : (
-                  <div className="flex items-center justify-center h-64 bg-white rounded-xl shadow-md p-4">
+                  <div className="wellness-card flex items-center justify-center h-64">
                     <div className="text-center">
-                      <p className="text-lg text-gray-500 mb-4">식단을 선택하면 영양소 분석이 표시됩니다</p>
+                      <p className="text-lg text-muted-foreground mb-4">식단을 선택하면 영양소 분석이 표시됩니다</p>
                       <button
-                        className="px-4 py-2 bg-primary text-white rounded-lg"
+                        className="px-4 py-2 bg-primary text-white rounded-xl shadow-[0_3px_6px_-3px_rgba(0,0,0,0.15),0_-1px_2px_-1px_rgba(255,255,255,0.3)_inset] hover:brightness-105 hover:scale-[1.02] transition-all duration-150 ease-out"
                         onClick={() => setActiveTab('foods')}
                       >
                         식단 선택하기
@@ -166,7 +166,7 @@ const RecommendPage: React.FC = () => {
           </div>
           
           {/* 우측 영양 정보 */}
-          <div className="w-full md:w-1/6">
+          <div className="w-full md:w-1/4">
             <RightInfoBox
               summary={recommendation?.summary}
               selectedMeals={selectedMeals}

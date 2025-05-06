@@ -137,20 +137,20 @@ const MealConfigPage: React.FC = () => {
   };
   
   return (
-    <main className="min-h-screen pb-24">
+    <main className="min-h-screen pb-24 wellness-gradient-bg">
       <div className="container mx-auto max-w-7xl px-4 pt-6">
-        <h1 className="text-3xl font-bold mb-8">식단 구성하기</h1>
+        <h1 className="text-3xl font-bold mb-8 text-foreground">식단 구성하기</h1>
         
         <div className="flex flex-col lg:flex-row gap-6">
           {/* 왼쪽 패널 - 탭으로 식단 구성과 영양소 분석을 전환할 수 있는 영역 */}
           <div className="flex-grow">
-            <Tabs defaultValue="meals" value={activeTab} onValueChange={setActiveTab} className="w-full mb-6">
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="meals" className="flex items-center">
+            <Tabs defaultValue="meals" value={activeTab} onValueChange={setActiveTab} className="wellness-card w-full mb-6">
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted rounded-xl p-1">
+                <TabsTrigger value="meals" className="flex items-center rounded-lg text-sm">
                   <Plus size={16} className="mr-2" />
                   식단 구성
                 </TabsTrigger>
-                <TabsTrigger value="nutrition" className="flex items-center">
+                <TabsTrigger value="nutrition" className="flex items-center rounded-lg text-sm">
                   <BarChart size={16} className="mr-2" />
                   영양소 분석
                 </TabsTrigger>
@@ -159,51 +159,60 @@ const MealConfigPage: React.FC = () => {
               {/* 식단 구성 탭 */}
               <TabsContent value="meals">
                 <div className="space-y-8">
-                  {mealSlots.slice(0, activeMeals).map((slot) => (
-                    <div key={slot} className={`meal-slot p-6 rounded-xl bg-white shadow-md`}>
-                      <h2 className="text-xl font-semibold mb-4 capitalize">
-                        {slot === 'breakfast' ? '아침' : slot === 'lunch' ? '점심' : '저녁'}
-                      </h2>
-                      
-                      {meals[slot].length === 0 ? (
-                        <div 
-                          className="flex items-center justify-center h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
-                          onClick={() => handleAddMeal(slot)}
-                        >
-                          <div className="text-center">
-                            <Plus size={30} className="mx-auto text-gray-400 mb-2" />
-                            <p className="text-gray-500">음식 추가하기</p>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="space-y-4">
-                          {meals[slot].map((meal: Meal, index: number) => (
-                            <div key={`${slot}-${index}`} className="relative">
-                              <button 
-                                className="absolute top-2 right-2 z-10 bg-red-50 text-red-500 p-1 rounded-full hover:bg-red-100 transition-colors"
-                                onClick={() => handleRemoveMeal(slot, index)}
-                              >
-                                <X size={16} />
-                              </button>
-                              
-                              <FoodCard 
-                                meal={meal} 
-                                onSelect={(meal) => handleSelectMeal(meal, slot)} 
-                              />
-                            </div>
-                          ))}
-                          
+                  {mealSlots.slice(0, activeMeals).map((slot) => {
+                    // 식사 시간에 따라 배경색 지정
+                    const slotStyle = slot === 'breakfast' 
+                      ? 'bg-secondary/30 border-secondary/40' 
+                      : slot === 'lunch' 
+                        ? 'bg-accent/40 border-primary/20' 
+                        : 'bg-tertiary/30 border-tertiary/40';
+                    
+                    return (
+                      <div key={slot} className={`meal-slot p-6 rounded-xl ${slotStyle} border shadow-[0_3px_8px_-4px_rgba(0,0,0,0.05),0_-1px_2px_-1px_rgba(255,255,255,0.4)_inset]`}>
+                        <h2 className="text-xl font-semibold mb-4 capitalize text-foreground">
+                          {slot === 'breakfast' ? '아침' : slot === 'lunch' ? '점심' : '저녁'}
+                        </h2>
+                        
+                        {meals[slot].length === 0 ? (
                           <div 
-                            className="flex items-center justify-center h-12 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                            className="flex items-center justify-center h-40 border-2 border-dashed border-border/40 rounded-xl cursor-pointer bg-white/30 hover:bg-white/60 transition-all duration-150"
                             onClick={() => handleAddMeal(slot)}
                           >
-                            <Plus size={20} className="text-gray-400 mr-2" />
-                            <span className="text-gray-500 text-sm">더 추가하기</span>
+                            <div className="text-center">
+                              <Plus size={30} className="mx-auto text-primary/70 mb-2" />
+                              <p className="text-muted-foreground">음식 추가하기</p>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                        ) : (
+                          <div className="space-y-4">
+                            {meals[slot].map((meal: Meal, index: number) => (
+                              <div key={`${slot}-${index}`} className="relative">
+                                <button 
+                                  className="absolute top-2 right-2 z-10 bg-white/80 text-red-500 p-1.5 rounded-full hover:bg-red-50 hover:scale-105 transition-all duration-150 shadow-sm"
+                                  onClick={() => handleRemoveMeal(slot, index)}
+                                >
+                                  <X size={16} />
+                                </button>
+                                
+                                <FoodCard 
+                                  meal={meal} 
+                                  onSelect={(meal) => handleSelectMeal(meal, slot)} 
+                                />
+                              </div>
+                            ))}
+                            
+                            <div 
+                              className="flex items-center justify-center h-14 border-2 border-dashed border-border/40 rounded-xl cursor-pointer bg-white/30 hover:bg-white/60 transition-all duration-150"
+                              onClick={() => handleAddMeal(slot)}
+                            >
+                              <Plus size={20} className="text-primary/70 mr-2" />
+                              <span className="text-muted-foreground text-sm">더 추가하기</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </TabsContent>
               
@@ -223,11 +232,11 @@ const MealConfigPage: React.FC = () => {
                     selectedMeals={Object.values(meals).flat()}
                   />
                 ) : (
-                  <div className="flex items-center justify-center h-64 bg-white rounded-xl shadow-md p-4">
+                  <div className="wellness-card flex items-center justify-center h-64">
                     <div className="text-center">
-                      <p className="text-lg text-gray-500 mb-4">식단을 추가하면 영양소 분석이 표시됩니다</p>
+                      <p className="text-lg text-muted-foreground mb-4">식단을 추가하면 영양소 분석이 표시됩니다</p>
                       <button
-                        className="px-4 py-2 bg-primary text-white rounded-lg"
+                        className="px-4 py-2 bg-primary text-white rounded-xl shadow-[0_3px_6px_-3px_rgba(0,0,0,0.15),0_-1px_2px_-1px_rgba(255,255,255,0.3)_inset] hover:brightness-105 hover:scale-[1.02] transition-all duration-150 ease-out"
                         onClick={() => setActiveTab('meals')}
                       >
                         식단 구성하기
@@ -241,8 +250,8 @@ const MealConfigPage: React.FC = () => {
           
           {/* 오른쪽 요약 패널 */}
           <div className="lg:w-80 flex-shrink-0">
-            <div className="sticky top-6 bg-white rounded-xl shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-6">영양 요약</h2>
+            <div className="wellness-card sticky top-6">
+              <h2 className="text-xl font-semibold mb-6 text-foreground">영양 요약</h2>
               
               <div className="mb-8">
                 <AnimatedProgressBar 

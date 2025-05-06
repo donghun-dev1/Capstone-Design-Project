@@ -225,15 +225,27 @@
 
 /* 16px radius 네오모피즘 카드 */
 .wellness-card {
-  @apply bg-card rounded-2xl p-5 border border-border/20 transition-all duration-150 ease-out;
+  @apply bg-card rounded-2xl p-5 border border-border/20;
   box-shadow: 
     0px 8px 16px -8px rgba(0, 0, 0, 0.1),
     0px -2px 6px -2px rgba(255, 255, 255, 0.7) inset;
+  transition: all 150ms ease-out;
 }
 
-/* 호버 효과: 밝기 +8%, 스케일 +2% */
-.wellness-card:hover {
-  @apply brightness-105 scale-[1.02];
+/* 카드 내의 이미지 스타일 */
+.wellness-card img {
+  @apply rounded-xl;
+}
+
+/* 식품 카드 전용 스타일 */
+.food-card {
+  @apply p-5 relative;
+  transition: all 150ms ease-out;
+}
+
+.food-card:hover {
+  filter: brightness(1.08);
+  transform: scale(1.02);
 }
 
 /* 선택된 카드 스타일 */
@@ -242,6 +254,18 @@
   box-shadow: 
     0px 10px 20px -8px rgba(30, 180, 160, 0.2),
     0px -2px 6px -2px rgba(255, 255, 255, 0.8) inset;
+}
+
+/* 선택 가능한 카드 스타일 */
+.wellness-card-selectable {
+  cursor: pointer;
+  transition: all 150ms ease-out;
+}
+
+.wellness-card-selectable:hover {
+  filter: brightness(1.05);
+  transform: scale(1.02);
+  @apply border-primary/30;
 }
 
 /* 기존 그리드 패턴도 유지 */
