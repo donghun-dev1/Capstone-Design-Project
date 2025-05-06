@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import useRecommendStore from '@/stores/useRecommendStore';
 import useSelectedMealsStore from '@/stores/useSelectedMealsStore';
@@ -8,12 +8,15 @@ import LeftBox from '@/components/recommend/LeftBox';
 import RightInfoBox from '@/components/recommend/RightInfoBox';
 import BottomBar from '@/components/recommend/BottomBar';
 import LoadingOverlay from '@/components/input/LoadingOverlay';
+import NutritionVisualization from '@/components/recommend/NutritionVisualization';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 /**
  * Page to display diet recommendations based on user input
  */
 const RecommendPage: React.FC = () => {
   const [location, navigate] = useLocation();
+  const [activeTab, setActiveTab] = useState('foods');
   
   // Zustand 스토어에서 상태 및 액션 가져오기
   const { 
@@ -105,17 +108,45 @@ const RecommendPage: React.FC = () => {
             />
           </div>
           
-          {/* 중앙 식단 카드 그리드 */}
+          {/* 중앙 영역 - 탭으로 식단 목록과 영양소 시각화 전환 */}
           <div className="w-full md:w-3/4">
-            <div className="flex flex-col space-y-4">
-              {recommendation.meals.map((meal) => (
-                <FoodCard
-                  key={meal.id}
-                  meal={meal}
-                  onSelect={handleSelectMeal}
-                />
-              ))}
-            </div>
+            <Tabs defaultValue="foods" value={activeTab} onValueChange={setActiveTab}>
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="foods">추천 식단</TabsTrigger>
+                <TabsTrigger value="nutrition">영양소 분석</TabsTrigger>
+              </TabsList>
+              <TabsContent value="foods">
+                <div className="flex flex-col space-y-4">
+                  {recommendation.meals.map((meal) => (
+                    <FoodCard
+                      key={meal.id}
+                      meal={meal}
+                      onSelect={handleSelectMeal}
+                    />
+                  ))}
+                </div>
+              </TabsContent>
+              <TabsContent value="nutrition">
+                {selectedMeals.some(meal => meal !== null) ? (
+                  <NutritionVisualization 
+                    summary={recommendation.summary}
+                    selectedMeals={selectedMeals}
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-64 bg-white rounded-xl shadow-md p-4">
+                    <div className="text-center">
+                      <p className="text-lg text-gray-500 mb-4">식단을 선택하면 영양소 분석이 표시됩니다</p>
+                      <button
+                        className="px-4 py-2 bg-primary text-white rounded-lg"
+                        onClick={() => setActiveTab('foods')}
+                      >
+                        식단 선택하기
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
           </div>
           
           {/* 우측 영양 정보 */}

@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import { Info, Plus, X } from 'lucide-react';
+import { Info, Plus, X, BarChart } from 'lucide-react';
 import { Meal } from '@shared/schema';
 import { useToast } from '@/hooks/use-toast';
 import FoodCard from '@/components/recommend/FoodCard';
 import useRecommendStore from '@/stores/useRecommendStore';
 import useUserInfoStore from '@/stores/useUserInfoStore';
+import NutritionVisualization from '@/components/recommend/NutritionVisualization';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 type MealSlot = 'breakfast' | 'lunch' | 'dinner';
 
 const MealConfigPage: React.FC = () => {
   const [, navigate] = useLocation();
+  const [activeTab, setActiveTab] = useState('meals');
   const { toast } = useToast();
   const { recommendation } = useRecommendStore();
   const { userInfo } = useUserInfoStore();
@@ -143,11 +146,11 @@ const MealConfigPage: React.FC = () => {
   
   // 목표 영양소 계산 (추천 데이터 기반)
   const targets = {
-    calories: recommendation?.summary.totalCalories || 2000,
-    protein: recommendation?.summary.totalProtein || 100,
-    carbs: recommendation?.summary.totalCarbs || 250,
-    fat: recommendation?.summary.totalFat || 70,
-    budget: recommendation?.summary.totalBudget || 20000
+    calories: recommendation?.summary?.totalCalories || 2000,
+    protein: recommendation?.summary?.totalProtein || 100,
+    carbs: recommendation?.summary?.totalCarbs || 250,
+    fat: recommendation?.summary?.totalFat || 70,
+    budget: recommendation?.summary?.totalBudget || 20000
   };
   
   // 영양소 진행률 계산
@@ -165,55 +168,99 @@ const MealConfigPage: React.FC = () => {
         <h1 className="text-3xl font-bold mb-8">식단 구성하기</h1>
         
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* 왼쪽 식단 슬롯 보드 */}
+          {/* 왼쪽 패널 - 탭으로 식단 구성과 영양소 분석을 전환할 수 있는 영역 */}
           <div className="flex-grow">
-            <div className="space-y-8">
-              {mealSlots.slice(0, activeMeals).map((slot) => (
-                <div key={slot} className={`meal-slot p-6 rounded-xl bg-white shadow-md`}>
-                  <h2 className="text-xl font-semibold mb-4 capitalize">
-                    {slot === 'breakfast' ? '아침' : slot === 'lunch' ? '점심' : '저녁'}
-                  </h2>
-                  
-                  {meals[slot].length === 0 ? (
-                    <div 
-                      className="flex items-center justify-center h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
-                      onClick={() => handleAddMeal(slot)}
-                    >
-                      <div className="text-center">
-                        <Plus size={30} className="mx-auto text-gray-400 mb-2" />
-                        <p className="text-gray-500">음식 추가하기</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {meals[slot].map((meal: Meal, index: number) => (
-                        <div key={`${slot}-${index}`} className="relative">
-                          <button 
-                            className="absolute top-2 right-2 z-10 bg-red-50 text-red-500 p-1 rounded-full hover:bg-red-100 transition-colors"
-                            onClick={() => handleRemoveMeal(slot, index)}
-                          >
-                            <X size={16} />
-                          </button>
-                          
-                          <FoodCard 
-                            meal={meal} 
-                            onSelect={(meal) => handleSelectMeal(meal, slot)} 
-                          />
-                        </div>
-                      ))}
+            <Tabs defaultValue="meals" value={activeTab} onValueChange={setActiveTab} className="w-full mb-6">
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="meals" className="flex items-center">
+                  <Plus size={16} className="mr-2" />
+                  식단 구성
+                </TabsTrigger>
+                <TabsTrigger value="nutrition" className="flex items-center">
+                  <BarChart size={16} className="mr-2" />
+                  영양소 분석
+                </TabsTrigger>
+              </TabsList>
+              
+              {/* 식단 구성 탭 */}
+              <TabsContent value="meals">
+                <div className="space-y-8">
+                  {mealSlots.slice(0, activeMeals).map((slot) => (
+                    <div key={slot} className={`meal-slot p-6 rounded-xl bg-white shadow-md`}>
+                      <h2 className="text-xl font-semibold mb-4 capitalize">
+                        {slot === 'breakfast' ? '아침' : slot === 'lunch' ? '점심' : '저녁'}
+                      </h2>
                       
-                      <div 
-                        className="flex items-center justify-center h-12 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
-                        onClick={() => handleAddMeal(slot)}
-                      >
-                        <Plus size={20} className="text-gray-400 mr-2" />
-                        <span className="text-gray-500 text-sm">더 추가하기</span>
-                      </div>
+                      {meals[slot].length === 0 ? (
+                        <div 
+                          className="flex items-center justify-center h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                          onClick={() => handleAddMeal(slot)}
+                        >
+                          <div className="text-center">
+                            <Plus size={30} className="mx-auto text-gray-400 mb-2" />
+                            <p className="text-gray-500">음식 추가하기</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          {meals[slot].map((meal: Meal, index: number) => (
+                            <div key={`${slot}-${index}`} className="relative">
+                              <button 
+                                className="absolute top-2 right-2 z-10 bg-red-50 text-red-500 p-1 rounded-full hover:bg-red-100 transition-colors"
+                                onClick={() => handleRemoveMeal(slot, index)}
+                              >
+                                <X size={16} />
+                              </button>
+                              
+                              <FoodCard 
+                                meal={meal} 
+                                onSelect={(meal) => handleSelectMeal(meal, slot)} 
+                              />
+                            </div>
+                          ))}
+                          
+                          <div 
+                            className="flex items-center justify-center h-12 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                            onClick={() => handleAddMeal(slot)}
+                          >
+                            <Plus size={20} className="text-gray-400 mr-2" />
+                            <span className="text-gray-500 text-sm">더 추가하기</span>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  ))}
                 </div>
-              ))}
-            </div>
+              </TabsContent>
+              
+              {/* 영양소 분석 탭 */}
+              <TabsContent value="nutrition">
+                {Object.values(meals).some(mealList => mealList.length > 0) ? (
+                  <NutritionVisualization 
+                    summary={{
+                      totalCalories: targets.calories,
+                      totalProtein: targets.protein,
+                      totalCarbs: targets.carbs,
+                      totalFat: targets.fat,
+                      totalBudget: targets.budget
+                    }}
+                    selectedMeals={Object.values(meals).flat()}
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-64 bg-white rounded-xl shadow-md p-4">
+                    <div className="text-center">
+                      <p className="text-lg text-gray-500 mb-4">식단을 추가하면 영양소 분석이 표시됩니다</p>
+                      <button
+                        className="px-4 py-2 bg-primary text-white rounded-lg"
+                        onClick={() => setActiveTab('meals')}
+                      >
+                        식단 구성하기
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
           </div>
           
           {/* 오른쪽 요약 패널 */}
