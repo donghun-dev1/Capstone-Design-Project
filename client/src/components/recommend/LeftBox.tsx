@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meal } from '@shared/schema';
-import { X } from 'lucide-react';
+import { X, Coffee, Sun, Moon } from 'lucide-react';
 
 interface LeftBoxProps {
   selectedMeals: (Meal | null)[];
