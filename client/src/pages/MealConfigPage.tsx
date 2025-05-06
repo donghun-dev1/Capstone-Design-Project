@@ -44,7 +44,7 @@ const MealConfigPage: React.FC = () => {
         description: "식단 추천 페이지로 이동합니다.",
         variant: "destructive"
       });
-      navigate('/recommend');
+      navigate('/recommendations');
       return;
     }
     
