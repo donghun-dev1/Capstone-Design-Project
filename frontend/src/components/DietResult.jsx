@@ -7,6 +7,7 @@ import RadialProgressChart from './RadialProgressChart';
 import PieRatioChart from './PieRatioChart';
 import NutrientGaugeChart from './NutrientGaugeChart';
 import NutrientRatioProgressBar from './NutrientRatioProgressBar';
+import MealStackedBarChart from './MealStackedBarChart';
 import { AppBackground, MainCard, Container, Title, Button, WarningContainer, COLORS, cardStyle, CenteredButtonWrapper, MainButton, AnalysisSection, Card, CardGrid, CardTitle, NutrientLabel, NutrientValue, ProgressBar, Progress } from '../styles/common';
 import { fetchDietData } from '../api/dietApi';
 import { nutrientNames } from '../constants/nutrients';
@@ -17,15 +18,17 @@ const DietResult = () => {
   // 상태를 상위에서 관리
   const [summary, setSummary] = useState(null);
   const [allergies, setAllergies] = useState([]);
+  const [meals, setMeals] = useState(null);
 
   useEffect(() => {
     fetchDietData().then(data => {
       setSummary(data.summary);
       setAllergies(data.allergies);
+      setMeals(data.meals);
     });
   }, []);
 
-  if (!summary) return <div>로딩중...</div>;
+  if (!summary || !meals) return <div>로딩중...</div>;
 
   // 차트 데이터 생성
   const chartData = nutrientNames.map(n => ({
@@ -141,6 +144,9 @@ const DietResult = () => {
                 <div style={{ flex: 1, minWidth: 340 }}>
                   <NutrientRatioProgressBar summary={summary} />
                 </div>
+              </div>
+              <div style={{ width: '100%', marginTop: '2rem' }}>
+                <MealStackedBarChart meals={meals} />
               </div>
             </AnalysisSection>
           </motion.div>
