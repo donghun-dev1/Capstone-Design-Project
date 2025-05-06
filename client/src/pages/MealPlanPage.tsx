@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import useSelectedMealsStore from '@/stores/useSelectedMealsStore';
 import useRecommendStore from '@/stores/useRecommendStore';
 import { ArrowLeft } from 'lucide-react';
+import StepNavigationBar from '@/components/ui/StepNavigationBar';
 
 const MealPlanPage: React.FC = () => {
   const [location, navigate] = useLocation();

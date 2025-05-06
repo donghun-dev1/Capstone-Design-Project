@@ -547,6 +547,13 @@ const MainInputPage: React.FC = () => {
         />
       </div>
       
+      {/* 하단 내비게이션 바 */}
+      <StepNavigationBar 
+        currentStep={1} 
+        onNext={handleSubmit}
+        nextButtonText="다음 단계로"
+      />
+      
       {/* Inspiration Image Grid */}
       <ImageGrid />
       
