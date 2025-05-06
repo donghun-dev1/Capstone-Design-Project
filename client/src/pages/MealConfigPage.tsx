@@ -242,7 +242,9 @@ const MealConfigPage: React.FC = () => {
                       totalProtein: targets.protein,
                       totalCarbs: targets.carbs,
                       totalFat: targets.fat,
-                      totalBudget: targets.budget
+                      totalBudget: targets.budget,
+                      nutritionAnalysis: "",
+                      recommendations: []
                     }}
                     selectedMeals={Object.values(meals).flat()}
                   />

@@ -13,7 +13,7 @@ function Router() {
       <Route path="/recommend" component={RecommendPage}/>
       <Route path="/configure" component={MealConfigPage}/>
       <Route path="/summary" component={MealPlanPage}/>
-      <Route component={NotFound} />
+      <Route path="/:rest*" component={NotFound} /> {/* fallback route */}
     </Switch>
   );
 }
