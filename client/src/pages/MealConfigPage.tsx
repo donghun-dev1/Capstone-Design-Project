@@ -36,8 +36,8 @@ const MealConfigPage: React.FC = () => {
     console.log('dinner:', meals.dinner.length, '개 항목');
   }, [meals]);
   
-  // 현재 선택된 끼니 수 (userInfo 기반)
-  const activeMeals = userInfo.mealsPerDay || 3;
+  // 항상 3개의 식사 슬롯을 표시 (아침, 점심, 저녁)
+  const activeMeals = 3; // userInfo.mealsPerDay 값에 관계없이 항상 3개 슬롯 표시
   
   // 끼니별 추가 요청 핸들러
   const handleAddMeal = (slot: MealSlot) => {
