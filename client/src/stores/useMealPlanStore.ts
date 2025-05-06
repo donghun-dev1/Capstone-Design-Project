@@ -1,12 +1,11 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage, PersistOptions } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { Meal } from '@shared/schema';
 
-// 식단 구성 슬롯 타입
-// 아침, 점심, 저녁밥
-
+// 식단 구성 슬롯 타입 정의
 type MealSlot = 'breakfast' | 'lunch' | 'dinner';
 
+// 영양소 총합 타입 정의
 type MealPlanTotals = {
   calories: number;
   protein: number;
@@ -15,22 +14,13 @@ type MealPlanTotals = {
   budget: number;
 };
 
+// 식단 계획 상태 타입 정의
 type MealPlanState = {
   meals: Record<MealSlot, Meal[]>;
-  
-  // 영양소 총합 (캐시 된 값)
   totals: MealPlanTotals;
-  
-  // 식단 추가 기능
   addMeal: (slot: MealSlot, meal: Meal) => void;
-  
-  // 식단 삭제 기능
   removeMeal: (slot: MealSlot, index: number) => void;
-  
-  // 식단 이동 기능 (Drag & Drop 지원용)
   moveMeal: (fromSlot: MealSlot, fromIndex: number, toSlot: MealSlot, toIndex: number) => void;
-  
-  // 식단 초기화
   resetMeals: () => void;
 };
 
@@ -44,7 +34,7 @@ const calculateTotals = (meals: Record<MealSlot, Meal[]>): MealPlanTotals => {
     budget: 0
   };
   
-  // 모든 슬롯의 전체 음식을 하나의 배열로 평타화
+  // 모든 슬롯의 전체 음식을 하나의 배열로 평탄화
   const allMeals = Object.values(meals).flat();
   
   // 평탄화된 배열을 reduce로 순회하면서 영양소 수치 계산
@@ -59,9 +49,10 @@ const calculateTotals = (meals: Record<MealSlot, Meal[]>): MealPlanTotals => {
   }, initialTotals);
 };
 
-export const useMealPlanStore = create<MealPlanState>(
-  persist(
-    (set, get) => ({
+// Zustand 스토어 생성
+export const useMealPlanStore = create(
+  persist<MealPlanState>(
+    (set) => ({
       // 초기 상태
       meals: {
         breakfast: [],
@@ -79,7 +70,7 @@ export const useMealPlanStore = create<MealPlanState>(
       },
       
       // 식단 추가 메서드
-      addMeal: (slot, meal) => set(state => {
+      addMeal: (slot, meal) => set((state) => {
         // 새로운 식단 구성 - 현재 슬롯에 음식 추가
         const newMeals = {
           ...state.meals,
@@ -96,7 +87,7 @@ export const useMealPlanStore = create<MealPlanState>(
       }),
       
       // 식단 삭제 메서드
-      removeMeal: (slot, index) => set(state => {
+      removeMeal: (slot, index) => set((state) => {
         // 새로운 슬롯 구성
         const newSlotMeals = [...state.meals[slot]];
         newSlotMeals.splice(index, 1);
@@ -117,7 +108,7 @@ export const useMealPlanStore = create<MealPlanState>(
       }),
       
       // 식단 이동 메서드 (Drag & Drop)
-      moveMeal: (fromSlot, fromIndex, toSlot, toIndex) => set(state => {
+      moveMeal: (fromSlot, fromIndex, toSlot, toIndex) => set((state) => {
         // 이동할 음식 선택
         const mealToMove = state.meals[fromSlot][fromIndex];
         
@@ -143,7 +134,6 @@ export const useMealPlanStore = create<MealPlanState>(
           [toSlot]: newToSlotMeals
         };
         
-        // 새로운 총합 계산 (같은 슬롯이면 추가 계산 필요 없음)
         return {
           meals: newMeals,
           totals: state.totals // 이동이기 때문에 총합은 변하지 않음
