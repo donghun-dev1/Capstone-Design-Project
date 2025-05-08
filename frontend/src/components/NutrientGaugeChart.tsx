@@ -5,6 +5,21 @@ import { getNutrientColor } from '../utils/dietUtils';
 import { ChartCard } from '../styles/common';
 import styled from '@emotion/styled';
 
+interface NutrientData {
+  current: number;
+  target: number;
+}
+
+interface Summary {
+  [key: string]: NutrientData;
+}
+
+interface GaugeProps {
+  value: number;
+  color: string;
+  label: string;
+}
+
 const GaugeWrapper = styled.div`
   width: 120px;
   height: 120px;
@@ -21,7 +36,7 @@ const GaugeLabel = styled.div`
   color: #222;
 `;
 
-const GaugeValue = styled.div`
+const GaugeValue = styled.div<{ color: string }>`
   color: ${({ color }) => color};
   font-weight: 700;
   font-size: 18px;
@@ -33,7 +48,7 @@ const GaugeRemain = styled.div`
   margin-top: 2px;
 `;
 
-const Gauge = ({ value, color, label }) => (
+const Gauge: React.FC<GaugeProps> = ({ value, color, label }) => (
   <GaugeWrapper>
     <RadialBarChart
       width={120}
@@ -62,14 +77,17 @@ const Gauge = ({ value, color, label }) => (
   </GaugeWrapper>
 );
 
-const NutrientGaugeChart = ({ summary }) => {
-  // 각 영양소별 목표 달성률 계산
+interface NutrientGaugeChartProps {
+  summary: Summary;
+}
+
+const NutrientGaugeChart: React.FC<NutrientGaugeChartProps> = ({ summary }) => {
   const gauges = nutrientNames.map(n => {
     const percent = Math.round((summary[n.key].current / summary[n.key].target) * 100);
     return {
       label: n.label,
       value: percent,
-      color: getNutrientColor(n.key)
+      color: getNutrientColor(n.key),
     };
   });
 
@@ -85,4 +103,4 @@ const NutrientGaugeChart = ({ summary }) => {
   );
 };
 
-export default NutrientGaugeChart; 
+export default NutrientGaugeChart;

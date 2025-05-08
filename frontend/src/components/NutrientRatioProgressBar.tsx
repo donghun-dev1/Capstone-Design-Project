@@ -1,14 +1,34 @@
 import React from 'react';
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+  Tooltip
+} from 'recharts';
 import { nutrientNames } from '../constants/nutrients';
 import { ChartCard } from '../styles/common';
+
+interface NutrientData {
+  current: number;
+  target: number;
+}
+
+interface Summary {
+  [key: string]: NutrientData;
+}
 
 const COLORS = ['#8884d8', '#83a6ed', '#8dd1e1', '#82ca9d', '#a4de6c'];
 const tipColor = '#00C49F';
 const tipTextColor = '#222';
 
-const NutrientRatioRadarChart = ({ summary }) => {
-  // 예산 제외 영양소만
+interface NutrientRatioRadarChartProps {
+  summary: Summary;
+}
+
+const NutrientRatioRadarChart: React.FC<NutrientRatioRadarChartProps> = ({ summary }) => {
   const nutrients = nutrientNames.filter(n => n.key !== 'budget');
   const data = nutrients.map((n, idx) => ({
     nutrient: n.label,
@@ -16,15 +36,13 @@ const NutrientRatioRadarChart = ({ summary }) => {
     color: COLORS[idx % COLORS.length]
   }));
 
-  // Tip 생성
-  const tips = [];
+  const tips: string[] = [];
   if (summary.carbs && summary.carbs.current / summary.carbs.target < 0.5) {
     tips.push('탄수화물이 부족해요! 고구마, 현미밥, 통곡물 등 건강한 탄수화물 식품을 추가해보세요.');
   }
   if (summary.fat && summary.fat.current / summary.fat.target < 0.5) {
     tips.push('지방이 부족해요! 견과류, 아보카도, 올리브유 등 좋은 지방을 섭취해보세요.');
   }
-  // 예산 Tip
   if (summary.budget) {
     const ratio = summary.budget.current / summary.budget.target;
     if (ratio < 0.5) {
@@ -71,7 +89,7 @@ const NutrientRatioRadarChart = ({ summary }) => {
                 <stop offset="100%" stopColor="#82ca9d" stopOpacity={0.5} />
               </linearGradient>
             </defs>
-            <Tooltip formatter={v => `${v}%`} />
+            <Tooltip formatter={(v: any) => `${v}%`} />
           </RadarChart>
         </ResponsiveContainer>
       </div>
@@ -105,4 +123,4 @@ const NutrientRatioRadarChart = ({ summary }) => {
   );
 };
 
-export default NutrientRatioRadarChart; 
+export default NutrientRatioRadarChart;

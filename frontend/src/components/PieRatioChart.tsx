@@ -1,15 +1,35 @@
 import React from 'react';
-import { ResponsivePie } from '@nivo/pie';
+import { ResponsivePie, PieSvgProps } from '@nivo/pie';
 import { nutrientNames } from '../constants/nutrients';
 import { getNutrientColor } from '../utils/dietUtils';
 import { ChartCard } from '../styles/common';
 
-const PieRatioChart = ({ summary }) => {
-  const data = nutrientNames.map(n => ({
+interface NutrientData {
+  current: number;
+  target: number;
+}
+
+interface Summary {
+  [key: string]: NutrientData;
+}
+
+interface PieData {
+  id: string;
+  label: string;
+  value: number;
+  color: string;
+}
+
+interface PieRatioChartProps {
+  summary: Summary;
+}
+
+const PieRatioChart: React.FC<PieRatioChartProps> = ({ summary }) => {
+  const data: PieData[] = nutrientNames.map(n => ({
     id: n.label,
     label: n.label,
     value: summary[n.key].current,
-    color: getNutrientColor(n.key)
+    color: getNutrientColor(n.key),
   }));
 
   return (
@@ -22,7 +42,7 @@ const PieRatioChart = ({ summary }) => {
           innerRadius={0.6}
           padAngle={1}
           cornerRadius={8}
-          colors={d => d.data.color}
+          colors={(d) => d.data.color}
           borderWidth={2}
           borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
           enableArcLinkLabels={false}
@@ -34,4 +54,4 @@ const PieRatioChart = ({ summary }) => {
   );
 };
 
-export default PieRatioChart; 
+export default PieRatioChart;

@@ -4,13 +4,28 @@ import styled from '@emotion/styled';
 import { Container, Title, ChartContainer, WarningContainer, Button, ChartsGrid } from '../styles/common';
 import mockDietSummary from '../api/mockDietSummary';
 
+interface NutrientData {
+  current: number;
+  target: number;
+  percentage: number;
+}
+
+interface DietSummaryData {
+  calories: NutrientData;
+  protein: NutrientData;
+  fat: NutrientData;
+  carbs: NutrientData;
+  budget: NutrientData;
+  allergies: string[];
+}
+
 const COLORS = {
   normal: '#00C49F',
   warning: '#FF0000'
 };
 
-const DietSummary = () => {
-  const createChartData = (value) => [
+const DietSummary: React.FC = () => {
+  const createChartData = (value: number) => [
     { name: '달성', value: value },
     { name: '미달성', value: 100 - value }
   ];
@@ -28,7 +43,7 @@ const DietSummary = () => {
     window.URL.revokeObjectURL(url);
   };
 
-  const renderDonutChart = (value, title, hasAllergy = false) => (
+  const renderDonutChart = (value: number, title: string, hasAllergy: boolean = false) => (
     <ChartContainer>
       <h3>{title}</h3>
       <ResponsiveContainer width={200} height={200}>
@@ -61,13 +76,13 @@ const DietSummary = () => {
         {renderDonutChart(mockDietSummary.budget.percentage, '예산')}
         {renderDonutChart(100, '알레르기', mockDietSummary.allergies.length > 0)}
       </ChartsGrid>
-      
+
       {mockDietSummary.allergies.length > 0 && (
         <WarningContainer>
           알레르기 주의: {mockDietSummary.allergies.join(', ')}
         </WarningContainer>
       )}
-      
+
       <Button onClick={downloadSummary}>
         식단 요약 다운로드
       </Button>
@@ -75,4 +90,4 @@ const DietSummary = () => {
   );
 };
 
-export default DietSummary; 
+export default DietSummary;

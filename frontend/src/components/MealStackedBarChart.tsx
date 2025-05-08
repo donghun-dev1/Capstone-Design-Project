@@ -12,11 +12,27 @@ import {
 import styled from '@emotion/styled';
 import { ChartCard } from '../styles/common';
 
+interface NutrientData {
+  protein: number;
+  fat: number;
+  carbs: number;
+}
+
+interface Meals {
+  [key: string]: NutrientData;
+}
+
+interface TooltipProps {
+  active?: boolean;
+  payload?: any[];
+  label?: string;
+}
+
 const COLORS = {
-  protein: '#4dabf7',    // 단백질 (파랑)
-  fat: '#20c997',        // 지방 (초록)
-  carbs: '#fcc419',      // 탄수화물 (노랑)
-  total: '#ff6b6b',      // 총 칼로리 (빨강)
+  protein: '#4dabf7', // 단백질 (파랑)
+  fat: '#20c997',     // 지방 (초록)
+  carbs: '#fcc419',   // 탄수화물 (노랑)
+  total: '#ff6b6b',   // 총 칼로리 (빨강)
 };
 
 const CALORIES_PER_GRAM = {
@@ -25,14 +41,17 @@ const CALORIES_PER_GRAM = {
   carbs: 4,
 };
 
-const MealStackedBarChart = ({ meals }) => {
-  const mealNames = {
+interface MealStackedBarChartProps {
+  meals: Meals;
+}
+
+const MealStackedBarChart: React.FC<MealStackedBarChartProps> = ({ meals }) => {
+  const mealNames: Record<string, string> = {
     breakfast: '아침',
     lunch: '점심',
     dinner: '저녁',
   };
 
-  // 데이터 재구성: 각 영양소를 kcal로 변환
   const data = Object.entries(meals)
     .filter(([meal]) => meal !== 'snack')
     .map(([meal, nutrients]) => {
@@ -46,14 +65,13 @@ const MealStackedBarChart = ({ meals }) => {
         fatKcal,
         carbsKcal,
         totalCalories: totalKcal,
-        // 보조 데이터 (툴팁용)
         proteinG: nutrients.protein,
         fatG: nutrients.fat,
         carbsG: nutrients.carbs,
       };
     });
 
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const item = payload[0]?.payload;
       const totalKcal = item.totalCalories || 0;
@@ -65,7 +83,7 @@ const MealStackedBarChart = ({ meals }) => {
             <TooltipItem>
               <TooltipDot style={{ backgroundColor: COLORS.total }} />
               <TooltipLabel>총 칼로리:</TooltipLabel>
-              <TooltipValue>{totalKcal} kcal</TooltipValue> {/* ✅ 퍼센트 제거 */}
+              <TooltipValue>{totalKcal} kcal</TooltipValue>
             </TooltipItem>
             {[
               { key: 'proteinKcal', label: '단백질', kcal: item.proteinKcal, grams: item.proteinG },
@@ -75,7 +93,7 @@ const MealStackedBarChart = ({ meals }) => {
               const percent = totalKcal ? (kcal / totalKcal) * 100 : 0;
               return (
                 <TooltipItem key={key}>
-                  <TooltipDot style={{ backgroundColor: COLORS[key.replace('Kcal', '')] }} />
+                  <TooltipDot style={{ backgroundColor: COLORS[key.replace('Kcal', '') as keyof typeof COLORS] }} />
                   <TooltipLabel>{label}:</TooltipLabel>
                   <TooltipValue>
                     {grams}g ({kcal} kcal, {percent.toFixed(1)}%)
@@ -126,42 +144,10 @@ const MealStackedBarChart = ({ meals }) => {
               return value;
             }}
           />
-
-          {/* 스택형: 단백질 + 지방 + 탄수화물 */}
-          <Bar
-            dataKey="proteinKcal"
-            name="단백질 (kcal)"
-            stackId="macro"
-            fill={COLORS.protein}
-            radius={[8, 8, 0, 0]}
-            barSize={20}
-          />
-          <Bar
-            dataKey="fatKcal"
-            name="지방 (kcal)"
-            stackId="macro"
-            fill={COLORS.fat}
-            radius={[8, 8, 0, 0]}
-            barSize={20}
-          />
-          <Bar
-            dataKey="carbsKcal"
-            name="탄수화물 (kcal)"
-            stackId="macro"
-            fill={COLORS.carbs}
-            radius={[8, 8, 0, 0]}
-            barSize={20}
-          />
-
-          {/* 옆에 칼로리 단일 bar */}
-          <Bar
-            dataKey="totalCalories"
-            name="총 칼로리 (kcal)"
-            stackId="total"
-            fill={COLORS.total}
-            radius={[8, 8, 0, 0]}
-            barSize={20}
-          />
+          <Bar dataKey="proteinKcal" name="단백질 (kcal)" stackId="macro" fill={COLORS.protein} radius={[8, 8, 0, 0]} barSize={20} />
+          <Bar dataKey="fatKcal" name="지방 (kcal)" stackId="macro" fill={COLORS.fat} radius={[8, 8, 0, 0]} barSize={20} />
+          <Bar dataKey="carbsKcal" name="탄수화물 (kcal)" stackId="macro" fill={COLORS.carbs} radius={[8, 8, 0, 0]} barSize={20} />
+          <Bar dataKey="totalCalories" name="총 칼로리 (kcal)" stackId="total" fill={COLORS.total} radius={[8, 8, 0, 0]} barSize={20} />
         </BarChart>
       </ResponsiveContainer>
     </ChartCard>
@@ -170,7 +156,7 @@ const MealStackedBarChart = ({ meals }) => {
 
 const ChartHeader = styled.div`
   text-align: center;
-  margin-bottom: 1rem; /* ✅ 기존 2rem -> 1rem로 변경 */
+  margin-bottom: 1rem;
 `;
 
 const ChartTitle = styled.h3`
