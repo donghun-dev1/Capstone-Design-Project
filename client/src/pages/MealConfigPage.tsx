@@ -21,25 +21,19 @@ const MealConfigPage: React.FC = () => {
   const { recommendation } = useRecommendStore();
   const { userInfo } = useUserInfoStore();
   
-  // useMealPlanStore에서 식단 데이터와 함수 가져오기
   const { meals, totals, addMeal, removeMeal, moveMeal, resetMeals } = useMealPlanStore();
   
-  // Meal slots 표시를 위한 정의
   const mealSlots: MealSlot[] = ['breakfast', 'lunch', 'dinner'];
   
-  // 식단 상태 변경 감지
   useEffect(() => {
-    // 디버깅 정보 출력
     console.log('MealConfigPage 마운트됨 또는 식단 상태 변경:', meals);
     console.log('breakfast:', meals.breakfast.length, '개 항목');
     console.log('lunch:', meals.lunch.length, '개 항목');
     console.log('dinner:', meals.dinner.length, '개 항목');
   }, [meals]);
   
-  // 사용자가 선택한 끼니 수에 맞게 슬롯 수 조정
   const activeMeals = userInfo.mealsPerDay || 3;
   
-  // 끼니별 추가 요청 핸들러
   const handleAddMeal = (slot: MealSlot) => {
     if (!recommendation) {
       toast({
@@ -51,33 +45,25 @@ const MealConfigPage: React.FC = () => {
       return;
     }
     
-    // 모달이나 사이드 패널로 추천 식단 리스트 표시
-    // 잠정적으로는 첫 번째 추천 음식을 바로 추가
     if (recommendation.meals.length > 0) {
       const recommendedMeal = recommendation.meals[0];
       addMeal(slot, recommendedMeal);
     }
   };
   
-  // 음식 삭제 핸들러
   const handleRemoveMeal = (slot: MealSlot, index: number) => {
     removeMeal(slot, index);
   };
   
-  // 음식 이동/변경 핸들러 (drag & drop)
   const handleMoveMeal = (fromSlot: MealSlot, fromIndex: number, toSlot: MealSlot, toIndex: number) => {
     moveMeal(fromSlot, fromIndex, toSlot, toIndex);
   };
   
-  // 음식 선택 핸들러 (FoodCard에서 사용)
   const handleSelectMeal = (meal: Meal, slot: MealSlot) => {
-    // 현재 슬롯의 마지막에 추가
     addMeal(slot, meal);
   };
-  
-  // 다음 페이지로 진행 (결과 확인)
+
   const handleViewResults = () => {
-    // 기본 검증 - 각 슬롯에 최소 하나의 음식이 있어야 함
     const hasEmptyActiveSlots = mealSlots.slice(0, activeMeals).some(slot => meals[slot].length === 0);
     
     if (hasEmptyActiveSlots) {
@@ -89,10 +75,8 @@ const MealConfigPage: React.FC = () => {
       return;
     }
     
-    // 영양소 검증
     const summary = recommendation?.summary;
     if (summary) {
-      // 칼로리가 목표의 90% 미만이거나 110% 초과인 경우 경고
       const calorieRatio = totals.calories / summary.totalCalories;
       if (calorieRatio < 0.9 || calorieRatio > 1.1) {
         toast({
@@ -100,25 +84,22 @@ const MealConfigPage: React.FC = () => {
           description: "목표 칼로리의 90~110% 범위로 구성하는 것이 좋습니다.",
           variant: "destructive"
         });
-        return;
+        // return 제거 → 경고는 뜨되 이동은 진행
       }
       
-      // 단백질이 목표의 80% 미만인 경우 경고
       if (totals.protein < summary.totalProtein * 0.8) {
         toast({
           title: "단백질이 부족합니다",
           description: "단백질이 목표치의 80% 이상이 되도록 구성해주세요.",
           variant: "destructive"
         });
-        return;
+        // return;
       }
     }
     
-    // 검증 통과 시 다음 페이지로 이동
     navigate('/summary');
   };
   
-  // 목표 영양소 계산 (추천 데이터 기반)
   const targets = {
     calories: recommendation?.summary?.totalCalories || 2000,
     protein: recommendation?.summary?.totalProtein || 100,
@@ -127,7 +108,6 @@ const MealConfigPage: React.FC = () => {
     budget: recommendation?.summary?.totalBudget || 20000
   };
   
-  // 영양소 진행률 계산
   const progress = {
     calories: Math.min(100, (totals.calories / targets.calories) * 100),
     protein: Math.min(100, (totals.protein / targets.protein) * 100),
@@ -142,7 +122,6 @@ const MealConfigPage: React.FC = () => {
         <h1 className="text-3xl font-bold mb-8 text-foreground">식단 구성하기</h1>
         
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* 왼쪽 패널 - 탭으로 식단 구성과 영양소 분석을 전환할 수 있는 영역 */}
           <div className="flex-grow">
             <Tabs defaultValue="meals" value={activeTab} onValueChange={setActiveTab} className="wellness-card w-full mb-6">
               <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted rounded-xl p-1">
@@ -156,11 +135,9 @@ const MealConfigPage: React.FC = () => {
                 </TabsTrigger>
               </TabsList>
               
-              {/* 식단 구성 탭 */}
               <TabsContent value="meals">
                 <div className="space-y-8">
                   {mealSlots.slice(0, activeMeals).map((slot) => {
-                    // 식사 시간에 따라 배경색 지정
                     const slotStyle = slot === 'breakfast' 
                       ? 'bg-secondary/30 border-secondary/40' 
                       : slot === 'lunch' 
@@ -216,7 +193,6 @@ const MealConfigPage: React.FC = () => {
                 </div>
               </TabsContent>
               
-              {/* 영양소 분석 탭 */}
               <TabsContent value="nutrition">
                 {Object.values(meals).some(mealList => mealList.length > 0) ? (
                   <NutritionVisualization 
@@ -248,7 +224,6 @@ const MealConfigPage: React.FC = () => {
             </Tabs>
           </div>
           
-          {/* 오른쪽 요약 패널 */}
           <div className="lg:w-80 flex-shrink-0">
             <div className="wellness-card sticky top-6">
               <h2 className="text-xl font-semibold mb-6 text-foreground">영양 요약</h2>
@@ -263,7 +238,6 @@ const MealConfigPage: React.FC = () => {
               </div>
               
               <div className="space-y-6">
-                {/* 칼로리 - 애니메이션 진행 바 */}
                 <AnimatedProgressBar 
                   value={totals.calories} 
                   max={targets.calories} 
@@ -271,7 +245,6 @@ const MealConfigPage: React.FC = () => {
                   label="칼로리" 
                 />
                 
-                {/* 단백질 - 애니메이션 진행 바 */}
                 <AnimatedProgressBar 
                   value={totals.protein} 
                   max={targets.protein} 
@@ -279,7 +252,6 @@ const MealConfigPage: React.FC = () => {
                   label="단백질" 
                 />
                 
-                {/* 탄수화물 - 애니메이션 진행 바 */}
                 <AnimatedProgressBar 
                   value={totals.carbs} 
                   max={targets.carbs} 
@@ -287,7 +259,6 @@ const MealConfigPage: React.FC = () => {
                   label="탄수화물" 
                 />
                 
-                {/* 지방 - 애니메이션 진행 바 */}
                 <AnimatedProgressBar 
                   value={totals.fat} 
                   max={targets.fat} 
@@ -300,7 +271,6 @@ const MealConfigPage: React.FC = () => {
         </div>
       </div>
       
-      {/* 하단 내비게이션 바 */}
       <StepNavigationBar 
         currentStep={3} 
         onNext={handleViewResults}

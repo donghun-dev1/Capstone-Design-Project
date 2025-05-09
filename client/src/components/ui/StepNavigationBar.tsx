@@ -18,11 +18,8 @@ const StepNavigationBar: React.FC<StepNavigationBarProps> = ({
   const { toast } = useToast();
   const { userInfo, isFormValid } = useUserInfoStore();
   
-  // 페이지 이동 핸들러 함수
   const handleNavigate = (path: string) => {
-    // '추천' 페이지로 이동하려고 할 때
     if (path === '/recommendations' && currentStep === 1) {
-      // 사용자 정보가 유효하지 않으면 경고 표시
       if (!isFormValid) {
         toast({
           title: "사용자 정보가 불완전합니다",
@@ -32,11 +29,9 @@ const StepNavigationBar: React.FC<StepNavigationBarProps> = ({
         return;
       }
     }
-    
-    // 경고가 없거나 다른 페이지 이동은 정상 처리
     navigate(path);
   };
-  
+
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 p-4 z-10">
       <div className="container mx-auto max-w-7xl px-4 flex justify-between items-center">
@@ -90,13 +85,19 @@ const StepNavigationBar: React.FC<StepNavigationBarProps> = ({
           </button>
           
           <button 
-            onClick={() => handleNavigate('/summary')} 
-            className="flex items-center transition-colors hover:text-primary focus:outline-none group"
+            onClick={() => {
+              toast({
+                title: "결과 확인 버튼을 눌러 요약 페이지로 이동할 수 있어요.",
+                description: "하단의 '결과 확인' 버튼을 사용하세요.",
+                variant: "default"
+              });
+            }}
+            className="flex items-center transition-colors hover:text-primary focus:outline-none group cursor-not-allowed"
           >
             <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
               currentStep === 4 
                 ? 'bg-primary text-white' 
-                : 'bg-gray-200 text-gray-500 group-hover:bg-primary/20'
+                : 'bg-gray-200 text-gray-500'
             }`}>4</div>
             <div className={`ml-2 text-sm ${
               currentStep === 4 
