@@ -72,6 +72,7 @@ export const dietRecommendationRelations = relations(dietRecommendations, ({ one
 
 // Diet Recommendation Schema
 export const userInfoSchema = z.object({
+  age: z.number().min(10).max(100), // ✅ age 속성 추가됨
   gender: z.enum(["male", "female"]),
   height: z.number().min(100).max(220),
   weight: z.number().min(30).max(200),
@@ -84,7 +85,6 @@ export const userInfoSchema = z.object({
   termsAgreed: z.boolean().refine(val => val === true, {
     message: "이용약관에 동의해야 합니다.",
   }),
-  // U.S. Navy 둘레 측정을 위한 추가 필드 (선택 사항)
   neckCircumference: z.number().min(20).max(80).optional(),
   waistCircumference: z.number().min(50).max(200).optional(),
   hipCircumference: z.number().min(50).max(200).optional(),

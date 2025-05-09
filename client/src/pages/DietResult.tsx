@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import RadialProgressChart from '@/components/4pagecomponents/RadialProgressChart';
@@ -11,50 +11,27 @@ import {
   CenteredButtonWrapper, MainButton, AnalysisSection,
   NutrientLabel, NutrientValue
 } from '@/styles/common';
-import { fetchDietData } from '@/api/4pageapi/dietApi';
 import { nutrientNames } from '@/constants/nutrients';
-import { calculatePercentage, getNutrientColor } from '@/utils/dietUtils';
-
-interface Nutrient {
-  current: number;
-  target: number;
-  unit: string;
-}
-
-interface Summary {
-  calories: Nutrient;
-  protein: Nutrient;
-  fat: Nutrient;
-  carbs: Nutrient;
-  budget: Nutrient;
-  [key: string]: Nutrient;
-}
-
-interface Meals {
-  [key: string]: {
-    protein: number;
-    fat: number;
-    carbs: number;
-  };
-}
+import { getNutrientColor } from '@/utils/dietUtils';
+import useUserInfoStore from '@/stores/useUserInfoStore';
+import { useMealPlanStore } from '@/stores/useMealPlanStore';
 
 const DietResult: React.FC = () => {
-  const [summary, setSummary] = useState<Summary | null>(null);
-  const [allergies, setAllergies] = useState<string[]>([]);
-  const [meals, setMeals] = useState<Meals | null>(null);
+  const { userInfo } = useUserInfoStore();
+  const { meals, totals } = useMealPlanStore();
 
-  useEffect(() => {
-    fetchDietData().then((data: any) => {
-      setSummary(data.summary);
-      setAllergies(data.allergies);
-      setMeals(data.meals);
-    });
-  }, []);
+  const summary = {
+    calories: { current: totals.calories, target: 2000, unit: 'kcal' },
+    protein: { current: totals.protein, target: 100, unit: 'g' },
+    fat: { current: totals.fat, target: 70, unit: 'g' },
+    carbs: { current: totals.carbs, target: 250, unit: 'g' },
+    budget: { current: totals.budget, target: 20000, unit: '원' }
+  };
 
-  if (!summary || !meals) return <div>로딩중...</div>;
+  const allergies: string[] = []; // 추후 알러지 연결 가능
 
   const handleSaveToTxt = () => {
-    const content = `식단 요약 리포트\n\n날짜: ${new Date().toLocaleDateString()}\n\n칼로리: ${summary.calories.current}/${summary.calories.target} kcal\n단백질: ${summary.protein.current}/${summary.protein.target}g\n지방: ${summary.fat.current}/${summary.fat.target}g\n탄수화물: ${summary.carbs.current}/${summary.carbs.target}g\n예산: ${summary.budget.current}/${summary.budget.target}원\n\n알레르기 주의 항목: ${allergies.join(', ')}`;
+    const content = `식단 요약 리포트\n\n사용자 정보: ${userInfo?.age ?? '-'}세 ${userInfo?.gender ?? '-'} ${userInfo?.goal ?? '-'}\n\n날짜: ${new Date().toLocaleDateString()}\n\n칼로리: ${summary.calories.current}/${summary.calories.target} kcal\n단백질: ${summary.protein.current}/${summary.protein.target}g\n지방: ${summary.fat.current}/${summary.fat.target}g\n탄수화물: ${summary.carbs.current}/${summary.carbs.target}g\n예산: ${summary.budget.current}/${summary.budget.target}원\n\n알레르기 주의 항목: ${allergies.join(', ')}`;
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -66,6 +43,18 @@ const DietResult: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+  // meals 데이터 변환 함수
+  const transformedMeals = Object.fromEntries(
+    Object.entries(meals).map(([slot, mealList]) => [
+      slot,
+      {
+        protein: mealList.reduce((sum, meal) => sum + meal.protein, 0),
+        fat: mealList.reduce((sum, meal) => sum + meal.fat, 0),
+        carbs: mealList.reduce((sum, meal) => sum + meal.carbs, 0),
+      }
+    ])
+  );
+
   return (
     <AppBackground>
       <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
@@ -73,6 +62,9 @@ const DietResult: React.FC = () => {
           <Header>
             <StyledTitle>오늘의 식단 결과</StyledTitle>
           </Header>
+          <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
+            <strong>사용자 정보:</strong> {userInfo?.age ?? '-'}세 / {userInfo?.gender ?? '-'} / {userInfo?.goal ?? '-'}
+          </div>
           <ContentWrapper>
             <ChartSection>
               <h2>목표 대비 영양소 섭취 현황</h2>
@@ -85,12 +77,12 @@ const DietResult: React.FC = () => {
                 <SummaryItem key={n.key}>
                   <NutrientLabel>{n.label}</NutrientLabel>
                   <NutrientValue color={getNutrientColor(n.key)}>
-                    {summary[n.key].current}/{summary[n.key].target} {n.unit}
+                    {summary[n.key as keyof typeof summary].current}/{summary[n.key as keyof typeof summary].target} {summary[n.key as keyof typeof summary].unit}
                   </NutrientValue>
                   <DetailProgressBar>
                     <ProgressBarInner
                       color={getNutrientColor(n.key)}
-                      percent={Math.round((summary[n.key].current / summary[n.key].target) * 100)}
+                      percent={Math.round((summary[n.key as keyof typeof summary].current / summary[n.key as keyof typeof summary].target) * 100)}
                     />
                   </DetailProgressBar>
                 </SummaryItem>
@@ -100,7 +92,7 @@ const DietResult: React.FC = () => {
           <AnalysisSection>
             <NutrientGaugeChart summary={summary} />
             <NutrientRatioProgressBar summary={summary} />
-            <MealStackedBarChart meals={meals} />
+            <MealStackedBarChart meals={transformedMeals} />
           </AnalysisSection>
           {allergies.length > 0 && (
             <WarningContainer>

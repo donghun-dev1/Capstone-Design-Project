@@ -84,6 +84,7 @@ const MealConfigPage: React.FC = () => {
           description: "목표 칼로리의 90~110% 범위로 구성하는 것이 좋습니다.",
           variant: "destructive"
         });
+        // return; 
         // return 제거 → 경고는 뜨되 이동은 진행
       }
       
@@ -93,7 +94,8 @@ const MealConfigPage: React.FC = () => {
           description: "단백질이 목표치의 80% 이상이 되도록 구성해주세요.",
           variant: "destructive"
         });
-        // return;
+        // return; 
+        // return 제거 → 경고는 뜨되 이동은 진행
       }
     }
     

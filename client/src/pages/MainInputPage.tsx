@@ -26,28 +26,22 @@ import { Separator } from "@/components/ui/separator";
  */
 const calculateBodyFat = (height?: number, weight?: number, gender?: UserInfo['gender']) => {
   if (!height || !weight || !gender) return null;
-  
-  // BMI 계산
+
   const heightInMeters = height / 100;
   const bmi = weight / (heightInMeters * heightInMeters);
-  
-  // 체지방률 계산: BF% = 1.20·BMI + 0.23·age - 10.8·gender - 5.4
-  // gender: male = 1, female = 0
+
   const genderMultiplier = gender === "male" ? 1 : 0;
-  const assumedAge = 30; // 평균 나이 가정
-  
+  const assumedAge = 30;
+
   let bodyFat = 1.20 * bmi + 0.23 * assumedAge - 10.8 * genderMultiplier - 5.4;
-  
-  // 계산 결과 제한 (5%~50%)
+
   bodyFat = Math.max(5, Math.min(bodyFat, 50));
-  
+
   return Math.round(bodyFat);
 };
 
 /**
  * U.S. Navy 둘레 공식을 사용한 체지방률 계산
- * 남성: 체지방률 = 495 / (1.0324 - 0.19077 * log10(허리 - 목) + 0.15456 * log10(키)) - 450
- * 여성: 체지방률 = 495 / (1.29579 - 0.35004 * log10(허리 + 엉덩이 - 목) + 0.22100 * log10(키)) - 450
  */
 const calculateBodyFatNavy = (
   height?: number,
@@ -58,20 +52,19 @@ const calculateBodyFatNavy = (
 ) => {
   if (!height || !gender || !neck || !waist) return null;
   if (gender === "female" && !hip) return null;
-  
+
   const log10 = (val: number) => Math.log(val) / Math.log(10);
-  
+
   let bodyFat: number;
-  
+
   if (gender === "male") {
     bodyFat = 495 / (1.0324 - 0.19077 * log10(waist - neck) + 0.15456 * log10(height)) - 450;
   } else {
     bodyFat = 495 / (1.29579 - 0.35004 * log10(waist + hip! - neck) + 0.22100 * log10(height)) - 450;
   }
-  
-  // 계산 결과 제한 (5%~50%)
+
   bodyFat = Math.max(5, Math.min(bodyFat, 50));
-  
+
   return Math.round(bodyFat);
 };
 
@@ -85,12 +78,12 @@ const MainInputPage: React.FC = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [requestTimeout, setRequestTimeout] = useState<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
-  
-  // Get state and actions from stores
+
   const {
     userInfo,
     isFormValid,
     setGender,
+    setAge, // ✅ 나이 입력 setter 추가
     setHeight,
     setWeight,
     setBodyFat,
@@ -104,11 +97,10 @@ const MainInputPage: React.FC = () => {
     setWaistCircumference,
     setHipCircumference,
   } = useUserInfoStore();
-  
+
   const { setRecommendation, setLoading: setRecommendLoading } = useRecommendStore();
   const { summary, isVisible, setSummary, setVisible, reset: resetPreview } = usePreviewStore();
 
-  // Goal options
   const goalOptions = [
     { value: 'lose', label: '체중 감량' },
     { value: 'maintain', label: '체중 유지' },
@@ -116,7 +108,6 @@ const MainInputPage: React.FC = () => {
     { value: 'muscle', label: '근육량 증가' },
   ];
 
-  // Activity level options
   const activityOptions = [
     { value: 'sedentary', label: '거의 움직이지 않음' },
     { value: 'light', label: '가벼운 활동 (주 1-2회 운동)' },
@@ -125,16 +116,13 @@ const MainInputPage: React.FC = () => {
     { value: 'very_active', label: '매우 활발한 활동 (하루 2회 이상 운동)' },
   ];
 
-  // Meals per day options
   const mealsOptions = [
     { value: 2, label: '2끼' },
     { value: 3, label: '3끼' },
   ];
 
-  // Handle summary request
   const handleRequestSummary = async () => {
     try {
-      // Check form validity again
       if (!isFormValid) {
         toast({
           title: "입력 오류",
@@ -144,43 +132,36 @@ const MainInputPage: React.FC = () => {
         return;
       }
 
-      // Show loading overlay
       setIsLoading(true);
-      
-      // Set timeout for long-running requests
+
       const timeout = setTimeout(() => {
         setIsLoading(false);
         setShowErrorModal(true);
         setError("요청 시간이 너무 오래 걸립니다. 다시 시도해주세요.");
       }, 12000);
-      
+
       setRequestTimeout(timeout);
-      
-      // Get nutrition summary
+
       const nutritionSummary = await getNutritionSummary(userInfo as UserInfo);
-      
-      // Clear timeout since request completed
+
       if (requestTimeout) {
         clearTimeout(requestTimeout);
         setRequestTimeout(null);
       }
-      
-      // Set summary in store and show modal
+
       setSummary(nutritionSummary);
       setVisible(true);
       setIsLoading(false);
-      
     } catch (err: any) {
       console.error("Error getting nutrition summary:", err);
-      
-      // Clear timeout if it exists
+
       if (requestTimeout) {
         clearTimeout(requestTimeout);
         setRequestTimeout(null);
       }
-      
+
       setIsLoading(false);
-      
+
       if (err.message && err.message.includes('Validation error')) {
         toast({
           title: "유효성 검사 오류",
@@ -193,52 +174,44 @@ const MainInputPage: React.FC = () => {
       }
     }
   };
-  
-  // Handle proceeding to recommendation
+
   const handleProceedToRecommendation = async () => {
     try {
-      // Hide summary modal and show loading
       setVisible(false);
       setIsLoading(true);
       setRecommendLoading(true);
-      
-      // Set timeout for long-running requests
+
       const timeout = setTimeout(() => {
         setIsLoading(false);
         setShowErrorModal(true);
         setError("요청 시간이 너무 오래 걸립니다. 다시 시도해주세요.");
         setRecommendLoading(false);
       }, 12000);
-      
+
       setRequestTimeout(timeout);
-      
-      // Get diet recommendations
+
       const recommendation = await getDietRecommendation(userInfo as UserInfo);
-      
-      // Clear timeout since request completed
+
       if (requestTimeout) {
         clearTimeout(requestTimeout);
         setRequestTimeout(null);
       }
-      
-      // Set recommendation in store and navigate to recommendation page
+
       setRecommendation(recommendation);
       setIsLoading(false);
       setRecommendLoading(false);
       navigate('/recommendations');
-      
     } catch (err: any) {
       console.error("Error getting recommendations:", err);
-      
-      // Clear timeout if it exists
+
       if (requestTimeout) {
         clearTimeout(requestTimeout);
         setRequestTimeout(null);
       }
-      
+
       setIsLoading(false);
       setRecommendLoading(false);
-      
+
       if (err.message && err.message.includes('Validation error')) {
         toast({
           title: "유효성 검사 오류",
@@ -251,40 +224,32 @@ const MainInputPage: React.FC = () => {
       }
     }
   };
-  
-  // Handle form submission
+
   const handleSubmit = () => {
-    // Request summary first
     handleRequestSummary();
   };
-  
-  // 키, 몸무게, 성별이 변경될 때 체지방률 자동 계산 (BMI 기반)
+
   useEffect(() => {
-    // 기존 둘레 측정값이 있는지 확인 (있으면 계산하지 않음)
-    const hasCircumferenceMeasurements = userInfo.gender === "male" 
+    const hasCircumferenceMeasurements = userInfo.gender === "male"
       ? (userInfo.neckCircumference && userInfo.waistCircumference)
       : (userInfo.neckCircumference && userInfo.waistCircumference && userInfo.hipCircumference);
-      
+
     if (hasCircumferenceMeasurements) return;
-    
-    // 기본 데이터 있을 때 자동 계산
+
     const calculatedBodyFat = calculateBodyFat(userInfo.height, userInfo.weight, userInfo.gender);
-    
+
     if (calculatedBodyFat !== null && calculatedBodyFat !== userInfo.bodyFat) {
       setBodyFat(calculatedBodyFat);
     }
   }, [userInfo.height, userInfo.weight, userInfo.gender]);
-  
-  // 둘레 측정값이 변경될 때 체지방률 계산 (U.S. Navy 공식 기반)
+
   useEffect(() => {
-    // 필요한 값이 모두 있는지 확인
     const hasRequiredValues = userInfo.gender === "male"
       ? (userInfo.height && userInfo.neckCircumference && userInfo.waistCircumference)
       : (userInfo.height && userInfo.neckCircumference && userInfo.waistCircumference && userInfo.hipCircumference);
-      
+
     if (!hasRequiredValues) return;
-    
-    // U.S. Navy 둘레 공식으로 체지방률 계산
+
     const calculatedBodyFat = calculateBodyFatNavy(
       userInfo.height,
       userInfo.gender,
@@ -292,13 +257,12 @@ const MainInputPage: React.FC = () => {
       userInfo.waistCircumference,
       userInfo.hipCircumference
     );
-    
+
     if (calculatedBodyFat !== null && calculatedBodyFat !== userInfo.bodyFat) {
       setBodyFat(calculatedBodyFat);
     }
   }, [userInfo.height, userInfo.gender, userInfo.neckCircumference, userInfo.waistCircumference, userInfo.hipCircumference]);
-  
-  // Clean up timeout when component unmounts
+
   useEffect(() => {
     return () => {
       if (requestTimeout) {
@@ -306,7 +270,7 @@ const MainInputPage: React.FC = () => {
       }
     };
   }, [requestTimeout]);
-  
+
   return (
     <main className="min-h-screen pb-24 bg-background">
       <div className="container mx-auto max-w-2xl px-4 pt-6">
@@ -316,19 +280,26 @@ const MainInputPage: React.FC = () => {
         </header>
 
         <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-          {/* 기본 정보 섹션 */}
           <div className="mb-6">
             <h2 className="main-input__section-header text-lg font-medium mb-4">기본 정보</h2>
-            
-            {/* Gender Input */}
+
             <InputCard>
-              <GenderInput 
-                value={userInfo.gender} 
-                onChange={setGender} 
+              <GenderInput value={userInfo.gender} onChange={setGender} />
+            </InputCard>
+
+            <InputCard>
+              <NumberInput
+                id="age"
+                label="나이"
+                value={userInfo.age}
+                onChange={setAge}
+                min={10}
+                max={100}
+                placeholder="예: 30"
+                errorMessage="10세에서 100세 사이의 값을 입력해주세요."
               />
             </InputCard>
-            
-            {/* Height Input */}
+
             <InputCard>
               <NumberInput
                 id="height"
@@ -341,8 +312,7 @@ const MainInputPage: React.FC = () => {
                 errorMessage="100cm에서 220cm 사이의 값을 입력해주세요."
               />
             </InputCard>
-            
-            {/* Weight Input */}
+
             <InputCard>
               <NumberInput
                 id="weight"
@@ -483,7 +453,6 @@ const MainInputPage: React.FC = () => {
             {/* Meals Per Day Input */}
             <InputCard>
               <ButtonGroup
-                id="mealsPerDay"
                 label="하루 식사 횟수"
                 value={userInfo.mealsPerDay || 3}
                 onChange={setMealsPerDay}
