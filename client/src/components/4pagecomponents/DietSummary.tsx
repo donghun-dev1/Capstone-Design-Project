@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import styled from '@emotion/styled';
+// import styled from '@emotion/styled';
 import { Container, Title, ChartContainer, WarningContainer, Button, ChartsGrid } from '@/styles/common';
-// import mockDietSummary from '../api/mockDietSummary'; // 삭제
 
 interface NutrientData {
   current: number;
