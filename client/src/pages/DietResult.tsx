@@ -10,7 +10,7 @@ import {
   AppBackground, MainCard, Title, WarningContainer,
   CenteredButtonWrapper, MainButton, AnalysisSection,
   NutrientLabel, NutrientValue
-} from '@/styles/common';
+} from '../styles/common';
 import { nutrientNames } from '@/constants/nutrients';
 import { getNutrientColor } from '@/utils/dietUtils';
 import useUserInfoStore from '@/stores/useUserInfoStore';

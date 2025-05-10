@@ -10,7 +10,8 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import styled from '@emotion/styled';
-import { ChartCard } from '@/styles/common'; // ✅ alias 적용
+// import { ChartCard } from '@/styles/common'; // ✅ alias 적용
+import { ChartCard } from '../../styles/common';
 
 interface NutrientData {
   protein: number;

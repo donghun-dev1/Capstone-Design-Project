@@ -6,7 +6,8 @@ import {
   ResponsiveContainer,
   PolarAngleAxis,
 } from 'recharts';
-import { ChartCard } from '@/styles/common';
+// import { ChartCard } from '@/styles/common';
+import { ChartCard } from '../../styles/common';
 
 interface NutrientData {
   current: number;

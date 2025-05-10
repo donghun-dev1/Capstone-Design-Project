@@ -2,7 +2,8 @@ import React from 'react';
 import ResponsivePie, { PieProps } from '@nivo/pie';
 import { nutrientNames } from '@/constants/nutrients';
 import { getNutrientColor } from '@/utils/dietUtils';
-import { ChartCard } from '@/styles/common';
+// import { ChartCard } from '@/styles/common';
+import { ChartCard } from '../../styles/common';
 
 interface NutrientData {
   current: number;

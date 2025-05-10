@@ -1,5 +1,6 @@
 import React from 'react';
-import { ChartCard } from '@/styles/common';
+// import { ChartCard } from '@/styles/common';
+import { ChartCard } from '../../styles/common';
 import { nutrientNames } from '@/constants/nutrients';
 
 interface NutrientData {
