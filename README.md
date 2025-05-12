@@ -23,7 +23,3 @@
     <img src="https://img.shields.io/badge/Live%20Demo-Click&nbsp;Here-informational?style=for-the-badge&logo=vercel">
   </a>
 </p>
-
-> **Tip 🔗**  
-> - `docs/architecture.png` · `docs/feature-flow.png` 는 리포지토리 내에 넣어두면 GitHub에서 자동 렌더링됩니다.  
-> - 라이브 데모 URL이 준비되지 않았다면 링크 부분을 나중에 업데이트하세요.
