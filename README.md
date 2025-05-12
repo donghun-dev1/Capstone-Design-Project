@@ -9,6 +9,10 @@
 > 영양학·예산·알레르기·식습관 데이터를 AI로 분석해  
 > **맞춤 식단**과 **시각화된 영양 리포트**를 제공하는 올-인-원 웹앱
 
+
+
+
+
 ## 📸 데모 & 스크린샷
 
 | 시스템 아키텍처 (프로젝트 개요) | 기능 플로우 (모듈 개요) |
@@ -21,11 +25,18 @@
   </a>
 </p>
 
+
+
+
+
 ## 📝 소개 (Description)
 
 현대인은 **개인 체형·건강 목표·시간·예산·알레르기** 등 다양한 제약 속에서 “뭘 먹어야 할지” 고민합니다.  
 **Capstone-Design-Project**는 이러한 문제를 해결하기 위해 **AI 엔진**과 **풍부한 영양 DB**를 결합,  
 사용자 맞춤 식단을 **원-클릭**으로 추천하고 시각화까지 제공하는 올-인-원 웹서비스입니다.
+
+
+
 
 ### 핵심 기능
 | 카테고리 | 기능 |
@@ -36,6 +47,10 @@
 | **4. 결과 시각화** | 게이지 차트·스택 바·파이 차트로 영양 비율을 직관적으로 표시 |
 | **5. 저장 & 다운로드** | 식단 요약 TXT 다운로드 · DB 저장 · API 응답(JSON) 제공 |
 
+
+
+
+
 ### 주요 기술 키워드
 
 | 영역 | 스택 |
@@ -43,6 +58,10 @@
 | **Frontend** | <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black"/> <img src="https://img.shields.io/badge/TypeScript-5.4-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/> <img src="https://img.shields.io/badge/Vite-5.2-646CFF?style=for-the-badge&logo=vite&logoColor=white"/> <img src="https://img.shields.io/badge/Zustand-State-Mgmt-3E3E3E?style=for-the-badge"/> <img src="https://img.shields.io/badge/TailwindCSS-3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"/> |
 | **Backend** | <img src="https://img.shields.io/badge/Node.js-18-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/> <img src="https://img.shields.io/badge/Express-5-000000?style=for-the-badge&logo=express&logoColor=white"/> <img src="https://img.shields.io/badge/Drizzle%20ORM-0.29-8B5CF6?style=for-the-badge"/> <img src="https://img.shields.io/badge/JWT-Auth-FFB400?style=for-the-badge&logo=jsonwebtokens&logoColor=black"/> |
 | **Dev&nbsp;Tools** | <img src="https://img.shields.io/badge/ESLint-FlatConfig-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/> <img src="https://img.shields.io/badge/Prettier-3.2-F7B93E?style=for-the-badge&logo=prettier&logoColor=white"/> <img src="https://img.shields.io/badge/Vitest-1.5-6E9F18?style=for-the-badge"/> <img src="https://img.shields.io/badge/GitHub%20Actions-CI-CD-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"/> |
+
+
+
+
 
 ## 📋 Table&nbsp;of&nbsp;Contents
 - [소개 (Description)](#-소개-description)
@@ -60,6 +79,10 @@
 - [Credits](#-참고-자료-acknowledgements)
 
 ---
+
+
+
+
 
 ## ⚡ Quick Start
 
@@ -79,6 +102,10 @@ npm install
 npm run dev
 ```
 
+
+
+
+
 ## ✨ 기능 (Features)
 
 | # | 기능 | 설명 |
@@ -91,6 +118,10 @@ npm run dev
 | 6 | **PDF · CSV · JSON 내보내기** | 결과 리포트를 한 번에 다운로드 → 의료진·PT 트레이너 공유 가능 |
 | 7 | **PWA & 모바일 최적화** | 홈 화면 설치 지원, 오프라인 캐싱, 다크 모드 |
 | 8 | **DevOps 친화 CI/CD** | GitHub Actions → Vercel Preview → 프로덕션 자동 배포 |
+
+
+
+
 
 ## 🛠 NPM 스크립트
 
@@ -122,6 +153,10 @@ npm run dev
 }
 ```
 </details>
+
+
+
+
 
 ## 🗂️ 폴더 구조 (Folder Structure)
 
@@ -160,10 +195,18 @@ Capstone-Design-Project/
 
 </details>
 
+
+
+
+
 ## 🎨 코드 스타일 & 개발 환경
 
 > 저장만 해도 **자동 포맷 + 실시간 에러 감지**  
 > 팀원 누구나 동일한 환경에서 일관된 코드를 작성할 수 있도록 설정되었습니다.
+
+
+
+
 
 ### ✅ 적용된 도구
 
@@ -175,6 +218,10 @@ Capstone-Design-Project/
 | **자동 실행** | 저장 시 ESLint + Prettier가 자동 작동함 (`formatOnSave`, `fixAll`) |
 
 ---
+
+
+
+
 
 ### 🔧 핵심 설정 파일
 
@@ -188,12 +235,20 @@ Capstone-Design-Project/
 
 ---
 
+
+
+
+
 ### 📦 필수 확장 (VS Code)
 
 - ✅ [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)  
 - ✅ [Prettier – Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
 ---
+
+
+
+
 
 ### 📄 설정 스냅샷
 
@@ -214,12 +269,20 @@ Capstone-Design-Project/
 
 </details>
 
+
+
+
+
 ## 🔀 커밋 & 브랜치 규칙
 
 > 팀 협업과 Git 기록 관리의 일관성을 위해  
 > **Conventional Commits + 기능별 브랜치 전략**을 따릅니다.
 
 ---
+
+
+
+
 
 ### 🧩 브랜치 전략
 
@@ -232,6 +295,10 @@ Capstone-Design-Project/
 > 예: `feat/ai-recommend`, `fix/nutrient-calculation`, `refactor/store-structure`
 
 ---
+
+
+
+
 
 ### 📝 커밋 메시지 규칙 (Conventional Commits)
 
@@ -258,6 +325,10 @@ git commit -m "chore: ESLint + Prettier 설정 적용"
 
 ---
 
+
+
+
+
 ### ✅ PR 예시
 
 ```bash
@@ -268,12 +339,20 @@ git commit -m "feat: 식단 구성 페이지 drag-and-drop UI 추가"
 git push origin feat/meal-config-editor
 ```
 
+
+
+
+
 ## 🧠 프로젝트 아키텍처
 
 > 이 프로젝트는 **AI 식단 추천을 중심으로**, 사용자 입력 → 추천 생성 → 구성 편집 → 결과 시각화까지  
 > **일관된 상태 흐름과 API 분리 구조**를 기반으로 동작합니다.
 
 ---
+
+
+
+
 
 ### 📍 시스템 구성도
 
@@ -283,6 +362,10 @@ git push origin feat/meal-config-editor
 
 ---
 
+
+
+
+
 ### 📦 모듈 구조
 
 | 주요 모듈 관계 |
@@ -290,6 +373,10 @@ git push origin feat/meal-config-editor
 | ![Module Flow](개요도/모듈%20개요도.png) |
 
 ---
+
+
+
+
 
 ### ⚙️ Zustand 상태 흐름
 
@@ -310,6 +397,10 @@ stateDiagram-v2
 
 ---
 
+
+
+
+
 ### 🧬 DB 모델 (Drizzle ORM 기반)
 
 - 유저 정보, 식단 구성, 음식 테이블, 추천 로그 등은 `.shared/schema.ts`에서 선언
@@ -324,6 +415,10 @@ export const dietRecommendations = pgTable("diet_recommendations", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 ```
+
+
+
+
 
 ## 🗺️ 로드맵 (Roadmap)
 
