@@ -155,5 +155,9 @@ Capstone-Design-Project/
 ├── .gitignore
 ├── README.md
 └── package.json
+```
+
+</details>
+
 
 
