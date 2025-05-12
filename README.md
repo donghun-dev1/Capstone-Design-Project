@@ -37,6 +37,10 @@
 | **5. 저장 & 다운로드** | 식단 요약 TXT 다운로드 · DB 저장 · API 응답(JSON) 제공 |
 
 ### 주요 기술 키워드
-- **Frontend** : React 18 · TypeScript · Vite · Zustand(상태) · Tailwind CSS  
-- **Backend** : Node 18 · Express · Drizzle ORM · JWT 인증  
-- **Dev Tools** : ESLint FlatConfig · Prettier · Vitest · GitHub Actions
+
+| 영역 | 스택 |
+|:--|:--|
+| **Frontend** | <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black"/> <img src="https://img.shields.io/badge/TypeScript-5.4-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/> <img src="https://img.shields.io/badge/Vite-5.2-646CFF?style=for-the-badge&logo=vite&logoColor=white"/> <img src="https://img.shields.io/badge/Zustand-State-Mgmt-3E3E3E?style=for-the-badge"/> <img src="https://img.shields.io/badge/TailwindCSS-3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"/> |
+| **Backend** | <img src="https://img.shields.io/badge/Node.js-18-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/> <img src="https://img.shields.io/badge/Express-5-000000?style=for-the-badge&logo=express&logoColor=white"/> <img src="https://img.shields.io/badge/Drizzle%20ORM-0.29-8B5CF6?style=for-the-badge"/> <img src="https://img.shields.io/badge/JWT-Auth-FFB400?style=for-the-badge&logo=jsonwebtokens&logoColor=black"/> |
+| **Dev&nbsp;Tools** | <img src="https://img.shields.io/badge/ESLint-FlatConfig-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/> <img src="https://img.shields.io/badge/Prettier-3.2-F7B93E?style=for-the-badge&logo=prettier&logoColor=white"/> <img src="https://img.shields.io/badge/Vitest-1.5-6E9F18?style=for-the-badge"/> <img src="https://img.shields.io/badge/GitHub%20Actions-CI-CD-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"/> |
+
