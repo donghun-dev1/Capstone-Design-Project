@@ -11,12 +11,9 @@
 
 ## 📸 데모 & 스크린샷
 
-> **Step-by-Step 흐름이 궁금하다면?**  
-> 아래 아키텍처/플로우 차트를 통해 서비스 동작 과정을 한눈에 확인하세요!
-
-| 시스템 아키텍처 | 기능 플로우 |
+| 시스템 아키텍처 (프로젝트 개요) | 기능 플로우 (모듈 개요) |
 |:--:|:--:|
-| ![Architecture Diagram](docs/architecture.png) | ![Feature Flow](docs/feature-flow.png) |
+| ![Project Architecture](개요도/프로젝트%20개요도.png) | ![Module Flow](개요도/모듈%20개요도.png) |
 
 <p align="center">
   <a href="https://your-demo-url.com" target="_blank">
