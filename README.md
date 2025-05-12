@@ -90,5 +90,5 @@ npm run dev
 | 5 | **대체 식품 추천** | 특정 음식 제외 시 **알레르기·취향 필터** 기반 대체 메뉴 자동 제안 |
 | 6 | **PDF · CSV · JSON 내보내기** | 결과 리포트를 한 번에 다운로드 → 의료진·PT 트레이너 공유 가능 |
 | 7 | **PWA & 모바일 최적화** | 홈 화면 설치 지원, 오프라인 캐싱, 다크 모드 |
-| 8 | **JWT 기반 인증 & 프로필 저장** | OAuth 로그인(예정) + 추천 기록·선호도·알러지 이력 보관 |
-| 9 | **DevOps 친화 CI/CD** | GitHub Actions → Vercel Preview → 프로덕션 자동 배포 |
+| 8 | **DevOps 친화 CI/CD** | GitHub Actions → Vercel Preview → 프로덕션 자동 배포 |
+
