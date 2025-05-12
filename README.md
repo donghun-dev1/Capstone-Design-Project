@@ -1,47 +1,7 @@
-# Capstone-Design-Project 🚀  
-**AI 기반 개인 맞춤형 식단 추천 웹서비스**
+🚀 Capstone-Design-Project
+AI 기반 개인 맞춤형 식단 추천 웹서비스
+Node version
+License: MIT
+Build
 
-[![Node version](https://img.shields.io/badge/node-%3E%3D18.0-green?logo=node.js)](https://nodejs.org/)  
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](#license)  
-[![Build](https://img.shields.io/badge/GitHub%20Actions-passing-brightgreen?logo=github-actions)](#ci)
-
-
-
-> **“누구나 건강하게 먹을 권리가 있다.”**  
-> 영양학 · 예산 · 알레르기 · 식습관 데이터를 AI로 분석해  
-> **맞춤 식단**과 **시각화된 영양 리포트**를 제공하는 올-인-원 웹앱
-
-
-
-
-## 📸 데모 & 스크린샷
-
-**시스템 아키텍처 (프로젝트 개요)**  
-![Project Architecture](개요도/프로젝트%20개요도.png)
-
-**기능 플로우 (모듈 개요)**  
-![Module Flow](개요도/모듈%20개요도.png)
-
-
-
-<p align="center">
-  <a href="https://your-demo-url.com" target="_blank">
-    <img
-      src="https://img.shields.io/badge/Live%20Demo-Click%20Here-informational?style=for-the-badge&logo=vercel"
-      alt="Live Demo"
-    />
-  </a>
-</p>
-
-
-
-
-## 📝 소개 (Description)
-
-현대인은 **개인 체형 · 건강 목표 · 시간 · 예산 · 알레르기** 등  
-다양한 제약 속에서 “뭘 먹어야 할지” 매일 고민합니다.
-
-**Capstone-Design-Project**는 이 고민을 해소하기 위해,  
-고도화된 **AI 엔진**과 **방대한 영양 DB**를 결합하여  
-사용자 맞춤 식단을 **원클릭**으로 추천하고  
-시각화된 **영양 리포트**까지 제공하는 올인원 웹서비스입니다.
+“누구나 건강하게 먹을 권리가 있다.”
