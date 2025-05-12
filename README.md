@@ -325,6 +325,40 @@ export const dietRecommendations = pgTable("diet_recommendations", {
 });
 ```
 
+## 🗺️ 로드맵 (Roadmap)
+
+> 향후 기능 확장 계획과 기술적 개선 항목입니다.  
+> 완료된 항목은 ✅, 진행 중은 🔄, 예정은 ⏳ 으로 표시됩니다.
+
+### ✅ v1.0 (현재 상태)
+
+- [x] AI 기반 식단 추천 기능 (성별, 체중, 체지방률 등 반영)
+- [x] 드래그&드롭 식단 구성 UI
+- [x] 상태 관리 (Zustand 기반 전역 스토어)
+- [x] 식단 요약 결과 모달 & 시각화 차트
+- [x] PDF/JSON/CSV 내보내기 기능
+- [x] ESLint + Prettier 기반 코드 스타일 자동화
+- [x] Git 브랜치 & 커밋 규칙 정립
+
+---
+
+### ⏳ v1.1 (예정)
+
+- [ ] GitHub Actions 기반 CI/CD (PR 자동 린트 + 포맷 검사)
+- [ ] Husky `pre-commit` 훅 + `npm run check` 연결
+- [ ] `.editorconfig` 도입 (IDE 간 코드 호환성 유지)
+- [ ] Zustand 상태 자동 persist 기능 도입
+- [ ] 대체 식품 추천 정확도 개선 (사용자 피드백 기반 학습)
+
+---
+
+### 🧪 v2.0 (후속 개발 고려 사항)
+
+- [ ] AI 식단 추천 정확도 고도화 (데이터셋 다변화)
+- [ ] 사용자 추천 히스토리 기반 피드백 학습 알고리즘 도입
+- [ ] React Query 도입 + Suspense 연동
+- [ ] OAuth 소셜 로그인 (Google, Kakao) → ✅ **현재 구현 제외됨**
+- [ ] 완전한 모바일 퍼스트 대응 + 반응형 UI 최적화
 
 
 
