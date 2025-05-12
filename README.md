@@ -121,6 +121,7 @@ npm run dev
   "preview": "vite preview"
 }
 ```
+</details>
 
 ## 🗂️ 폴더 구조 (Folder Structure)
 
