@@ -92,3 +92,62 @@ npm run dev
 | 7 | **PWA & 모바일 최적화** | 홈 화면 설치 지원, 오프라인 캐싱, 다크 모드 |
 | 8 | **DevOps 친화 CI/CD** | GitHub Actions → Vercel Preview → 프로덕션 자동 배포 |
 
+## 🛠 NPM 스크립트
+
+| 명령어 | 설명 |
+|--------|------|
+| `dev` | 프런트 + 백엔드 **동시** 개발 서버 실행 |
+| `build` | Vite 프런트 빌드 **+** esbuild 서버 번들 |
+| `start` | 프로덕션 서버 실행 (`dist/index.js`) |
+| `check` | `tsc`&nbsp;+&nbsp;`eslint`&nbsp;+&nbsp;`prettier` **통합 품질 검사** |
+| `lint` / `lint:fix` | ESLint 검사 / 자동 고침 |
+| `format` | Prettier로 코드 일괄 포맷 |
+| `db:push` | Drizzle ORM 마이그레이션 반영 |
+| `preview` | Vite 정적 결과 미리보기 |
+
+<details>
+<summary><code>package.json</code> 스크립트 원문 보기</summary>
+
+```json
+"scripts": {
+  "dev": "cross-env NODE_ENV=development tsx server/index.ts",
+  "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+  "start": "NODE_ENV=production node dist/index.js",
+  "check": "tsc && npm run lint && npm run format",
+  "db:push": "drizzle-kit push",
+  "lint": "eslint . --ext .ts,.tsx,.js",
+  "lint:fix": "eslint . --ext .ts,.tsx,.js --fix",
+  "format": "prettier . --write",
+  "preview": "vite preview"
+}
+```
+</details>
+## 🗂️ 폴더 구조 (Folder Structure)
+Capstone-Design-Project/
+├── samename/
+│   ├── client/                    # React + TS 프론트엔드
+│   │   ├── src/
+│   │   │   ├── components/       # UI & Feature 컴포넌트
+│   │   │   ├── pages/            # 라우트 페이지
+│   │   │   ├── stores/           # Zustand 상태
+│   │   │   ├── hooks/            # 커스텀 훅
+│   │   │   ├── styles/           # Tailwind / CSS
+│   │   │   └── main.tsx
+│   │   └── index.html
+│   ├── server/                   # Express API 서버
+│   │   ├── routes.ts
+│   │   ├── storage.ts            # DB 액세스 (Drizzle ORM)
+│   │   ├── db.ts
+│   │   └── index.ts
+│   ├── shared/                   # 공용 타입 & 스키마
+│   ├── drizzle.config.ts
+│   ├── tailwind.config.ts
+│   ├── eslint.config.js
+│   ├── .prettierrc
+│   └── .vscode/
+│       ├── settings.json
+│       └── extensions.json
+├── .gitignore
+├── README.md
+└── package.json
+
