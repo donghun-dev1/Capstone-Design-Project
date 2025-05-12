@@ -160,5 +160,171 @@ Capstone-Design-Project/
 
 </details>
 
+## 🎨 코드 스타일 & 개발 환경
+
+> 저장만 해도 **자동 포맷 + 실시간 에러 감지**  
+> 팀원 누구나 동일한 환경에서 일관된 코드를 작성할 수 있도록 설정되었습니다.
+
+### ✅ 적용된 도구
+
+| 도구 | 역할 |
+|------|------|
+| **ESLint** | 코드 스타일·에러 실시간 감지 (FlatConfig 기반) |
+| **Prettier** | 저장 시 자동 코드 정렬 |
+| **VS Code 설정 공유** | `.vscode/settings.json` 및 확장 추천 제공 |
+| **자동 실행** | 저장 시 ESLint + Prettier가 자동 작동함 (`formatOnSave`, `fixAll`) |
+
+---
+
+### 🔧 핵심 설정 파일
+
+| 파일 경로 | 역할 |
+|-----------|------|
+| `eslint.config.js` | FlatConfig 기반 ESLint 룰 정의 |
+| `.prettierrc` | Prettier 포맷 옵션 (탭 너비 등) |
+| `.eslintignore` / `.prettierignore` | 린트·포맷 제외 디렉터리 |
+| `.vscode/settings.json` | 저장 시 자동 포맷 + 린트 |
+| `.vscode/extensions.json` | 팀원 공통 추천 확장 (ESLint, Prettier)
+
+---
+
+### 📦 필수 확장 (VS Code)
+
+- ✅ [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)  
+- ✅ [Prettier – Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+---
+
+### 📄 설정 스냅샷
+
+<details>
+<summary><code>.vscode/settings.json</code></summary>
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript", "typescript", "typescriptreact"],
+  "eslint.experimental.useFlatConfig": true
+}
+```
+
+</details>
+
+## 🔀 커밋 & 브랜치 규칙
+
+> 팀 협업과 Git 기록 관리의 일관성을 위해  
+> **Conventional Commits + 기능별 브랜치 전략**을 따릅니다.
+
+---
+
+### 🧩 브랜치 전략
+
+| 브랜치명 | 설명 |
+|----------|------|
+| `main` | 운영/배포용 브랜치 (🔒 직접 커밋 금지) |
+| `seil`, `dev`, `feat/login`, `fix/modal-crash` 등 | 기능별 작업 브랜치 (기여자는 여기서 작업 후 PR) |
+
+> 브랜치는 소문자 + kebab-case 또는 feature 단위로 명확히 작성합니다.  
+> 예: `feat/ai-recommend`, `fix/nutrient-calculation`, `refactor/store-structure`
+
+---
+
+### 📝 커밋 메시지 규칙 (Conventional Commits)
+
+```
+<타입>: <의미 있는 설명>
+```
+
+| 타입 | 목적 |
+|------|------|
+| `feat` | 새로운 기능 추가 |
+| `fix` | 버그 수정 |
+| `docs` | 문서 작성/수정 (README 등) |
+| `style` | 코드 포맷팅, 세미콜론 누락 등 비즈니스 로직 변경 없는 수정 |
+| `refactor` | 리팩토링 (기능 추가/수정 없이 구조 개선) |
+| `test` | 테스트 코드 추가/수정 |
+| `chore` | 설정, 빌드, 패키지 등 비즈니스 로직 외 변경 |
+
+예시:
+```bash
+git commit -m "feat: AI 식단 추천 로직 초기 구현"
+git commit -m "fix: drag-and-drop 오류 수정"
+git commit -m "chore: ESLint + Prettier 설정 적용"
+```
+
+---
+
+### ✅ PR 예시
+
+```bash
+git checkout -b feat/meal-config-editor
+# 작업 후
+git add .
+git commit -m "feat: 식단 구성 페이지 drag-and-drop UI 추가"
+git push origin feat/meal-config-editor
+```
+
+## 🧠 프로젝트 아키텍처
+
+> 이 프로젝트는 **AI 식단 추천을 중심으로**, 사용자 입력 → 추천 생성 → 구성 편집 → 결과 시각화까지  
+> **일관된 상태 흐름과 API 분리 구조**를 기반으로 동작합니다.
+
+---
+
+### 📍 시스템 구성도
+
+| 전체 흐름 (중앙 AI 알고리즘 중심) |
+|:--:|
+| ![System Architecture](개요도/프로젝트%20개요도.png) |
+
+---
+
+### 📦 모듈 구조
+
+| 주요 모듈 관계 |
+|:--:|
+| ![Module Flow](개요도/모듈%20개요도.png) |
+
+---
+
+### ⚙️ Zustand 상태 흐름
+
+```mermaid
+stateDiagram-v2
+    InputPage --> RecommendStore : 사용자 정보 저장
+    RecommendStore --> API : 추천 요청 전송
+    API --> RecommendStore : 식단 응답 수신
+    RecommendStore --> PreviewStore : 요약 데이터 저장
+    PreviewStore --> UI : 요약 모달 렌더링
+    MealPlanStore --> UI : 구성 UI 상태 관리
+```
+
+- `useUserInfoStore` → 사용자 입력 정보 전역 관리
+- `useRecommendStore` → API 요청/응답 및 로딩/에러 상태 관리
+- `usePreviewStore` → 요약 정보(칼로리/영양소) 전역 공유
+- `useMealPlanStore` → 드래그&드롭 기반 식단 구성 저장소
+
+---
+
+### 🧬 DB 모델 (Drizzle ORM 기반)
+
+- 유저 정보, 식단 구성, 음식 테이블, 추천 로그 등은 `.shared/schema.ts`에서 선언
+- 마이그레이션은 `drizzle-kit push` 명령어로 자동 관리됨
+
+```ts
+// 예시: DietRecommendation 스키마 일부
+export const dietRecommendations = pgTable("diet_recommendations", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  meals: json("meals"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+```
+
+
 
 
