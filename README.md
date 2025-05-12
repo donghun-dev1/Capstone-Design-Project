@@ -44,3 +44,36 @@
 | **Backend** | <img src="https://img.shields.io/badge/Node.js-18-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/> <img src="https://img.shields.io/badge/Express-5-000000?style=for-the-badge&logo=express&logoColor=white"/> <img src="https://img.shields.io/badge/Drizzle%20ORM-0.29-8B5CF6?style=for-the-badge"/> <img src="https://img.shields.io/badge/JWT-Auth-FFB400?style=for-the-badge&logo=jsonwebtokens&logoColor=black"/> |
 | **Dev&nbsp;Tools** | <img src="https://img.shields.io/badge/ESLint-FlatConfig-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/> <img src="https://img.shields.io/badge/Prettier-3.2-F7B93E?style=for-the-badge&logo=prettier&logoColor=white"/> <img src="https://img.shields.io/badge/Vitest-1.5-6E9F18?style=for-the-badge"/> <img src="https://img.shields.io/badge/GitHub%20Actions-CI-CD-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"/> |
 
+## 📋 Table&nbsp;of&nbsp;Contents
+- [소개 (Description)](#-소개-description)
+- [데모 & 스크린샷](#-데모--스크린샷)
+- [주요 기능](#-기능-features)        
+- [주요 기술 스택](#-주요-기술-키워드)
+- [Quick Start](#-quick-start)
+- [NPM 스크립트](#-npm-스크립트)
+- [폴더 구조](#-폴더-구조-folder-structure)
+- [코드 스타일 & 개발 환경](#-코드-스타일--개발-환경)
+- [프로젝트 아키텍처](#-프로젝트-아키텍처)
+- [로드맵](#-로드맵-roadmap)
+- [기여 방법](#-기여-방법-contributing)
+- [License](#license)
+- [Credits](#-참고-자료-acknowledgements)
+
+---
+
+## ⚡ Quick Start
+
+> **Prerequisites**  
+> - **Node.js ≥ 18** & `npm ≥ 9`  
+> - 환경변수 설정: `.env` 파일을 `cp .env.example .env`로 복사 후 값 입력
+
+```bash
+# 1) 레포지토리 클론
+git clone https://github.com/donghun-dev1/Capstone-Design-Project.git
+cd Capstone-Design-Project
+
+# 2) 의존성 설치
+npm install
+
+# 3) 개발 서버 & 백엔드 동시 실행
+npm run dev
