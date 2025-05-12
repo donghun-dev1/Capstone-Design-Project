@@ -11,7 +11,9 @@ export const users = pgTable("users", {
 
 export const userProfiles = pgTable("user_profiles", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id),
   gender: text("gender").notNull(),
   height: real("height").notNull(),
   weight: real("weight").notNull(),
@@ -21,16 +23,22 @@ export const userProfiles = pgTable("user_profiles", {
   mealsPerDay: integer("meals_per_day").notNull(),
   allergies: text("allergies"),
   budget: integer("budget").notNull(),
-  createdAt: text("created_at").notNull().$default(() => new Date().toISOString()),
+  createdAt: text("created_at")
+    .notNull()
+    .$default(() => new Date().toISOString()),
 });
 
 export const dietRecommendations = pgTable("diet_recommendations", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id),
   profileId: integer("profile_id").references(() => userProfiles.id),
   meals: jsonb("meals").notNull(),
   summary: jsonb("summary").notNull(),
-  createdAt: text("created_at").notNull().$default(() => new Date().toISOString()),
+  createdAt: text("created_at")
+    .notNull()
+    .$default(() => new Date().toISOString()),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
@@ -46,8 +54,10 @@ export const insertUserProfileSchema = createInsertSchema(userProfiles)
     }),
   });
 
-export const insertDietRecommendationSchema = createInsertSchema(dietRecommendations)
-  .omit({ id: true, createdAt: true });
+export const insertDietRecommendationSchema = createInsertSchema(dietRecommendations).omit({
+  id: true,
+  createdAt: true,
+});
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -57,17 +67,20 @@ export type DietRecommendationDb = typeof dietRecommendations.$inferSelect;
 // Define relationship between tables
 export const userRelations = relations(users, ({ many }) => ({
   profiles: many(userProfiles),
-  recommendations: many(dietRecommendations)
+  recommendations: many(dietRecommendations),
 }));
 
 export const userProfileRelations = relations(userProfiles, ({ one, many }) => ({
   user: one(users, { fields: [userProfiles.userId], references: [users.id] }),
-  recommendations: many(dietRecommendations)
+  recommendations: many(dietRecommendations),
 }));
 
 export const dietRecommendationRelations = relations(dietRecommendations, ({ one }) => ({
   user: one(users, { fields: [dietRecommendations.userId], references: [users.id] }),
-  profile: one(userProfiles, { fields: [dietRecommendations.profileId], references: [userProfiles.id] }),
+  profile: one(userProfiles, {
+    fields: [dietRecommendations.profileId],
+    references: [userProfiles.id],
+  }),
 }));
 
 // Diet Recommendation Schema
@@ -110,16 +123,18 @@ export const mealSchema = z.object({
   sodium: z.number().optional(),
   sugar: z.number().optional(),
   fiber: z.number().optional(),
-  nutrition: z.object({
-    calories: z.number(),
-    protein: z.number(),
-    carbs: z.number(),
-    fat: z.number(),
-    sodium: z.number().optional(),
-    sugar: z.number().optional(),
-    fiber: z.number().optional(),
-    saturatedFat: z.number().optional()
-  }).optional(),
+  nutrition: z
+    .object({
+      calories: z.number(),
+      protein: z.number(),
+      carbs: z.number(),
+      fat: z.number(),
+      sodium: z.number().optional(),
+      sugar: z.number().optional(),
+      fiber: z.number().optional(),
+      saturatedFat: z.number().optional(),
+    })
+    .optional(),
 });
 
 export type Meal = z.infer<typeof mealSchema>;

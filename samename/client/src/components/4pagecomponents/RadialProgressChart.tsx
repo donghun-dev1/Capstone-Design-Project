@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface Nutrient {
   key: string;
@@ -33,11 +33,11 @@ interface TooltipInfo {
 }
 
 const NUTRIENTS: Nutrient[] = [
-  { key: 'calories', label: '칼로리', color: '#8884d8', unit: 'kcal' },
-  { key: 'protein', label: '단백질', color: '#83a6ed', unit: 'g' },
-  { key: 'fat', label: '지방', color: '#8dd1e1', unit: 'g' },
-  { key: 'carbs', label: '탄수화물', color: '#82ca9d', unit: 'g' },
-  { key: 'budget', label: '예산', color: '#a4de6c', unit: '원' },
+  { key: "calories", label: "칼로리", color: "#8884d8", unit: "kcal" },
+  { key: "protein", label: "단백질", color: "#83a6ed", unit: "g" },
+  { key: "fat", label: "지방", color: "#8dd1e1", unit: "g" },
+  { key: "carbs", label: "탄수화물", color: "#82ca9d", unit: "g" },
+  { key: "budget", label: "예산", color: "#a4de6c", unit: "원" },
 ];
 
 const MultiDonutChart: React.FC<MultiDonutChartProps> = ({
@@ -65,25 +65,25 @@ const MultiDonutChart: React.FC<MultiDonutChartProps> = ({
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         width: size + 220,
         marginTop: 56,
       }}
     >
       <div style={{ flex: 1 }}>
         {chartTitle && (
-          <h2 style={{ textAlign: 'center', fontWeight: 700, fontSize: 26, marginBottom: 24 }}>
+          <h2 style={{ textAlign: "center", fontWeight: 700, fontSize: 26, marginBottom: 24 }}>
             {chartTitle}
           </h2>
         )}
         {chartSubtitle && (
-          <div style={{ textAlign: 'center', color: '#888', fontSize: 16, marginBottom: 24 }}>
+          <div style={{ textAlign: "center", color: "#888", fontSize: 16, marginBottom: 24 }}>
             {chartSubtitle}
           </div>
         )}
-        <svg width={size} height={size} style={{ display: 'block' }}>
+        <svg width={size} height={size} style={{ display: "block" }}>
           {NUTRIENTS.map((nutrient, i) => {
             const datum = data?.[nutrient.key];
             if (!datum) return null;
@@ -113,8 +113,8 @@ const MultiDonutChart: React.FC<MultiDonutChartProps> = ({
                   strokeDasharray={circumference}
                   strokeDashoffset={offset}
                   strokeLinecap="round"
-                  style={{ transition: 'stroke-dashoffset 0.5s' }}
-                  onMouseEnter={(e) =>
+                  style={{ transition: "stroke-dashoffset 0.5s" }}
+                  onMouseEnter={e =>
                     setTooltip({
                       nutrient,
                       value: current,
@@ -123,7 +123,7 @@ const MultiDonutChart: React.FC<MultiDonutChartProps> = ({
                       pos: { left: e.clientX, top: e.clientY + 18 },
                     })
                   }
-                  onMouseMove={(e) =>
+                  onMouseMove={e =>
                     setTooltip({
                       nutrient,
                       value: current,
@@ -152,47 +152,45 @@ const MultiDonutChart: React.FC<MultiDonutChartProps> = ({
         {tooltip && (
           <div
             style={{
-              position: 'fixed',
+              position: "fixed",
               left: tooltip.pos.left,
               top: tooltip.pos.top,
-              background: '#fff',
-              border: '1px solid #ddd',
+              background: "#fff",
+              border: "1px solid #ddd",
               borderRadius: 10,
-              boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
-              padding: '18px 22px',
+              boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
+              padding: "18px 22px",
               minWidth: 120,
               zIndex: 10,
-              pointerEvents: 'none',
-              transform: 'translate(-50%, 0)',
+              pointerEvents: "none",
+              transform: "translate(-50%, 0)",
             }}
           >
             <div style={{ fontWeight: 700, fontSize: 18, marginBottom: 6 }}>
               {tooltip.nutrient.label}
             </div>
-            <div style={{ color: '#666', marginBottom: 2 }}>
+            <div style={{ color: "#666", marginBottom: 2 }}>
               {tooltip.value}/{tooltip.target} {tooltip.nutrient.unit}
             </div>
-            <div style={{ color: '#888', fontSize: 15 }}>
-              달성률: {tooltip.percent.toFixed(2)}%
-            </div>
+            <div style={{ color: "#888", fontSize: 15 }}>달성률: {tooltip.percent.toFixed(2)}%</div>
           </div>
         )}
       </div>
       <div
         style={{
           marginLeft: 40,
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
           gap: 16,
           fontSize: 17,
           fontWeight: 600,
         }}
       >
-        {NUTRIENTS.map((n) => (
-          <div key={n.key} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {NUTRIENTS.map(n => (
+          <div key={n.key} style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span
               style={{
-                display: 'inline-block',
+                display: "inline-block",
                 width: 16,
                 height: 16,
                 borderRadius: 8,

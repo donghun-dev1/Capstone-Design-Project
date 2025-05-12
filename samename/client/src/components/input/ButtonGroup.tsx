@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface ButtonOption {
   value: number | string;
@@ -24,15 +24,17 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
   label,
 }) => {
   return (
-    <div className="flex flex-col" id={id}> {/* ✅ id prop 사용 */}
+    <div className="flex flex-col" id={id}>
+      {" "}
+      {/* ✅ id prop 사용 */}
       <label className="main-input__label">{label}</label>
       <div className="flex gap-2">
-        {options.map((option) => (
+        {options.map(option => (
           <button
             key={option.value}
             type="button"
             className={`main-input__meal-btn ${
-              value === option.value ? 'main-input__meal-btn--active' : ''
+              value === option.value ? "main-input__meal-btn--active" : ""
             }`}
             onClick={() => onChange(option.value)}
             aria-pressed={value === option.value}

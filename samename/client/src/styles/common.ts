@@ -1,20 +1,20 @@
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
 // 공통 색상 정의
 export const COLORS = {
-  primary: '#00C49F',
-  primaryHover: '#00A67E',
-  warning: '#FF0000',
-  warningBg: '#fff3f3',
+  primary: "#00C49F",
+  primaryHover: "#00A67E",
+  warning: "#FF0000",
+  warningBg: "#fff3f3",
   text: {
-    primary: '#222',
-    secondary: '#666',
-    subtle: '#888',
+    primary: "#222",
+    secondary: "#666",
+    subtle: "#888",
   },
   background: {
-    light: '#f5f6fa',
-    white: '#ffffff',
-  }
+    light: "#f5f6fa",
+    white: "#ffffff",
+  },
 };
 
 // 공통 스타일 믹스인
@@ -188,7 +188,10 @@ export const MainButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 0.7em;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.1s;
 
   &:hover {
     background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
@@ -206,7 +209,7 @@ export const AppBackground = styled.div`
 export const MainCard = styled.div`
   background: #fff;
   border-radius: 22px;
-  box-shadow: 0 6px 32px rgba(0,0,0,0.10);
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.1);
   padding: 3.5rem 3rem 2.5rem 3rem;
   max-width: 1400px;
   width: 100%;
@@ -234,15 +237,17 @@ export const AnalysisSection = styled.div`
 export const ChartCard = styled.div`
   background: #fff;
   border-radius: 24px;
-  box-shadow: 0 6px 32px rgba(0,0,0,0.10);
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.1);
   padding: 2.5rem 1.5rem 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 340px;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
   &:hover {
-    box-shadow: 0 12px 36px rgba(0,0,0,0.16);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16);
     transform: translateY(-4px) scale(1.02);
   }
 `;
@@ -250,7 +255,7 @@ export const ChartCard = styled.div`
 export const Card = styled.div`
   background: #fcfcfe;
   border-radius: 24px;
-  box-shadow: 0 6px 32px 0 rgba(80, 120, 200, 0.10);
+  box-shadow: 0 6px 32px 0 rgba(80, 120, 200, 0.1);
   padding: 36px 32px 32px 32px;
   margin: 0 16px;
   min-width: 320px;

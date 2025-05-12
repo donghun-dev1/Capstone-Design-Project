@@ -4,11 +4,11 @@ export function calculatePercentage(current: number, target: number): number {
 
 export function getNutrientColor(key: string): string {
   const colors: Record<string, string> = {
-    calories: '#ffb347',
-    protein: '#87ceeb',
-    fat: '#ff7f7f',
-    carbs: '#f9c74f',
-    budget: '#90be6d',
+    calories: "#ffb347",
+    protein: "#87ceeb",
+    fat: "#ff7f7f",
+    carbs: "#f9c74f",
+    budget: "#90be6d",
   };
-  return colors[key] || '#ccc';
+  return colors[key] || "#ccc";
 }
