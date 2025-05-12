@@ -121,8 +121,13 @@ npm run dev
   "preview": "vite preview"
 }
 ```
-</details>
+
 ## 🗂️ 폴더 구조 (Folder Structure)
+
+<details>
+<summary>프로젝트 디렉터리 트리 보기</summary>
+
+```text
 Capstone-Design-Project/
 ├── samename/
 │   ├── client/                    # React + TS 프론트엔드
@@ -150,4 +155,5 @@ Capstone-Design-Project/
 ├── .gitignore
 ├── README.md
 └── package.json
+
 
