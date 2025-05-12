@@ -5,9 +5,14 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](#license)  
 [![Build](https://img.shields.io/badge/GitHub%20Actions-passing-brightgreen?logo=github-actions)](#ci)
 
+
+
 > **“누구나 건강하게 먹을 권리가 있다.”**  
-> 영양학·예산·알레르기·식습관 데이터를 AI로 분석해  
+> 영양학 · 예산 · 알레르기 · 식습관 데이터를 AI로 분석해  
 > **맞춤 식단**과 **시각화된 영양 리포트**를 제공하는 올-인-원 웹앱
+
+
+
 
 ## 📸 데모 & 스크린샷
 
@@ -17,7 +22,7 @@
 **기능 플로우 (모듈 개요)**  
 ![Module Flow](개요도/모듈%20개요도.png)
 
----
+
 
 <p align="center">
   <a href="https://your-demo-url.com" target="_blank">
@@ -27,6 +32,9 @@
     />
   </a>
 </p>
+
+
+
 
 ## 📝 소개 (Description)
 
