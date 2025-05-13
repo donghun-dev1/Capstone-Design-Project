@@ -127,8 +127,8 @@ const DietResult = () => {
             </p>
             <Separator className="my-4" />
             {/* <PlaceholderChart label="영양소 비율" /> */}
-            <div className="h-[300px]">
-              <div style={{ height: 300 }}>
+            <div className="h-[200px]">
+              <div style={{ height: 400 }}>
                 <ResponsivePie
                   data={pieData}
                   margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
@@ -157,7 +157,7 @@ const DietResult = () => {
             <h2 className="text-xl font-semibold">영양소 상세 정보</h2>
             <Separator className="my-4" />
             {/* <PlaceholderChart label="상세 정보" /> */}
-            <div className="h-[300px]">
+            <div className="h-[400px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={nutritionComparisonData}>
                   <CartesianGrid strokeDasharray="3 3" />
