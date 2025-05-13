@@ -1,13 +1,13 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ResponsivePie } from '@nivo/pie';
+import { ResponsivePie } from "@nivo/pie";
 
 // 추가 차트 파일
 import {
-  PieChart,
-  Pie,
-  Cell,
+  // PieChart,
+  // Pie,
+  // Cell,
   Tooltip,
   Legend,
   ResponsiveContainer,
@@ -21,7 +21,6 @@ import {
 // stores 폴더 파일에서 데이터 가져오기
 import useRecommendStore from "../stores/useRecommendStore";
 import useSelectedMealsStore from "../stores/useSelectedMealsStore";
-
 
 // 상태값은 컴포넌트 함수 안에서 가져와야 하는 리엑트 규칙이 있어서 DietResult 함수 안에 넣음
 const DietResult = () => {
@@ -77,38 +76,37 @@ const DietResult = () => {
       name: "칼로리",
       current: nutrition.calories,
       target: recommendation?.summary?.totalCalories ?? 0,
-      unit: "kcal"
+      unit: "kcal",
     },
     {
       name: "단백질",
       current: nutrition.protein,
       target: recommendation?.summary?.totalProtein ?? 0,
-      unit: "g"
+      unit: "g",
     },
     {
       name: "탄수화물",
       current: nutrition.carbs,
       target: recommendation?.summary?.totalCarbs ?? 0,
-      unit: "g"
+      unit: "g",
     },
     {
       name: "지방",
       current: nutrition.fat,
       target: recommendation?.summary?.totalFat ?? 0,
-      unit: "g"
-    }
+      unit: "g",
+    },
   ];
 
   console.log("pieData", pieData);
   console.log("nutritionComparisonData", nutritionComparisonData);
 
-  // 예시 차트를 위한 placeholder 컴포넌트
-  // 차트 자리에 임시로 표시해줄 컴포넌트 PlaceholderChart를 정의
-  const PlaceholderChart = ({ label }: { label: string }) => (
-    <div className="h-48 bg-gray-100 flex items-center justify-center rounded-md">
-      <span className="text-gray-500">{label} 차트</span>
-    </div>
-  );
+  // <차트 자리에 임시로 표시해줄 컴포넌트 PlaceholderChart를 정의>
+  // const PlaceholderChart = ({ label }: { label: string }) => (
+  //   <div className="h-48 bg-gray-100 flex items-center justify-center rounded-md">
+  //     <span className="text-gray-500">{label} 차트</span>
+  //   </div>
+  // );
 
   return (
     <div className="p-6 space-y-6">
@@ -116,8 +114,9 @@ const DietResult = () => {
       <h1 className="text-3xl font-bold text-center">오늘의 식단 결과</h1>
 
       {/* 카드 영역 */}
-      <div className="grid gap-6 justify-center"
-           style={{ gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}
+      <div
+        className="grid gap-6 justify-center"
+        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}
       >
         {/* 카드 1 */}
         <Card className="w-full max-w-[600px] lg:h-[500px] xl:transform xl:translate-x-[300px] xl:translate-y-[20px]">
