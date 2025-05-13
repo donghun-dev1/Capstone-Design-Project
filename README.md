@@ -5,45 +5,50 @@
 ---
 
 ## 1. 디렉터리 구조
+
+```text
 Capstone-Design-Project-seil/
 ├── README.md
 ├── package-lock.json
 ├── samename/
-│ ├── package.json
-│ ├── tsconfig.json
-│ ├── tailwind.config.ts
-│ ├── postcss.config.js
-│ ├── drizzle.config.ts
-│ ├── eslint.config.js
-│ ├── vite.config.ts
-│ ├── .gitignore, .prettierrc, .eslintrc.js …
-│ ├── client/
-│ │ ├── src/
-│ │ │ ├── main.tsx
-│ │ │ ├── App.tsx
-│ │ │ ├── index.css
-│ │ │ ├── pages/
-│ │ │ │ ├── MainInputPage.tsx
-│ │ │ │ ├── RecommendPage.tsx
-│ │ │ │ ├── MealConfigPage.tsx
-│ │ │ │ └── SummaryPage.tsx
-│ │ │ ├── components/
-│ │ │ ├── hooks/
-│ │ │ ├── stores/
-│ │ │ ├── api/
-│ │ │ ├── lib/
-│ │ │ └── types/
-│ │ └── public/
-│ ├── server/
-│ │ ├── index.ts
-│ │ ├── routes.ts
-│ │ ├── db.ts
-│ │ ├── storage.ts
-│ │ └── vite.ts
-│ ├── shared/
-│ └── attached_assets/
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── tailwind.config.ts
+│   ├── postcss.config.js
+│   ├── drizzle.config.ts
+│   ├── eslint.config.js
+│   ├── vite.config.ts
+│   ├── .gitignore
+│   ├── .prettierrc
+│   ├── .eslintrc.js
+│   ├── client/
+│   │   ├── src/
+│   │   │   ├── main.tsx
+│   │   │   ├── App.tsx
+│   │   │   ├── index.css
+│   │   │   ├── pages/
+│   │   │   │   ├── MainInputPage.tsx
+│   │   │   │   ├── RecommendPage.tsx
+│   │   │   │   ├── MealConfigPage.tsx
+│   │   │   │   └── SummaryPage.tsx
+│   │   │   ├── components/
+│   │   │   ├── hooks/
+│   │   │   ├── stores/
+│   │   │   ├── api/
+│   │   │   ├── lib/
+│   │   │   └── types/
+│   │   └── public/
+│   ├── server/
+│   │   ├── index.ts
+│   │   ├── routes.ts
+│   │   ├── db.ts
+│   │   ├── storage.ts
+│   │   └── vite.ts
+│   ├── shared/
+│   └── attached_assets/
 ├── 개요도/
 └── 시나리오 흐름도/
+```
 
 - **samename/**: 프론트엔드와 백엔드를 모노리포로 관리  
 - **client/**: Vite + React + TypeScript 기반 UI  
