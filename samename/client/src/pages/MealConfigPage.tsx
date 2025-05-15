@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "wouter";
-import { Info, Plus, X, BarChart } from "lucide-react";
-import { Meal } from "@shared/schema";
+import { Plus, X, BarChart } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import FoodCard from "@/components/recommend/FoodCard";
 import useRecommendStore from "@/stores/useRecommendStore";
@@ -20,7 +19,8 @@ const MealConfigPage: React.FC = () => {
   const { toast } = useToast();
   const { recommendation } = useRecommendStore();
   const { userInfo } = useUserInfoStore();
-  const { meals, totals, addMeal, removeMeal, moveMeal } = useMealPlanStore();
+  // moveMeal 사용 안 하므로 구조분해에서 제외!
+  const { meals, totals, addMeal, removeMeal } = useMealPlanStore();
   const mealSlots: MealSlot[] = ["breakfast", "lunch", "dinner"];
 
   useEffect(() => {
@@ -122,7 +122,10 @@ const MealConfigPage: React.FC = () => {
                             >
                               <X size={16} />
                             </button>
-                            <FoodCard meal={meal} onSelect={meal => handleAddMeal(slot)} />
+                            <FoodCard
+                              meal={meal}
+                              onSelect={selectedMeal => addMeal(slot, selectedMeal)}
+                            />
                           </div>
                         ))
                       )}
