@@ -1,12 +1,11 @@
-import { apiRequest } from "@/lib/queryClient";
-import { getToken, getAnonymousToken, saveToken, hasToken, removeToken } from "./auth";
+import { getToken, getAnonymousToken, saveToken, removeToken } from "./auth";
 import { UserInfo, DietRecommendation } from "@shared/schema";
 
 // 알레르기 배열을 문자열로 변환하는 helper 함수
 function processUserInfo(userInfo: UserInfo) {
   return {
     ...userInfo,
-    allergies: userInfo.allergies.join(","),
+    allergies: (userInfo.allergies ?? []).join(","),
   };
 }
 

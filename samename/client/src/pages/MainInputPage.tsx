@@ -5,7 +5,6 @@ import InputCard from "@/components/input/InputCard";
 import TagInput from "@/components/input/TagInput";
 import GenderInput from "@/components/input/GenderInput";
 import NumberInput from "@/components/input/NumberInput";
-import RangeInput from "@/components/input/RangeInput";
 import SelectInput from "@/components/input/SelectInput";
 import ButtonGroup from "@/components/input/ButtonGroup";
 import TermsAgreement from "@/components/input/TermsAgreement";
@@ -72,7 +71,9 @@ const calculateBodyFatNavy = (
  * Main input page for collecting user information for diet recommendations
  */
 const MainInputPage: React.FC = () => {
-  const [location, navigate] = useLocation();
+  const [, navigate] = useLocation();
+  // location 변수를 사용하여 현재 경로를 추적하거나, 필요하다면 로그로 출력할 수 있습니다.
+  // 예시: console.log("현재 경로:", location);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -99,7 +100,7 @@ const MainInputPage: React.FC = () => {
   } = useUserInfoStore();
 
   const { setRecommendation, setLoading: setRecommendLoading } = useRecommendStore();
-  const { summary, isVisible, setSummary, setVisible, reset: resetPreview } = usePreviewStore();
+  const { summary, isVisible, setSummary, setVisible } = usePreviewStore();
 
   const goalOptions = [
     { value: "lose", label: "체중 감량" },
@@ -152,7 +153,7 @@ const MainInputPage: React.FC = () => {
       setSummary(nutritionSummary);
       setVisible(true);
       setIsLoading(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error getting nutrition summary:", err);
 
       if (requestTimeout) {
@@ -162,7 +163,13 @@ const MainInputPage: React.FC = () => {
 
       setIsLoading(false);
 
-      if (err.message && err.message.includes("Validation error")) {
+      if (
+        typeof err === "object" &&
+        err !== null &&
+        "message" in err &&
+        typeof (err as { message?: string }).message === "string" &&
+        (err as { message: string }).message.includes("Validation error")
+      ) {
         toast({
           title: "유효성 검사 오류",
           description: "입력 정보를 확인해주세요.",
@@ -201,7 +208,7 @@ const MainInputPage: React.FC = () => {
       setIsLoading(false);
       setRecommendLoading(false);
       navigate("/recommendations");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error getting recommendations:", err);
 
       if (requestTimeout) {
@@ -212,7 +219,13 @@ const MainInputPage: React.FC = () => {
       setIsLoading(false);
       setRecommendLoading(false);
 
-      if (err.message && err.message.includes("Validation error")) {
+      if (
+        typeof err === "object" &&
+        err !== null &&
+        "message" in err &&
+        typeof (err as { message?: string }).message === "string" &&
+        (err as { message: string }).message.includes("Validation error")
+      ) {
         toast({
           title: "유효성 검사 오류",
           description: "입력 정보를 확인해주세요.",

@@ -8,7 +8,6 @@ import {
   type InsertUser,
   type InsertUserProfile,
   type InsertDietRecommendation,
-  type UserInfo,
   type DietRecommendation,
 } from "@shared/schema";
 import { db } from "./db";
@@ -65,10 +64,17 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createUserProfile(profile: InsertUserProfile): Promise<UserProfile> {
-    // Remove termsAgreed as it's not in the database schema
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { termsAgreed, ...profileData } = profile;
+    // allergies가 배열인지 명확히 보장 (없거나 undefined면 빈 배열)
+    const fixedProfileData = {
+      ...profileData,
+      allergies: Array.isArray(profileData.allergies)
+        ? profileData.allergies.map(String)
+        : [],
+    };
 
-    const [newProfile] = await db.insert(userProfiles).values(profileData).returning();
+    const [newProfile] = await db.insert(userProfiles).values(fixedProfileData).returning();
     return newProfile;
   }
 

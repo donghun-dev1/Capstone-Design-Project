@@ -1,7 +1,6 @@
-import express, { Express, Request, Response, NextFunction } from "express";
+import { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
-import { userInfoSchema, dietRecommendationSchema } from "@shared/schema";
+import { userInfoSchema } from "@shared/schema";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { ZodError } from "zod";
@@ -35,7 +34,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       jwt.verify(token, JWT_SECRET);
       next();
-    } catch (error) {
+    } catch {
       return res.status(401).json({ message: "Invalid or expired token" });
     }
   };
@@ -161,12 +160,13 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
   const leanBodyMass = userInfo.weight * (1 - bodyFatPercentage / 100);
 
   // Basic BMR calculation (Mifflin-St Jeor Equation)
-  let mifflinStJeorBmr;
-  if (userInfo.gender === "male") {
-    mifflinStJeorBmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * assumedAge + 5;
-  } else {
-    mifflinStJeorBmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * assumedAge - 161;
-  }
+  // Mifflin-St Jeor BMR calculation (not used, but left here for reference)
+  // let mifflinStJeorBmr;
+  // if (userInfo.gender === "male") {
+  //   mifflinStJeorBmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * assumedAge + 5;
+  // } else {
+  //   mifflinStJeorBmr = 10 * userInfo.weight + 6.25 * userInfo.height - 5 * assumedAge - 161;
+  // }
 
   // Katch-McArdle BMR calculation (using lean body mass)
   // BMR = 370 + 21.6 · LBM(kg)
@@ -556,11 +556,9 @@ function generateDietRecommendation(userInfo: z.infer<typeof userInfoSchema>) {
   ];
 
   // 식단 조합에 적합한 음식 추천
-  const mealTypes = ["breakfast", "lunch", "dinner"];
-  const caloriesPerMeal = targetCalories / userInfo.mealsPerDay;
 
   // 사용자 목표에 맞게 필터링
-  let filteredFoods = [...realFoods];
+  const filteredFoods = [...realFoods];
 
   if (userInfo.goal === "lose") {
     // 다이어트면 저칼로리 음식 우선
