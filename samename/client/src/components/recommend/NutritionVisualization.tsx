@@ -18,6 +18,7 @@ import {
   Radar,
 } from "recharts";
 import { DietRecommendation, Meal } from "@shared/schema";
+import { Payload } from "recharts/types/component/DefaultTooltipContent";
 
 interface NutritionVisualizationProps {
   summary: DietRecommendation["summary"];
@@ -199,13 +200,13 @@ const NutritionVisualization: React.FC<NutritionVisualizationProps> = ({
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip
-              formatter={(value: number, name: string, props: any) => {
-                const item = nutritionComparisonData.find(
-                  item =>
-                    (name === "current" && item.current === value) ||
-                    (name === "target" && item.target === value)
-                );
-                return [`${value} ${item?.unit || ""}`, name === "current" ? "현재" : "목표"];
+              formatter={(
+                value: number,
+                name: "current" | "target",
+                props: Payload<number, "current" | "target">
+              ) => {
+                const unit = (props.payload as { unit?: string })?.unit ?? "";
+                return [`${value} ${unit}`, name === "current" ? "현재" : "목표"];
               }}
             />
             <Legend />

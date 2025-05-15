@@ -36,27 +36,35 @@ const DietResult: React.FC = () => {
     }
   });
 
-  // 2) PieChart용 퍼센트 데이터
+  // 2) PieChart용 퍼센트 데이터(2자리수)
   const pieData = [
     {
       id: "칼로리",
       label: "칼로리",
-      value: (nutrition.calories / (recommendation?.summary?.totalCalories || 1)) * 100,
+      value: parseFloat(
+        ((nutrition.calories / (recommendation?.summary?.totalCalories || 1)) * 100).toFixed(2)
+      ),
     },
     {
       id: "단백질",
       label: "단백질",
-      value: (nutrition.protein / (recommendation?.summary?.totalProtein || 1)) * 100,
+      value: parseFloat(
+        ((nutrition.protein / (recommendation?.summary?.totalProtein || 1)) * 100).toFixed(2)
+      ),
     },
     {
       id: "탄수화물",
       label: "탄수화물",
-      value: (nutrition.carbs / (recommendation?.summary?.totalCarbs || 1)) * 100,
+      value: parseFloat(
+        ((nutrition.carbs / (recommendation?.summary?.totalCarbs || 1)) * 100).toFixed(2)
+      ),
     },
     {
       id: "지방",
       label: "지방",
-      value: (nutrition.fat / (recommendation?.summary?.totalFat || 1)) * 100,
+      value: parseFloat(
+        ((nutrition.fat / (recommendation?.summary?.totalFat || 1)) * 100).toFixed(2)
+      ),
     },
   ];
 
